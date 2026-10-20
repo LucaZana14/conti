@@ -126,6 +126,8 @@
       };
       if (obj.piano) add('impostazioni', 'piano', obj.piano);
       if (obj.saldi) add('impostazioni', 'saldi', obj.saldi);
+      if (obj.struttura) add('impostazioni', 'struttura', obj.struttura);
+      if (Array.isArray(obj.obiettivi)) add('impostazioni', 'obiettivi', { lista: obj.obiettivi });
       (obj.speseAutomatiche || obj.speseFisse || obj.ricorrenti || []).forEach(r => add('ricorrenti', r.id, r));
       (obj.movimenti || []).forEach(m => add('movimenti', m.id, m));
       if (!rows.length) throw new Error('Il file non contiene dati di Conti');

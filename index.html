@@ -23,7 +23,7 @@
   --bg:#f5f5f7; --card:#ffffff; --fill:#f2f2f7; --fill2:#e8e8ed; --ink:#1d1d1f; --muted:#6e6e73; --faint:#aeaeb2; --line:#e5e5ea;
   --glass:rgba(245,245,247,.78); --overlay:rgba(0,0,0,.28);
   --accent:#0071e3; --accent-ink:#ffffff; --green:#248a3d; --green-bg:#e3f5e8; --orange:#c93400; --orange-bg:#fff0e0; --red:#d70015; --red-bg:#ffe5e7;
-  --k-casa:#0071e3; --k-bollette:#ff9500; --k-palestra:#34c759; --k-nutrizionista:#30b0c7; --k-libere:#af52de; --k-fondo:#5856d6; --k-pac:#ff2d55; --k-in:#248a3d; --k-other:#8e8e93;
+  --k-casa:#0071e3; --k-bollette:#ff9500; --k-palestra:#34c759; --k-nutrizionista:#30b0c7; --k-libere:#af52de; --k-fondo:#5856d6; --k-pac:#ff2d55; --k-yellow:#c69c00; --k-red:#e5383b; --k-in:#248a3d; --k-other:#8e8e93;
   --shadow:0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
   --shadow-up:0 10px 40px rgba(0,0,0,.18);
   --f:-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -33,13 +33,13 @@
   --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c; --ink:#f5f5f7; --muted:#98989d; --faint:#636366; --line:#38383a;
   --glass:rgba(0,0,0,.72); --overlay:rgba(0,0,0,.55);
   --accent:#0a84ff; --accent-ink:#ffffff; --green:#30d158; --green-bg:#0f2e18; --orange:#ff9f0a; --orange-bg:#33230a; --red:#ff453a; --red-bg:#3a1514;
-  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-in:#30d158; --k-other:#8e8e93;
+  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-in:#30d158; --k-other:#8e8e93;
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c; --ink:#f5f5f7; --muted:#98989d; --faint:#636366; --line:#38383a;
   --glass:rgba(0,0,0,.72); --overlay:rgba(0,0,0,.55);
   --accent:#0a84ff; --accent-ink:#ffffff; --green:#30d158; --green-bg:#0f2e18; --orange:#ff9f0a; --orange-bg:#33230a; --red:#ff453a; --red-bg:#3a1514;
-  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-in:#30d158; --k-other:#8e8e93;
+  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-in:#30d158; --k-other:#8e8e93;
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}
 html,body{background:var(--bg)}
 body{color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 0}
@@ -281,6 +281,18 @@ input.tog:checked::after{transform:translateX(20px)}
   .wallets::-webkit-scrollbar{display:none}
   .wal{flex:0 0 40%;scroll-snap-align:start}
 }
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.swatch{width:34px;height:34px;border-radius:50%;border:3px solid transparent;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.swatch[aria-pressed="true"]{border-color:var(--card);box-shadow:0 0 0 2px var(--ink)}
+.acc .ed{border:0;background:transparent;color:var(--accent);font-weight:600;font-size:13px;padding:0;cursor:pointer;align-self:flex-start}
+.acc .head2{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:0;background:var(--fill);color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:500;cursor:pointer}
+.chip:hover{background:var(--fill2)}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1}
+.welcome ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:14.5px}
+.welcome ol b{color:var(--ink);font-weight:600}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 </style>
 <style>
@@ -307,7 +319,7 @@ img{max-width:100%}
 <header class="bar">
   <div class="gut">
     <div class="toprow">
-      <h1><small>Bilancio personale</small>Conti di Luca</h1>
+      <h1><small>Bilancio personale</small><span id="appTitle">I miei conti</span></h1>
       <div class="month" role="group" aria-label="Mese">
         <button id="prevM" aria-label="Mese precedente">‹</button>
         <span id="monthLabel">—</span>
@@ -329,6 +341,16 @@ img{max-width:100%}
 
   <!-- MESE -->
   <section class="page" id="mese" data-page="mese">
+    <div class="card welcome" id="welcome" hidden>
+      <h2>Benvenuto in Conti</h2>
+      <ol>
+        <li><b>Impostazioni → Profilo:</b> scrivi il tuo nome.</li>
+        <li><b>Impostazioni → Voci del piano:</b> crea le voci che usi (casa, bollette, risparmi…) e scrivi quanto prevedi per ognuna nel Piano mensile, insieme allo stipendio.</li>
+        <li><b>Conti:</b> crea i tuoi conti e inserisci i saldi.</li>
+        <li><b>Impostazioni → Spese fisse:</b> aggiungi affitto, abbonamenti e bonifici di ogni mese.</li>
+      </ol>
+      <div class="btns"><button class="btn pri" id="welcomeGo">Inizia dalle Impostazioni</button></div>
+    </div>
     <div class="card hero" id="hero">
       <div style="min-width:0">
         <div class="cap">Spese libere rimaste</div>
@@ -441,7 +463,7 @@ img{max-width:100%}
   <!-- CONTI -->
   <section class="page" id="conti" data-page="conti" hidden>
     <div class="card">
-      <div class="head"><h2>Saldi</h2><span class="sub" id="accUpd">—</span></div>
+      <div class="head"><h2>Saldi</h2><div class="btns"><span class="sub" id="accUpd">—</span><button class="btn" id="accAdd">Aggiungi conto</button></div></div>
       <div class="accs" id="accs"></div>
       <div class="total">
         <div><div class="cap">Totale</div><div class="v" id="accTot">—</div></div>
@@ -452,10 +474,10 @@ img{max-width:100%}
       <div class="head"><h2>Obiettivi di risparmio</h2><button class="btn" id="goalAdd">Aggiungi</button></div>
       <div class="list" id="goalList"><div class="empty">Nessun obiettivo. Aggiungine uno: un viaggio, un PC nuovo, la caparra di una casa.</div></div>
     </div>
-    <div class="card">
-      <div class="head"><h2>Coinquilino</h2><span class="sub" id="coSub"></span></div>
+    <div class="card" id="coCard">
+      <div class="head"><h2 id="coName">Coinquilino</h2><span class="sub" id="coSub"></span></div>
       <div class="total"><div><div class="cap">Ti deve</div><div class="v" id="coTot">—</div></div><div class="btns"><button class="btn pri" id="coBtn">Registra rimborso</button></div></div>
-      <p class="prose">Quando paghi tu una spesa intera, ad esempio una bolletta, attiva "Divisa con il coinquilino" e indica la sua parte. Nel budget conta solo la tua quota; il rimborso, quando arriva, azzera il debito.</p>
+      <p class="prose" id="coProse">Quando paghi tu una spesa intera, ad esempio una bolletta, attiva "Divisa" e indica la sua parte. Nel budget conta solo la tua quota; il rimborso, quando arriva, azzera il debito.</p>
       <div class="list" id="coList"></div>
     </div>
     <div class="card">
@@ -469,6 +491,14 @@ img{max-width:100%}
   <!-- IMPOSTAZIONI -->
   <section class="page" id="impostazioni" data-page="impostazioni" hidden>
     <div class="card">
+      <div class="head"><h2>Profilo</h2></div>
+      <div class="fgrid">
+        <div class="fld"><label for="pfNome">Il tuo nome</label><input id="pfNome" type="text" maxlength="40" autocomplete="given-name" placeholder="Es. Luca"></div>
+        <div class="fld"><span class="lb">Titolo dell'app</span><div class="sub" id="pfPrev" style="padding:11px 0">—</div></div>
+      </div>
+      <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="pfMsg" role="status" aria-live="polite"></span><button class="btn pri" id="pfSave">Salva</button></div></div>
+    </div>
+    <div class="card">
       <div class="head"><h2>Spese fisse</h2><button class="btn" id="ricAdd">Aggiungi</button></div>
       <p class="prose">Ogni mese compaiono nella sezione Mese come una lista da spuntare. Quando ne spunti una viene registrata come pagata e la sua voce del budget si riempie. Se un mese l'importo è diverso, dopo averla spuntata tocca il movimento e correggilo.</p>
       <div class="list" id="ricList"><div class="empty">Nessuna spesa fissa.</div></div>
@@ -479,13 +509,35 @@ img{max-width:100%}
       <div class="list" id="annList"></div>
     </div>
     <div class="card">
+      <div class="head"><h2>Voci del piano</h2><button class="btn" id="catAdd">Aggiungi voce</button></div>
+      <p class="prose">Le voci in cui dividi lo stipendio. Le voci di <b>risparmio</b> (fondo, investimenti) contano come soldi messi da parte, non come spese. "Spese libere" non si può eliminare: è la voce principale della sezione Mese.</p>
+      <div class="list" id="catList"></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Voci delle spese libere</h2></div>
+      <p class="prose">Le sottocategorie che scegli quando registri una spesa libera. Tocca una voce per rinominarla o eliminarla.</p>
+      <div class="chips" id="voceList"></div>
+      <div class="addrow"><input id="voceNew" type="text" maxlength="40" placeholder="Nuova voce, es. Videogiochi" aria-label="Nuova voce" autocomplete="off"><button class="btn" id="voceAdd">Aggiungi</button></div>
+      <div class="msg" id="voceMsg" role="status" aria-live="polite"></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Spese divise</h2></div>
+      <label class="sw-row" for="shOn"><span>Divido delle spese con qualcuno<small>Coinquilino, partner, amici: tieni il conto di quanto ti devono</small></span><input type="checkbox" class="tog" id="shOn"></label>
+      <div class="fld" id="shNameWrap"><label for="shName">Con chi</label><input id="shName" type="text" maxlength="30" placeholder="Es. Coinquilino" autocomplete="off"></div>
+      <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="shMsg" role="status" aria-live="polite"></span><button class="btn pri" id="shSave">Salva</button></div></div>
+    </div>
+    <div class="card">
       <div class="head"><h2>Piano mensile</h2><span class="sub">Quanto prevedi per ogni voce</span></div>
       <div class="fgrid" id="planGrid"></div>
       <div class="sh-foot"><span class="msg" id="planCheck"></span><div class="btns"><span class="msg" id="planMsg" role="status" aria-live="polite"></span><button class="btn pri" id="planSave">Salva piano</button></div></div>
     </div>
     <div class="card">
       <div class="head"><h2>Account</h2><span class="sub" id="accEmail">—</span></div>
-      <div class="btns"><button class="btn" id="refreshBtn">Aggiorna dati</button><button class="btn dan" id="logoutBtn">Esci</button><span class="msg" id="accountMsg" role="status" aria-live="polite"></span></div>
+      <div class="fgrid">
+        <div class="fld"><label for="pw1">Nuova password</label><input id="pw1" type="password" autocomplete="new-password" minlength="8"></div>
+        <div class="fld"><label for="pw2">Ripeti la password</label><input id="pw2" type="password" autocomplete="new-password" minlength="8"></div>
+      </div>
+      <div class="btns"><button class="btn pri" id="pwSave">Cambia password</button><button class="btn" id="refreshBtn">Aggiorna dati</button><button class="btn dan" id="logoutBtn">Esci</button><span class="msg" id="accountMsg" role="status" aria-live="polite"></span></div>
     </div>
   </section>
 </main>
@@ -505,8 +557,8 @@ img{max-width:100%}
       <div class="fld" id="mVoceWrap"><label for="mVoce">Voce</label><select id="mVoce"></select></div>
       <div class="fld wide"><span class="lb" id="mMetLb">Pagato con</span><div class="seg" role="group" aria-labelledby="mMetLb"><button type="button" id="mConto" aria-pressed="true" style="flex:1">Carta o conto</button><button type="button" id="mCash" aria-pressed="false" style="flex:1">Contanti</button></div></div>
       <label class="sw-row wide" id="mBudgetWrap" for="mBudget"><span>Aggiungi alle spese libere<small>Questi soldi alzano il budget delle spese libere del mese</small></span><input type="checkbox" class="tog" id="mBudget"></label>
-      <label class="sw-row wide" id="mSplitWrap" for="mSplit"><span>Divisa con il coinquilino<small>Paghi tu tutto, lui ti rimborsa la sua parte</small></span><input type="checkbox" class="tog" id="mSplit"></label>
-      <div class="fld wide" id="mQuotaWrap"><label for="mQuota">Parte del coinquilino (€)</label><input id="mQuota" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
+      <label class="sw-row wide" id="mSplitWrap" for="mSplit"><span id="mSplitLb">Divisa<small>Paghi tu tutto, poi ti rimborsano la loro parte</small></span><input type="checkbox" class="tog" id="mSplit"></label>
+      <div class="fld wide" id="mQuotaWrap"><label for="mQuota" id="mQuotaLb">La loro parte (€)</label><input id="mQuota" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
       <label class="sw-row wide" id="mAutoWrap" for="mAuto"><span>È una spesa fissa<small>Ogni mese la ritrovi nella lista da spuntare</small></span><input type="checkbox" class="tog" id="mAuto"></label>
     </div>
     <div class="msg" id="mMsg" role="status" aria-live="polite"></div>
@@ -527,6 +579,50 @@ img{max-width:100%}
       <button class="btn" id="fsSkip">Salta questo mese</button>
       <button class="btn" id="fsMore">Altre impostazioni</button>
     </div>
+  </div>
+</div>
+
+<!-- category sheet -->
+<div class="overlay" id="catSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+    <div class="sh-head"><h3 id="cTitle">Voce del piano</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
+    <div class="fgrid">
+      <div class="fld wide"><label for="cNome">Nome</label><input id="cNome" type="text" maxlength="40" placeholder="Es. Auto" autocomplete="off"></div>
+      <div class="fld wide"><span class="lb">Tipo</span><div class="seg" role="group" aria-label="Tipo di voce"><button type="button" id="cSpesa" aria-pressed="true" style="flex:1">Spesa</button><button type="button" id="cRisp" aria-pressed="false" style="flex:1">Risparmio</button></div></div>
+      <div class="fld wide"><label for="cDesc">Nota (facoltativa)</label><input id="cDesc" type="text" maxlength="80" placeholder="Es. Assicurazione, benzina, bollo" autocomplete="off"></div>
+      <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="cCol"></div></div>
+      <label class="sw-row wide" for="cVar" id="cVarWrap"><span>Cambia molto da un mese all'altro<small>Come le bollette: mostra anche il totale da inizio anno</small></span><input type="checkbox" class="tog" id="cVar"></label>
+    </div>
+    <div class="msg" id="cMsg" role="status" aria-live="polite"></div>
+    <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="cSave">Salva</button></div>
+  </div>
+</div>
+
+<!-- account sheet -->
+<div class="overlay" id="accSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="aTitle">
+    <div class="sh-head"><h3 id="aTitle">Conto</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
+    <div class="fgrid">
+      <div class="fld wide"><label for="aNome">Nome</label><input id="aNome" type="text" maxlength="40" placeholder="Es. Conto Fineco" autocomplete="off"></div>
+      <div class="fld wide"><label for="aDove">Dove si trova (facoltativo)</label><input id="aDove" type="text" maxlength="60" placeholder="Es. Banca, salvadanaio, app" autocomplete="off"></div>
+      <div class="fld"><label for="aSaldo">Saldo attuale (€)</label><input id="aSaldo" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
+      <div class="fld"><label for="aGoal">Obiettivo (€, facoltativo)</label><input id="aGoal" type="text" inputmode="decimal" placeholder="Nessuno" autocomplete="off"></div>
+      <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="aCol"></div></div>
+      <label class="sw-row wide" for="aCash"><span>Sono i miei contanti<small>Il saldo si aggiorna da solo con i movimenti in contanti</small></span><input type="checkbox" class="tog" id="aCash"></label>
+    </div>
+    <div class="msg" id="aMsg" role="status" aria-live="polite"></div>
+    <div class="sh-foot"><button class="btn dan" id="aDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="aSave">Salva</button></div>
+  </div>
+</div>
+
+<!-- voce sheet -->
+<div class="overlay" id="voceSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="vTitle">
+    <div class="sh-head"><h3 id="vTitle">Voce</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
+    <div class="fld"><label for="vNome">Nome</label><input id="vNome" type="text" maxlength="40" autocomplete="off"></div>
+    <p class="prose" id="vInfo"></p>
+    <div class="msg" id="vMsg" role="status" aria-live="polite"></div>
+    <div class="sh-foot"><button class="btn dan" id="vDel">Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="vSave">Rinomina</button></div>
   </div>
 </div>
 
@@ -596,28 +692,64 @@ img{max-width:100%}
 <script>
 (() => {
   // ---------- model ----------
-  const CATS = [
-    {id:'casa', nome:'Casa', desc:'Affitto, condominio, wifi', g:'spesa'},
-    {id:'bollette', nome:'Bollette', desc:'Luce, gas, acqua, TARI · la tua quota', g:'spesa'},
-    {id:'palestra', nome:'Palestra', desc:'', g:'spesa'},
-    {id:'nutrizionista', nome:'Nutrizionista', desc:'Detraibile al 19%: paga con carta e tieni la fattura', g:'spesa'},
-    {id:'libere', nome:'Spese libere', desc:'', g:'spesa'},
-    {id:'fondo', nome:'Fondo emergenze', desc:'Bonifico verso Trade Republic', g:'risp'},
-    {id:'pac', nome:'PAC', desc:'Bonifico verso Trade Republic', g:'risp'},
-  ];
+  // ---- struttura: nome, conti, voci del piano, voci libere, spese divise (personale per ogni account) ----
+  const COLORS = {blue:'--k-casa', orange:'--k-bollette', green:'--k-palestra', teal:'--k-nutrizionista', purple:'--k-libere', indigo:'--k-fondo', pink:'--k-pac', yellow:'--k-yellow', red:'--k-red', gray:'--k-other'};
+  const colVar = c => `var(${COLORS[c]||'--k-other'})`;
+  const DEFAULT_VOCI = ['Ristoranti e cene','Bar e caffè','Aperitivi e serate','Cibo a domicilio','Spesa extra','Svago e hobby','Concerti e eventi','Viaggi e weekend','Carburante','Treni e mezzi','Parcheggi e pedaggi','Abbigliamento','Tecnologia','Abbonamenti digitali','Cura personale','Farmacia','Libri e università','Casa e arredamento','Regali','Altro'];
+  // struttura di chi usava già l'app prima di questo aggiornamento (stesse voci e conti di prima)
+  function legacyStructure(saldi){ const sd=saldi||{}; return {
+    nome:'Luca',
+    categorie:[
+      {id:'casa', nome:'Casa', desc:'Affitto, condominio, wifi', g:'spesa', colore:'blue'},
+      {id:'bollette', nome:'Bollette', desc:'Luce, gas, acqua, TARI · la tua quota', g:'spesa', colore:'orange', variabile:true},
+      {id:'palestra', nome:'Palestra', desc:'', g:'spesa', colore:'green'},
+      {id:'nutrizionista', nome:'Nutrizionista', desc:'Detraibile al 19%: paga con carta e tieni la fattura', g:'spesa', colore:'teal'},
+      {id:'libere', nome:'Spese libere', desc:'', g:'spesa', colore:'purple'},
+      {id:'fondo', nome:'Fondo emergenze', desc:'Bonifico verso Trade Republic', g:'risp', colore:'indigo'},
+      {id:'pac', nome:'PAC', desc:'Bonifico verso Trade Republic', g:'risp', colore:'pink'}],
+    conti:[
+      {id:'intesa', nome:'Conto Intesa', dove:'Intesa · XME, saldo disponibile', colore:'blue'},
+      {id:'imprevisti', nome:'Cuscinetto imprevisti', dove:'Intesa · salvadanaio', colore:'orange', obiettivo:Number(sd.obiettivoImprevisti)||0},
+      {id:'bollette', nome:'Accantonamento bollette', dove:'Intesa · salvadanaio', colore:'teal'},
+      {id:'fondo', nome:'Fondo emergenze', dove:'Trade Republic · liquidità', colore:'indigo', obiettivo:Number(sd.obiettivoFondo)||0},
+      {id:'pac', nome:'PAC', dove:'Trade Republic · valore attuale', colore:'pink'},
+      {id:'contanti', nome:'Contanti', dove:'Portafoglio', colore:'green', contanti:true}],
+    voci:DEFAULT_VOCI.slice(),
+    divise:{attiva:true, nome:'Coinquilino'} }; }
+  // struttura di partenza per un account nuovo
+  function freshStructure(){ return {
+    nome:'',
+    categorie:[
+      {id:'casa', nome:'Casa', desc:'Affitto, condominio, internet', g:'spesa', colore:'blue'},
+      {id:'bollette', nome:'Bollette', desc:'Luce, gas, acqua', g:'spesa', colore:'orange', variabile:true},
+      {id:'spesa', nome:'Spesa alimentare', desc:'', g:'spesa', colore:'green'},
+      {id:'libere', nome:'Spese libere', desc:'', g:'spesa', colore:'purple'},
+      {id:'risparmio', nome:'Risparmio', desc:'Quello che metti da parte ogni mese', g:'risp', colore:'indigo'}],
+    conti:[
+      {id:'conto', nome:'Conto corrente', dove:'Il conto dove ricevi lo stipendio', colore:'blue'},
+      {id:'risparmi', nome:'Risparmi', dove:'Conto deposito o salvadanaio', colore:'indigo'},
+      {id:'contanti', nome:'Contanti', dove:'Portafoglio', colore:'green', contanti:true}],
+    voci:DEFAULT_VOCI.filter(v=>v!=='Spesa extra'),
+    divise:{attiva:false, nome:''} }; }
+  let ST = freshStructure();
+  let ALLCATS=[], CATS=[], CONTI=[], VOCI=[];
   const LEGACY = {salute:'Palestra e nutrizionista'};
-  const ENTRATE = [{id:'stipendio',nome:'Stipendio'},{id:'regalo',nome:'Regalo'},{id:'rimborso',nome:'Rimborso coinquilino'},{id:'extra',nome:'Altra entrata'}];
-  const VOCI = ['Ristoranti e cene','Bar e caffè','Aperitivi e serate','Cibo a domicilio','Spesa extra','Svago e hobby','Concerti e eventi','Viaggi e weekend','Carburante','Treni e mezzi','Parcheggi e pedaggi','Abbigliamento','Tecnologia','Abbonamenti digitali','Cura personale','Farmacia','Libri e università','Casa e arredamento','Regali','Altro'];
-  const CONTI = [
-    {id:'intesa', nome:'Conto Intesa', w:'Intesa · XME, saldo disponibile', col:'var(--k-casa)'},
-    {id:'imprevisti', nome:'Cuscinetto imprevisti', w:'Intesa · salvadanaio', goal:'obiettivoImprevisti', col:'var(--k-bollette)'},
-    {id:'bollette', nome:'Accantonamento bollette', w:'Intesa · salvadanaio', col:'var(--k-nutrizionista)'},
-    {id:'fondo', nome:'Fondo emergenze', w:'Trade Republic · liquidità', goal:'obiettivoFondo', col:'var(--k-fondo)'},
-    {id:'pac', nome:'PAC', w:'Trade Republic · valore attuale', col:'var(--k-pac)'},
-    {id:'contanti', nome:'Contanti', w:'Portafoglio · si aggiorna con i movimenti in contanti', col:'var(--k-palestra)'},
-  ];
-  const catName = id => (CATS.find(c=>c.id===id)||ENTRATE.find(c=>c.id===id)||{nome:LEGACY[id]||id}).nome;
-  const catColor = (id,tipo) => tipo==='entrata' ? 'var(--k-in)' : (CATS.some(c=>c.id===id) ? `var(--k-${id})` : 'var(--k-other)');
+  const shareName = () => (ST.divise && ST.divise.nome) || 'Coinquilino';
+  const sharing = () => !!(ST.divise && ST.divise.attiva);
+  const ENTRATE_BASE = [{id:'stipendio',nome:'Stipendio'},{id:'regalo',nome:'Regalo'},{id:'rimborso',nome:'Rimborso'},{id:'extra',nome:'Altra entrata'}];
+  let ENTRATE = ENTRATE_BASE;
+  function setStructure(st){
+    ST = st;
+    ALLCATS = (st.categorie||[]).map(c=>({...c, desc:c.desc||'', g:c.g==='risp'?'risp':'spesa'}));
+    if(!ALLCATS.some(c=>c.id==='libere')) ALLCATS.push({id:'libere', nome:'Spese libere', desc:'', g:'spesa', colore:'purple'});
+    CATS = ALLCATS.filter(c=>!c.archiviata);
+    CONTI = (st.conti||[]).map(c=>({...c, w:c.dove||'', col:colVar(c.colore), goal:Number(c.obiettivo)>0}));
+    VOCI = Array.isArray(st.voci) && st.voci.length ? st.voci.slice() : DEFAULT_VOCI.slice();
+    ENTRATE = ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e, nome:`Rimborso da ${shareName().toLowerCase()}`}:e).filter(e=>e.id!=='rimborso' || sharing() || S.movs.some(m=>m.categoria==='rimborso'));
+  }
+  const catName = id => (ALLCATS.find(c=>c.id===id)||ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e,nome:`Rimborso da ${shareName().toLowerCase()}`}:e).find(c=>c.id===id)||{nome:LEGACY[id]||'Voce eliminata'}).nome;
+  const catColor = (id,tipo) => { if(tipo==='entrata') return 'var(--k-in)'; const c=ALLCATS.find(x=>x.id===id); return c ? colVar(c.colore) : 'var(--k-other)'; };
+  const rispIds = () => ALLCATS.filter(c=>c.g==='risp').map(c=>c.id);
 
   // ---------- helpers ----------
   const eur = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'});
@@ -660,7 +792,7 @@ img{max-width:100%}
     const out=list.filter(m=>m.tipo==='uscita'), inn=list.filter(m=>m.tipo==='entrata');
     const byCat={}; out.forEach(m=>{ byCat[m.categoria]=(byCat[m.categoria]||0)+cost(m); });
     const byVoce={}; out.filter(m=>m.categoria==='libere').forEach(m=>{ const v=m.voce||'Altro'; byVoce[v]=(byVoce[v]||0)+cost(m); });
-    const risp=(byCat.fondo||0)+(byCat.pac||0);
+    const risp=rispIds().reduce((a,id)=>a+(byCat[id]||0),0);
     return {list,out,inn,byCat,byVoce,entrate:sum(inn.filter(m=>m.categoria!=='rimborso')),spese:sumCost(out)-risp,risp,libere:byCat.libere||0};
   }
   // roommate balance (all time)
@@ -685,7 +817,8 @@ img{max-width:100%}
 
   function render(){
     $('monthLabel').textContent = mLabel(S.month);
-    renderMese(); renderRecap(); renderConfronto(); renderRic(); renderAnn(); renderGoals();
+    $('welcome').hidden = !(S.ready && !S.piano && !S.movs.length);
+    renderMese(); renderRecap(); renderConfronto(); renderRic(); renderAnn(); renderGoals(); renderStructureLists();
   }
 
   // ---------- MESE ----------
@@ -708,7 +841,7 @@ img{max-width:100%}
     ring(lb>0 ? st.libere/lb : 0, left<0);
     $('tIn').textContent=fmt(st.entrate); const cashIn=sum(st.inn.filter(m=>m.metodo==='contanti')); $('tInS').textContent = (has ? `Previsto ${fmt0(S.piano.stipendio)}` : '—') + (cashIn>0?` · ${fmt0(cashIn)} in contanti`:'');
     $('tOut').textContent=fmt(st.spese); const sb=CATS.filter(c=>c.g==='spesa').reduce((s,c)=>s+budget(c.id),0); $('tOutS').textContent = has ? `Previste ${fmt0(sb)}` : '—';
-    $('tSave').textContent=fmt(st.risp); $('tSaveS').textContent = has ? `Previsti ${fmt0(budget('fondo')+budget('pac'))}` : '—';
+    $('tSave').textContent=fmt(st.risp); $('tSaveS').textContent = has ? `Previsti ${fmt0(CATS.filter(c=>c.g==='risp').reduce((a,c)=>a+budget(c.id),0))}` : '—';
     renderStip(st); renderOwes(); renderFix(); renderBudget(st); renderMovs(st);
   }
   function renderStip(st){
@@ -723,13 +856,14 @@ img{max-width:100%}
   $('stipIgn').addEventListener('click', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, ignoraStipendio:S.month}); }catch(e){ status('Non salvato. Riprova.',true); } });
   function renderOwes(){
     const r=roommate(), c=$('owesCard');
+    $('coCard').hidden = !sharing() && !r.owed.length && !r.paid.length; $('coName').textContent = shareName();
     c.hidden = !(r.tot>0.009);
-    if(!c.hidden){ $('owesTitle').textContent=`Il coinquilino ti deve ${fmt(r.tot)}`; const n=r.owed.length; $('owesText').textContent=`Per ${n} ${n===1?'spesa divisa':'spese divise'}. Quando ti rimborsa, registralo qui.`; }
+    if(!c.hidden){ $('owesTitle').textContent=`${shareName()} ti deve ${fmt(r.tot)}`; const n=r.owed.length; $('owesText').textContent=`Per ${n} ${n===1?'spesa divisa':'spese divise'}. Quando ti rimborsa, registralo qui.`; }
     $('coTot').textContent=fmt(Math.max(0,r.tot)); $('coSub').textContent = r.tot<-0.009 ? `Hai ricevuto ${fmt(-r.tot)} in più del dovuto` : r.tot>0.009 ? '' : 'Siete in pari';
     const hist=[...r.owed,...r.paid].sort((a,b)=>b.data.localeCompare(a.data)).slice(0,8);
     $('coList').replaceChildren(...(hist.length?hist.map(movRow):[el('div',{class:'empty',text:'Nessuna spesa divisa finora.'})]));
   }
-  const openRefund=()=>{ const t=roommate().tot; openMov(null,{tipo:'entrata',categoria:'rimborso',importo:t>0?t:'',descrizione:'Rimborso coinquilino'}); };
+  const openRefund=()=>{ const t=roommate().tot; openMov(null,{tipo:'entrata',categoria:'rimborso',importo:t>0?t:'',descrizione:`Rimborso da ${shareName().toLowerCase()}`}); };
   $('owesBtn').addEventListener('click',openRefund); $('coBtn').addEventListener('click',openRefund);
   // fixed expenses due in a month, and whether each is ticked
   const validRic = r => r.attiva!==false && Number(r.importo)>0 && /^\d{4}-\d{2}$/.test(r.daMese||'');
@@ -797,9 +931,9 @@ img{max-width:100%}
         el('div',{class:'n'}, el('i',{style:`background:${catColor(c.id)}`}), el('span',{text:c.nome})),
         val,
         el('div',{class:'track'}, el('div',{class:'fill',style:`width:${Math.min(100,p*100)}%;background:${cls==='over'?'var(--red)':catColor(c.id)}`})));
-      if(c.id==='bollette'){
+      if(c.variabile){
         const start=S.piano.inizio||S.month, n=Math.max(0,monthsBetween(start,S.month));
-        const paid=sumCost(live().filter(m=>m.tipo==='uscita'&&m.categoria==='bollette'&&m.mese>=start&&m.mese<=S.month));
+        const paid=sumCost(live().filter(m=>m.tipo==='uscita'&&m.categoria===c.id&&m.mese>=start&&m.mese<=S.month));
         if(n>0) row.append(el('div',{class:'note',text:`Da ${mLabel(start).toLowerCase()}: accantonati ${fmt0(n*b)}, pagati ${fmt(paid)}. D'inverno un mese può superare il budget: conta il totale.`}));
       } else {
         const dues=S.ricReady?dueActive(S.month).filter(r=>r.categoria===c.id):[];
@@ -815,15 +949,15 @@ img{max-width:100%}
   }
   function movRow(m){
     const isIn=m.tipo==='entrata';
-    const sub=[catName(m.categoria), m.voce, m.metodo==='contanti'?'Contanti':'', m.aBudget?'Nel budget spese libere':'', Number(m.quota)>0?`Divisa · sua parte ${fmt(Number(m.quota))}`:''].filter(Boolean).join(' · ');
+    const sub=[catName(m.categoria), m.voce, m.metodo==='contanti'?'Contanti':'', m.aBudget?'Nel budget spese libere':'', Number(m.quota)>0?`Divisa · ${shareName().toLowerCase()} ${fmt(Number(m.quota))}`:''].filter(Boolean).join(' · ');
     return el('button',{class:'row',onclick:()=>openMov(m),'aria-label':`Modifica ${m.descrizione}`},
       el('span',{class:'dot',style:`background:${catColor(m.categoria,m.tipo)}`,text:(isIn?'+':catName(m.categoria).charAt(0))}),
       el('span',{style:'min-width:0'}, el('div',{class:'t',text:m.descrizione}), el('div',{class:'s'}, sub, m.auto?el('span',{class:'badge',text:'Fissa'}):null)),
       el('span',{class:'amt'+(isIn?' in':''),text:(isIn?'+':'−')+fmt(m.importo).replace('-','')}));
   }
   const qCat=$('qCat');
-  qCat.replaceChildren(new Option('Tutte le categorie',''), ...CATS.map(c=>new Option(c.nome,c.id)), new Option('Entrate','entrate'), new Option('Pagate in contanti','contanti'), new Option('Divise col coinquilino','divise'));
-  const og=document.createElement('optgroup'); og.label='Voci delle spese libere'; VOCI.forEach(v=>og.append(new Option(v,'v:'+v))); qCat.append(og);
+  function buildQCat(){ const prev=qCat.value; qCat.replaceChildren(new Option('Tutte le categorie',''), ...CATS.map(c=>new Option(c.nome,c.id)), new Option('Entrate','entrate'), new Option('Pagate in contanti','contanti'), ...(sharing()?[new Option('Spese divise','divise')]:[]));
+    const og=document.createElement('optgroup'); og.label='Voci delle spese libere'; VOCI.forEach(v=>og.append(new Option(v,'v:'+v))); qCat.append(og); if([...qCat.options].some(o=>o.value===prev)) qCat.value=prev; }
   let qT=null;
   $('qText').addEventListener('input',()=>{ clearTimeout(qT); qT=setTimeout(()=>renderMovs(statsOf(S.month)),150); });
   qCat.addEventListener('change',()=>renderMovs(statsOf(S.month)));
@@ -991,17 +1125,17 @@ img{max-width:100%}
   }
 
   // ---------- CONTI ----------
-  $('accs').replaceChildren(...CONTI.map(c=>el('div',{class:'acc'}, el('div',{class:'w',text:c.w}), el('label',{for:'acc_'+c.id,text:c.nome}),
+  function buildAccs(){ $('accs').replaceChildren(...(CONTI.length ? CONTI.map(c=>el('div',{class:'acc'}, el('div',{class:'head2'}, el('div',{class:'w',text:c.w||' '}), el('button',{class:'ed',onclick:()=>openAcc(c),text:'Modifica'})), el('label',{for:'acc_'+c.id,text:c.nome}),
     el('input',{id:'acc_'+c.id,type:'text',inputmode:'decimal',placeholder:'0,00',oninput:accTotals}),
-    c.goal ? el('div',{class:'prog'}, el('i',{id:'gb_'+c.id})) : null, c.goal ? el('div',{class:'sub',id:'gt_'+c.id}) : null)));
+    c.goal ? el('div',{class:'prog'}, el('i',{id:'gb_'+c.id,style:`background:${c.col}`})) : null, c.goal ? el('div',{class:'sub',id:'gt_'+c.id}) : null)) : [el('div',{class:'empty',text:'Nessun conto. Aggiungi il tuo conto corrente, i risparmi o i contanti.'})])); }
   const numIn = v => (v==null||v==='') ? '' : String(v).replace('.',',');
   const accVals = () => Object.fromEntries(CONTI.map(c=>{ const v=parseAmt($('acc_'+c.id).value); return [c.id, isNaN(v)?0:r2(v)]; }));
   function accTotals(){
     const v=accVals(); $('accTot').textContent=fmt(Object.values(v).reduce((s,x)=>s+x,0));
-    CONTI.filter(c=>c.goal).forEach(c=>{ const goal=S.saldi?Number(S.saldi[c.goal]||0):0; const p=goal>0?Math.min(1,v[c.id]/goal):0;
+    CONTI.filter(c=>c.goal).forEach(c=>{ const goal=Number(c.obiettivo)||0; const p=goal>0?Math.min(1,v[c.id]/goal):0;
       $('gb_'+c.id).style.width=(p*100)+'%'; $('gt_'+c.id).textContent = goal>0 ? (v[c.id]>=goal?`Obiettivo di ${fmt0(goal)} raggiunto`:`${pctF.format(p)} di ${fmt0(goal)} · mancano ${fmt0(goal-v[c.id])}`) : 'Nessun obiettivo'; });
   }
-  function applySaldi(){ renderWallets(); const s=S.saldi||{}; CONTI.forEach(c=>{ const i=$('acc_'+c.id); if(document.activeElement!==i) i.value=numIn(s[c.id]); });
+  function applySaldi(){ renderWallets(); const s=S.saldi||{}; CONTI.forEach(c=>{ const i=$('acc_'+c.id); if(i && document.activeElement!==i) i.value=numIn(s[c.id]); });
     $('accUpd').textContent = s.aggiornato ? 'Aggiornati il '+new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}) : 'Inserisci i saldi attuali'; accTotals(); }
   $('accSave').addEventListener('click', async ()=>{ const m=$('accMsg'); if(!guard(m)) return; $('accSave').disabled=true;
     try{ await db.doc('impostazioni/saldi').set({...(S.saldi||{}), ...accVals(), aggiornato:new Date().toISOString()}); say(m,'Saldi salvati.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('accSave').disabled=false; } });
@@ -1020,23 +1154,23 @@ img{max-width:100%}
   }
   const csvCell = v => { const s=String(v??''); return /[;"\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
   $('expCsv').addEventListener('click',()=>{ const rows=live().slice().sort((a,b)=>a.data.localeCompare(b.data));
-    const lines=['Data;Tipo;Categoria;Voce;Descrizione;Importo;Pagamento;Fissa;Parte coinquilino', ...rows.map(m=>[m.data, m.tipo==='entrata'?'Entrata':'Uscita', catName(m.categoria), m.voce||'', m.descrizione, (m.tipo==='entrata'?1:-1)*m.importo, m.metodo==='contanti'?'Contanti':'Carta o conto', m.auto?'sì':'', Number(m.quota)>0?String(m.quota).replace('.',','):''].map((v,i)=>i===5?String(v).replace('.',','):csvCell(v)).join(';'))];
+    const lines=['Data;Tipo;Categoria;Voce;Descrizione;Importo;Pagamento;Fissa;Parte divisa', ...rows.map(m=>[m.data, m.tipo==='entrata'?'Entrata':'Uscita', catName(m.categoria), m.voce||'', m.descrizione, (m.tipo==='entrata'?1:-1)*m.importo, m.metodo==='contanti'?'Contanti':'Carta o conto', m.auto?'sì':'', Number(m.quota)>0?String(m.quota).replace('.',','):''].map((v,i)=>i===5?String(v).replace('.',','):csvCell(v)).join(';'))];
     save(`movimenti-${todayISO()}.csv`, '﻿'+lines.join('\n')); });
-  $('expJson').addEventListener('click',()=>{ save(`backup-conti-${todayISO()}.json`, JSON.stringify({esportato:new Date().toISOString(), piano:S.piano, saldi:S.saldi, speseAutomatiche:S.ric, movimenti:S.movs}, null, 2)); });
+  $('expJson').addEventListener('click',()=>{ save(`backup-conti-${todayISO()}.json`, JSON.stringify({esportato:new Date().toISOString(), struttura:ST, piano:S.piano, saldi:S.saldi, obiettivi:S.goals, speseAutomatiche:S.ric, movimenti:S.movs}, null, 2)); });
 
   // ---------- IMPOSTAZIONI ----------
-  const PLAN = [{id:'stipendio',nome:'Stipendio netto previsto'}, ...CATS.map(c=>({id:c.id,nome:c.nome})), {id:'obiettivoFondo',nome:'Obiettivo fondo emergenze'}, {id:'obiettivoImprevisti',nome:'Obiettivo cuscinetto'}];
-  $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,type:'text',inputmode:'decimal',oninput:planCheck}))));
+  let PLAN = [];
+  function buildPlan(){ PLAN=[{id:'stipendio',nome:'Stipendio netto previsto'}, ...CATS.map(c=>({id:c.id,nome:c.nome}))];
+    $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,type:'text',inputmode:'decimal',oninput:planCheck})))); }
   function applyPlan(){ const p=S.piano||{}, b={...(p.budget||{})}, s=S.saldi||{};
     if(b.salute!=null && b.palestra==null && b.nutrizionista==null){ b.palestra=30; b.nutrizionista=Math.max(0,b.salute-30); }
-    PLAN.forEach(f=>{ const i=$('pl_'+f.id); if(document.activeElement===i) return; i.value=numIn(f.id==='stipendio'?p.stipendio:f.id.startsWith('obiettivo')?s[f.id]:b[f.id]); }); planCheck(); }
-  function planCheck(){ const st=parseAmt($('pl_stipendio').value)||0, tot=CATS.reduce((s,c)=>s+(parseAmt($('pl_'+c.id).value)||0),0), d=st-tot, e=$('planCheck');
+    PLAN.forEach(f=>{ const i=$('pl_'+f.id); if(!i||document.activeElement===i) return; i.value=numIn(f.id==='stipendio'?p.stipendio:b[f.id]); }); planCheck(); }
+  function planCheck(){ if(!$('pl_stipendio')) return; const st=parseAmt($('pl_stipendio').value)||0, tot=CATS.reduce((s,c)=>s+(parseAmt($('pl_'+c.id).value)||0),0), d=st-tot, e=$('planCheck');
     e.className='msg '+(Math.abs(d)<.5?'ok':'ko'); e.textContent = !st?'':Math.abs(d)<.5?`Le voci fanno ${fmt0(tot)}, come lo stipendio.`:d>0?`Le voci fanno ${fmt0(tot)}: restano ${fmt0(d)} da assegnare.`:`Le voci fanno ${fmt0(tot)}: superi lo stipendio di ${fmt0(-d)}.`; }
   $('planSave').addEventListener('click', async ()=>{ const m=$('planMsg'); if(!guard(m)) return;
-    const b={}; CATS.forEach(c=>b[c.id]=r2(parseAmt($('pl_'+c.id).value)||0));
+    const b={...((S.piano&&S.piano.budget)||{})}; CATS.forEach(c=>b[c.id]=r2(parseAmt($('pl_'+c.id).value)||0));
     const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:b, inizio:(S.piano&&S.piano.inizio)||S.month};
-    const saldi={...(S.saldi||{}), obiettivoFondo:parseAmt($('pl_obiettivoFondo').value)||0, obiettivoImprevisti:parseAmt($('pl_obiettivoImprevisti').value)||0};
-    $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); await db.doc('impostazioni/saldi').set(saldi); say(m,'Piano salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
+    $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); say(m,'Piano salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
 
   function renderRic(){
     const box=$('ricList');
@@ -1052,7 +1186,7 @@ img{max-width:100%}
   }
 
   // ---------- i tuoi soldi (riepilogo saldi in Mese) ----------
-  const SHORT = {intesa:'Conto Intesa', imprevisti:'Cuscinetto', bollette:'Bollette', fondo:'Fondo emergenze', pac:'PAC', contanti:'Contanti'};
+
   function miniRing(pct, color){
     const s=sv('svg',{width:64,height:64,viewBox:'0 0 64 64','aria-hidden':'true'}), R=26, C=2*Math.PI*R, p=Math.max(0,Math.min(1,pct||0));
     s.append(sv('circle',{cx:32,cy:32,r:R,fill:'none','stroke-width':8,style:'stroke:var(--fill2)'}));
@@ -1061,17 +1195,17 @@ img{max-width:100%}
     return s;
   }
   function renderWallets(){
-    const box=$('wallets'), s=S.saldi;
-    if(!s){ $('wTot').textContent='—'; $('wUpd').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'I saldi compaiono qui. Inseriscili in Conti.'})); return; }
+    const box=$('wallets'), s=S.saldi||{};
+    if(!CONTI.length){ $('wTot').textContent='—'; $('wUpd').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'Crea i tuoi conti nella sezione Conti.'})); return; }
     const vals=CONTI.map(c=>({c, v:Number(s[c.id])||0})); const tot=vals.reduce((a,x)=>a+x.v,0);
     $('wTot').textContent=fmt(tot);
-    $('wUpd').textContent = s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · i contanti si aggiornano da soli · tocca un conto per aggiornarlo` : 'Tocca un conto per inserire il saldo';
+    $('wUpd').textContent = (s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · ` : '') + 'tocca un conto per aggiornarlo' + (CONTI.some(c=>c.contanti)?' · i contanti si aggiornano da soli':'');
     box.replaceChildren(...vals.map(({c,v})=>{
-      const goal = c.goal ? Number(s[c.goal])||0 : 0;
+      const goal = Number(c.obiettivo)||0;
       const pct = goal>0 ? v/goal : (tot>0 ? v/tot : 0);
       const cap = goal>0 ? (v>=goal ? 'Obiettivo raggiunto' : `dell'obiettivo di ${fmt0(goal)}`) : 'del totale';
       return el('button',{class:'wal',onclick:()=>openBal(c),'aria-label':`${c.nome}: ${fmt(v)}. Aggiorna il saldo`},
-        el('span',{class:'wt',text:SHORT[c.id]||c.nome}), miniRing(pct, c.col||'var(--accent)'),
+        el('span',{class:'wt',text:c.nome}), miniRing(pct, c.col||'var(--accent)'),
         el('span',{class:'wa num',text:fmt(v)}), el('span',{class:'wc',text:cap}));
     }));
   }
@@ -1121,25 +1255,23 @@ img{max-width:100%}
   let lastFocus=null;
   function openSheet(id, focusId){ lastFocus=document.activeElement; const o=$(id); o.hidden=false; requestAnimationFrame(()=>o.classList.add('show')); setTimeout(()=>{ const f=$(focusId); if(f) f.focus(); },60); }
   function closeSheet(id){ const o=$(id); o.classList.remove('show'); setTimeout(()=>{ o.hidden=true; },200); if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
-  ['movSheet','ricSheet','fixSheet','goalSheet','balSheet'].forEach(id=>{ const o=$(id); o.addEventListener('click',e=>{ if(e.target===o || e.target.closest('[data-close]')) closeSheet(id); }); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ ['movSheet','ricSheet','fixSheet','goalSheet','balSheet'].forEach(id=>{ if(!$(id).hidden) closeSheet(id); }); } });
+  ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ const o=$(id); o.addEventListener('click',e=>{ if(e.target===o || e.target.closest('[data-close]')) closeSheet(id); }); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ if(!$(id).hidden) closeSheet(id); }); } });
 
-  $('mVoce').replaceChildren(...VOCI.map(v=>new Option(v,v)));
-  $('rVoce').replaceChildren(...VOCI.map(v=>new Option(v,v)));
-  $('rCat').replaceChildren(...CATS.map(c=>new Option(c.nome,c.id)));
+  function buildSelects(){ $('mVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rCat').replaceChildren(...CATS.map(c=>new Option(c.nome,c.id))); }
   $('rGiorno').replaceChildren(...Array.from({length:28},(_,i)=>new Option(String(i+1),String(i+1))));
   function fillRDa(sel){ const base=mk(todayISO()); const ks=[]; for(let i=-12;i<=24;i++) ks.push(shiftM(base,i)); if(sel && !ks.includes(sel)) ks.unshift(sel); $('rDa').replaceChildren(...ks.map(k=>new Option(mLabel(k),k))); $('rDa').value=sel||base; }
   function fillMCat(){ const sel=$('mCat'), prev=sel.value, list=S.tipo==='uscita'?CATS:ENTRATE; sel.replaceChildren(...list.map(c=>new Option(c.nome,c.id))); if(S.edit && S.edit.categoria==='salute' && S.tipo==='uscita') sel.append(new Option(LEGACY.salute,'salute')); sel.value = [...sel.options].some(o=>o.value===prev) ? prev : (S.tipo==='uscita'?'libere':'stipendio'); syncM(); }
   S.metodo='conto';
   function setMetodo(v){ S.metodo=v; $('mConto').setAttribute('aria-pressed',v==='conto'); $('mCash').setAttribute('aria-pressed',v==='contanti'); }
   $('mConto').addEventListener('click',()=>setMetodo('conto')); $('mCash').addEventListener('click',()=>setMetodo('contanti'));
-  function syncM(){ $('mVoceWrap').hidden = !(S.tipo==='uscita' && $('mCat').value==='libere'); $('mAutoWrap').hidden = !!S.edit || S.tipo!=='uscita';
+  function syncM(){ $('mSplitLb').firstChild.textContent = `Divisa con ${shareName().toLowerCase()}`; $('mQuotaLb').textContent = `Parte di ${shareName().toLowerCase()} (€)`; $('mVoceWrap').hidden = !(S.tipo==='uscita' && $('mCat').value==='libere'); $('mAutoWrap').hidden = !!S.edit || S.tipo!=='uscita';
     $('mBudgetWrap').hidden = S.tipo!=='entrata' || ['stipendio','rimborso'].includes($('mCat').value);
-    $('mSplitWrap').hidden = S.tipo!=='uscita' || ['fondo','pac'].includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto' : 'Pagato con';
+    $('mSplitWrap').hidden = !sharing() || S.tipo!=='uscita' || rispIds().includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto' : 'Pagato con';
     $('mConto').textContent = S.tipo==='entrata' ? 'Sul conto' : 'Carta o conto'; $('mCash').textContent = S.tipo==='entrata' ? 'In contanti' : 'Contanti'; }
   // cash wallet: every cash movement moves the Contanti balance
   const cashDelta = m => (m && m.metodo==='contanti') ? (m.tipo==='entrata'?1:-1)*(Number(m.importo)||0) : 0;
-  async function adjustCash(d){ d=r2(d); if(!d) return; const cur=Number((S.saldi||{}).contanti||0); await db.doc('impostazioni/saldi').set({...(S.saldi||{}), contanti:r2(cur+d)}); }
+  async function adjustCash(d){ d=r2(d); const acc=CONTI.find(c=>c.contanti); if(!d||!acc) return; const cur=Number((S.saldi||{})[acc.id]||0); await db.doc('impostazioni/saldi').set({...(S.saldi||{}), [acc.id]:r2(cur+d)}); }
   function setTipo(t){ S.tipo=t; $('mUscita').setAttribute('aria-pressed',t==='uscita'); $('mEntrata').setAttribute('aria-pressed',t==='entrata'); fillMCat(); }
   $('mUscita').addEventListener('click',()=>setTipo('uscita')); $('mEntrata').addEventListener('click',()=>setTipo('entrata'));
   $('mCat').addEventListener('change',syncM);
@@ -1164,7 +1296,7 @@ img{max-width:100%}
     if(!(imp>0)) return say(msg,'Scrivi un importo maggiore di zero, ad esempio 12,50.',false);
     if(!data || !$('mData').validity.valid) return say(msg,'Scegli una data valida.',false);
     const split = S.tipo==='uscita' && !$('mSplitWrap').hidden && $('mSplit').checked; const quota = split ? parseAmt($('mQuota').value) : 0;
-    if(split && !(quota>0 && quota<=imp)) return say(msg,'Scrivi la parte del coinquilino: più di zero e non oltre l\'importo.',false);
+    if(split && !(quota>0 && quota<=imp)) return say(msg,'Scrivi la loro parte: più di zero e non oltre l\'importo.',false);
     const body={ data, mese:mk(data), importo:r2(imp), tipo:S.tipo, categoria:cat, descrizione:$('mDesc').value.trim()||catName(cat), voce:(S.tipo==='uscita'&&cat==='libere')?$('mVoce').value:'', metodo:S.metodo, aBudget:(S.tipo==='entrata'&&!['stipendio','rimborso'].includes(cat))?$('mBudget').checked:false, quota: split ? r2(quota) : 0, aggiornato:new Date().toISOString() };
     const oldCash=cashDelta(S.edit), newCash=cashDelta(body);
     $('mSave').disabled=true;
@@ -1219,6 +1351,7 @@ img{max-width:100%}
   });
 
   // ---------- boot ----------
+  setStructure(ST); buildQCat(); buildAccs(); buildPlan(); buildSelects();
   applySaldi(); applyPlan();
   const hashTab=(location.hash||'').slice(1); setTab(['mese','recap','confronto','conti','impostazioni'].includes(hashTab)?hashTab:'mese');
   let rz=null; try{ new ResizeObserver(()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if(S.tab==='confronto') renderConfronto(); },120); }).observe($('chart')); }catch(e){}
@@ -1281,6 +1414,132 @@ img{max-width:100%}
     gDelArmed=false; $('gDel').textContent='Elimina';
     try{ await saveGoals(S.goals.filter(x=>x.id!==GE.id)); closeSheet('goalSheet'); }catch(e){ say(msg,'Non eliminato. Riprova.',false); } });
 
+  // ---------- struttura: applicazione e editor ----------
+  function applyStructure(st){
+    setStructure(st);
+    const title = ST.nome ? `Conti di ${ST.nome}` : 'I miei conti';
+    $('appTitle').textContent = title; document.title = title;
+    buildQCat(); buildAccs(); buildPlan(); buildSelects();
+    if(document.activeElement!==$('pfNome')) $('pfNome').value = ST.nome||''; $('pfPrev').textContent = title;
+    $('shOn').checked = sharing(); $('shName').value = (ST.divise&&ST.divise.nome)||''; $('shNameWrap').hidden = !$('shOn').checked;
+    applySaldi(); applyPlan(); render();
+  }
+  const saveStructure = st => db.doc('impostazioni/struttura').set(JSON.parse(JSON.stringify(st)));
+  const slug = t => (t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24) || 'voce';
+  const uniqueId = (base, taken) => { let id=slug(base), n=2; while(taken.includes(id)) id=slug(base)+'-'+(n++); return id; };
+  function swatches(boxId, selected, onPick){ const box=$(boxId); box.replaceChildren(...Object.keys(COLORS).map(k=>{ const b=el('button',{type:'button',class:'swatch','aria-label':k,'aria-pressed':k===selected?'true':'false',style:`background:${colVar(k)}`}); b.addEventListener('click',()=>{ box.querySelectorAll('.swatch').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); onPick(k); }); return b; })); }
+  function renderStructureLists(){
+    // voci del piano
+    const cl=$('catList'); if(cl){ cl.replaceChildren(...ALLCATS.map(c=>{ const usedB=budget(c.id);
+      return el('button',{class:'row',onclick:()=>openCat(c),style:c.archiviata?'opacity:.5':''},
+        el('span',{class:'dot',style:`background:${colVar(c.colore)}`,text:c.nome.charAt(0).toUpperCase()}),
+        el('span',{style:'min-width:0'}, el('div',{class:'t',text:c.nome}), el('div',{class:'s',text:[c.g==='risp'?'Risparmio':'Spesa', c.variabile?'varia molto':'', c.archiviata?'archiviata':'', c.desc].filter(Boolean).join(' · ')})),
+        el('span',{class:'amt',text: S.piano ? fmt0(usedB)+'/mese' : ''})); })); }
+    // voci libere
+    const vl=$('voceList'); if(vl) vl.replaceChildren(...VOCI.map(v=>el('button',{class:'chip',onclick:()=>openVoce(v),text:v})));
+  }
+  $('welcomeGo').addEventListener('click',()=>setTab('impostazioni'));
+  // profilo
+  $('pfNome').addEventListener('input',()=>{ const n=$('pfNome').value.trim(); $('pfPrev').textContent = n?`Conti di ${n}`:'I miei conti'; });
+  $('pfSave').addEventListener('click', async ()=>{ const m=$('pfMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, nome:$('pfNome').value.trim()}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
+  // spese divise
+  $('shOn').addEventListener('change',()=>{ $('shNameWrap').hidden=!$('shOn').checked; if($('shOn').checked && !$('shName').value) $('shName').value='Coinquilino'; });
+  $('shSave').addEventListener('click', async ()=>{ const m=$('shMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, divise:{attiva:$('shOn').checked, nome:$('shName').value.trim()||'Coinquilino'}}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
+  // voce del piano
+  let CE=null, cG='spesa', cColor='blue';
+  const setCG = g => { cG=g; $('cSpesa').setAttribute('aria-pressed',g==='spesa'); $('cRisp').setAttribute('aria-pressed',g==='risp'); $('cVarWrap').hidden = g==='risp'; };
+  $('cSpesa').addEventListener('click',()=>setCG('spesa')); $('cRisp').addEventListener('click',()=>setCG('risp'));
+  const catInUse = id => S.movs.some(m=>m.categoria===id) || S.ric.some(r=>r.categoria===id);
+  function openCat(c){
+    CE=c||null; $('cMsg').textContent=''; $('cTitle').textContent = c?'Modifica voce':'Nuova voce';
+    $('cNome').value=c?c.nome:''; $('cDesc').value=c?c.desc:''; $('cVar').checked=!!(c&&c.variabile);
+    cColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!ALLCATS.some(x=>x.colore===k)) || 'gray';
+    swatches('cCol', cColor, k=>cColor=k); setCG(c?c.g:'spesa');
+    const isLib = c && c.id==='libere';
+    $('cSpesa').disabled=isLib; $('cRisp').disabled=isLib;
+    $('cDel').hidden = !c || isLib;
+    $('cDel').textContent = c && c.archiviata ? 'Ripristina' : (c && catInUse(c.id) ? 'Archivia' : 'Elimina');
+    openSheet('catSheet','cNome');
+  }
+  $('catAdd').addEventListener('click',()=>openCat(null));
+  $('cSave').addEventListener('click', async ()=>{
+    const m=$('cMsg'); if(!guard(m)) return; const nome=$('cNome').value.trim(); if(!nome) return say(m,'Dai un nome alla voce.',false);
+    const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked};
+    const list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : [...ST.categorie, {id:uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute'])), ...data}];
+    try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
+  });
+  let cDelArmed=false;
+  $('cDel').addEventListener('click', async ()=>{
+    const m=$('cMsg'); if(!CE||!guard(m)) return;
+    const restore = !!CE.archiviata, archive = !restore && catInUse(CE.id);
+    if(!restore && !cDelArmed){ cDelArmed=true; $('cDel').textContent = archive ? 'Tocca di nuovo per archiviare' : 'Tocca di nuovo per eliminare'; setTimeout(()=>{ cDelArmed=false; if(CE) $('cDel').textContent = archive?'Archivia':'Elimina'; },3000); return; }
+    cDelArmed=false;
+    const list = restore ? ST.categorie.map(c=>c.id===CE.id?{...c,archiviata:false}:c) : archive ? ST.categorie.map(c=>c.id===CE.id?{...c,archiviata:true}:c) : ST.categorie.filter(c=>c.id!==CE.id);
+    try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
+  });
+  // conti
+  let AE=null, aColor='blue';
+  function openAcc(c){
+    AE=c||null; $('aMsg').textContent=''; $('aTitle').textContent = c?'Modifica conto':'Nuovo conto';
+    $('aNome').value=c?c.nome:''; $('aDove').value=c?(c.dove||''):''; $('aSaldo').value=c?numIn((S.saldi||{})[c.id]):''; $('aGoal').value=c&&Number(c.obiettivo)>0?numIn(c.obiettivo):''; $('aCash').checked=!!(c&&c.contanti);
+    aColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!CONTI.some(x=>x.colore===k)) || 'gray';
+    swatches('aCol', aColor, k=>aColor=k); $('aDel').hidden=!c; $('aDel').textContent='Elimina';
+    openSheet('accSheet','aNome');
+  }
+  $('accAdd').addEventListener('click',()=>openAcc(null));
+  $('aSave').addEventListener('click', async ()=>{
+    const m=$('aMsg'); if(!guard(m)) return; const nome=$('aNome').value.trim(); if(!nome) return say(m,'Dai un nome al conto.',false);
+    const saldo=parseAmt($('aSaldo').value), goal=parseAmt($('aGoal').value), cash=$('aCash').checked;
+    const data={nome, dove:$('aDove').value.trim(), colore:aColor, obiettivo:goal>0?r2(goal):0, contanti:cash};
+    const id = AE ? AE.id : uniqueId(nome, CONTI.map(c=>c.id).concat(['aggiornato']));
+    let list = AE ? ST.conti.map(c=>c.id===id?{...c,...data}:c) : [...(ST.conti||[]), {id, ...data}];
+    if(cash) list = list.map(c=>c.id===id?c:{...c, contanti:false});
+    try{
+      await saveStructure({...ST, conti:list});
+      if(!isNaN(saldo)) await db.doc('impostazioni/saldi').set({...(S.saldi||{}), [id]:r2(saldo), aggiornato:new Date().toISOString()});
+      closeSheet('accSheet');
+    }catch(e){ say(m,'Non salvato. Riprova.',false); }
+  });
+  let aDelArmed=false;
+  $('aDel').addEventListener('click', async ()=>{
+    const m=$('aMsg'); if(!AE||!guard(m)) return;
+    if(!aDelArmed){ aDelArmed=true; $('aDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ aDelArmed=false; $('aDel').textContent='Elimina'; },3000); return; }
+    aDelArmed=false;
+    try{ await saveStructure({...ST, conti:ST.conti.filter(c=>c.id!==AE.id)}); const sd={...(S.saldi||{})}; delete sd[AE.id]; await db.doc('impostazioni/saldi').set(sd); closeSheet('accSheet'); }
+    catch(e){ say(m,'Non eliminato. Riprova.',false); }
+  });
+  // voci libere
+  $('voceAdd').addEventListener('click', async ()=>{
+    const m=$('voceMsg'); if(!guard(m)) return; const v=$('voceNew').value.trim(); if(!v) return;
+    if(VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Questa voce c\'è già.',false);
+    try{ await saveStructure({...ST, voci:[...VOCI.filter(x=>x!=='Altro'), v, ...(VOCI.includes('Altro')?['Altro']:[])]}); $('voceNew').value=''; say(m,'Voce aggiunta.',true); }catch(e){ say(m,'Non salvata. Riprova.',false); }
+  });
+  $('voceNew').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('voceAdd').click(); } });
+  let VE=null;
+  function openVoce(v){ VE=v; $('vMsg').textContent=''; $('vTitle').textContent=v; $('vNome').value=v;
+    const n=S.movs.filter(m=>m.categoria==='libere'&&m.voce===v).length;
+    $('vInfo').textContent = n ? `È usata in ${n} ${n===1?'movimento':'movimenti'}: se la rinomini, vengono aggiornati anche quelli. Se la elimini, restano con il vecchio nome.` : 'Non è usata in nessun movimento.';
+    openSheet('voceSheet','vNome'); }
+  $('vSave').addEventListener('click', async ()=>{
+    const m=$('vMsg'); if(!VE||!guard(m)) return; const v=$('vNome').value.trim(); if(!v) return say(m,'Scrivi un nome.',false);
+    if(v!==VE && VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Esiste già una voce con questo nome.',false);
+    $('vSave').disabled=true;
+    try{
+      await saveStructure({...ST, voci:VOCI.map(x=>x===VE?v:x)});
+      for(const mv of S.movs.filter(x=>x.categoria==='libere'&&x.voce===VE)){ const {id,...rest}=mv; await db.collection('movimenti').doc(id).set({...rest, voce:v}); }
+      for(const r of S.ric.filter(x=>x.voce===VE)){ const {id,...rest}=r; await db.collection('ricorrenti').doc(id).set({...rest, voce:v}); }
+      closeSheet('voceSheet');
+    }catch(e){ say(m,'Non salvato del tutto. Riprova.',false); } finally{ $('vSave').disabled=false; }
+  });
+  let vDelArmed=false;
+  $('vDel').addEventListener('click', async ()=>{
+    const m=$('vMsg'); if(!VE||!guard(m)) return;
+    if(VOCI.length<=1) return say(m,'Serve almeno una voce.',false);
+    if(!vDelArmed){ vDelArmed=true; $('vDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ vDelArmed=false; $('vDel').textContent='Elimina'; },3000); return; }
+    vDelArmed=false; $('vDel').textContent='Elimina';
+    try{ await saveStructure({...ST, voci:VOCI.filter(x=>x!==VE)}); closeSheet('voceSheet'); }catch(e){ say(m,'Non eliminata. Riprova.',false); }
+  });
+
   // ---------- Supabase: accesso e dati ----------
   $('impJson').addEventListener('click',()=>$('impFile').click());
   $('impFile').addEventListener('change', async ()=>{
@@ -1306,14 +1565,21 @@ img{max-width:100%}
       catch(err){ say(m, /invalid/i.test(err&&err.message||'') ? 'Email o password non corrette.' : 'Accesso non riuscito. Controlla la connessione e riprova.', false); }
       finally{ $('lBtn').disabled=false; }
     });
+    $('pwSave').addEventListener('click', async ()=>{ const m=$('accountMsg'); const a=$('pw1').value, b=$('pw2').value;
+      if(a.length<8) return say(m,'La password deve avere almeno 8 caratteri.',false); if(a!==b) return say(m,'Le due password non coincidono.',false);
+      $('pwSave').disabled=true; try{ const {error}=await client.auth.updateUser({password:a}); if(error) throw error; $('pw1').value=''; $('pw2').value=''; say(m,'Password cambiata.',true); }
+      catch(e){ say(m, /same|different/i.test(e&&e.message||'') ? 'Scegli una password diversa da quella attuale.' : 'Non sono riuscito a cambiarla. Riprova.', false); } finally{ $('pwSave').disabled=false; } });
     $('logoutBtn').addEventListener('click', async ()=>{ try{ if(db) db.clearLocal(); await client.auth.signOut(); }catch(e){} location.reload(); });
     client.auth.getSession().then(({data})=>{ if(data && data.session) start(data.session.user); else showGate(); }).catch(()=>showGate());
   }
 
-  let started=false;
+  let started=false, structWriting=false;
+  // chi aveva già dati prima di questo aggiornamento tiene le sue voci e i suoi conti
+  const isLegacy = () => !!(S.piano || S.saldi || S.movs.length || S.ric.length);
+  async function ensureStructure(){ if(!db || !S.ready || S.hasStruct || structWriting) return; structWriting=true; try{ await saveStructure(isLegacy()?legacyStructure(S.saldi):freshStructure()); }catch(e){} finally{ structWriting=false; } }
   async function syncNow(silent){
     if(!db) return;
-    try{ await db.refresh(); if(!silent) say($('accountMsg'),'Dati aggiornati.',true); if($('status').classList.contains('offline')) { status(''); $('status').classList.remove('offline'); } }
+    try{ await db.refresh(); S.ready=true; ensureStructure(); render(); if(!silent) say($('accountMsg'),'Dati aggiornati.',true); if($('status').classList.contains('offline')) { status(''); $('status').classList.remove('offline'); } }
     catch(e){ if(!db.hasData()){ status('Non riesco a raggiungere il database. Controlla la connessione.',true); } else { status('Sei offline: vedi i dati salvati sul telefono. Le modifiche non verranno salvate finché non torni online.'); $('status').classList.add('offline'); } }
   }
   function start(user){
@@ -1328,6 +1594,7 @@ img{max-width:100%}
     db.doc('impostazioni/piano').onSnapshot(s=>{ S.piano=s.exists?s.data():null; render(); applyPlan(); });
     db.doc('impostazioni/saldi').onSnapshot(s=>{ S.saldi=s.exists?s.data():null; applySaldi(); applyPlan(); });
     db.doc('impostazioni/obiettivi').onSnapshot(s=>{ const d=s.exists?s.data():null; S.goals=d&&Array.isArray(d.lista)?d.lista:[]; renderGoals(); });
+    db.doc('impostazioni/struttura').onSnapshot(s=>{ S.hasStruct=s.exists; if(s.exists) applyStructure(s.data()); else applyStructure(isLegacy()?legacyStructure(S.saldi):freshStructure()); ensureStructure(); });
     syncNow(true);
     document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') syncNow(true); });
     setInterval(()=>{ if(document.visibilityState==='visible') syncNow(true); }, 60000);
