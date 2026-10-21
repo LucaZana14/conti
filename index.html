@@ -335,7 +335,7 @@ img{max-width:100%}
           <span id="monthLabel">—</span>
           <button id="nextM" aria-label="Mese successivo">›</button>
         </div>
-        <button class="eye" data-eye aria-pressed="false" aria-label="Nascondi gli importi" title="Nascondi gli importi"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="eye" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Sezioni">
@@ -372,7 +372,7 @@ img{max-width:100%}
       <svg class="ring" id="ring" width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"></svg>
     </div>
     <div class="card money" id="moneyCard">
-      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button><button class="eye" data-eye aria-pressed="false" aria-label="Nascondi gli importi" title="Nascondi gli importi"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button><button class="eye" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
       <div class="wallets" id="wallets"><div class="empty">I saldi compaiono qui. Inseriscili in Conti.</div></div>
       <div class="sub" id="wUpd"></div>
     </div>
@@ -768,7 +768,9 @@ img{max-width:100%}
   const eur = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'});
   const eur0 = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0});
   let PRIV=false; try{ PRIV = localStorage.getItem('conti-privacy')==='1'; }catch(e){}
-  const fmt = v => PRIV ? '***,** €' : eur.format(v||0), fmt0 = v => PRIV ? '*** €' : eur0.format(Math.round(v||0));
+  const fmt = v => eur.format(v||0), fmt0 = v => eur0.format(Math.round(v||0));
+  // importi sensibili (saldi, entrate, obiettivi): nascosti quando è attivo l'occhio
+  const fmtS = v => PRIV ? '***,** €' : fmt(v), fmtS0 = v => PRIV ? '*** €' : fmt0(v);
   const pctF = new Intl.NumberFormat('it-IT',{style:'percent',maximumFractionDigits:0});
   const parseAmt = s => { const t=String(s??'').trim().replace(/\s|€/g,''); if(!t) return NaN; return t.includes(',') ? Number(t.replace(/\./g,'').replace(',','.')) : Number(t); };
   const r2 = n => Math.round(n*100)/100;
@@ -853,7 +855,7 @@ img{max-width:100%}
     if(has && S.month===mk(todayISO())){ const dl=daysIn(S.month)-new Date().getDate(); if(left>0 && dl>0) sub+=` · circa ${fmt0(left/(dl+1))} al giorno per ${dl+1} giorni`; }
     $('hSub').textContent = sub;
     ring(lb>0 ? st.libere/lb : 0, left<0);
-    $('tIn').textContent=fmt(st.entrate); const cashIn=sum(st.inn.filter(m=>m.metodo==='contanti')); $('tInS').textContent = (has ? `Previsto ${fmt0(S.piano.stipendio)}` : '—') + (cashIn>0?` · ${fmt0(cashIn)} in contanti`:'');
+    $('tIn').textContent=fmtS(st.entrate); const cashIn=sum(st.inn.filter(m=>m.metodo==='contanti')); $('tInS').textContent = (has ? `Previsto ${fmtS0(S.piano.stipendio)}` : '—') + (cashIn>0?` · ${fmtS0(cashIn)} in contanti`:'');
     $('tOut').textContent=fmt(st.spese); const sb=CATS.filter(c=>c.g==='spesa').reduce((s,c)=>s+budget(c.id),0); $('tOutS').textContent = has ? `Previste ${fmt0(sb)}` : '—';
     $('tSave').textContent=fmt(st.risp); $('tSaveS').textContent = has ? `Previsti ${fmt0(CATS.filter(c=>c.g==='risp').reduce((a,c)=>a+budget(c.id),0))}` : '—';
     renderStip(st); renderOwes(); renderFix(); renderBudget(st); renderMovs(st);
@@ -862,9 +864,9 @@ img{max-width:100%}
     const c=$('stipCard'); const real=r2(sum(st.inn.filter(m=>m.categoria==='stipendio')));
     if(!S.piano || !real || Math.abs(real-Number(S.piano.stipendio||0))<5 || S.piano.ignoraStipendio===S.month){ c.hidden=true; return; }
     const prev=Number(S.piano.stipendio||0), d=real-prev; c.hidden=false;
-    $('stipTitle').textContent=`Lo stipendio di ${mLabel(S.month).toLowerCase()} è ${fmt(real)}`;
-    $('stipText').textContent=`Nel piano hai ${fmt0(prev)}: ${fmt(Math.abs(d))} ${d>0?'in più':'in meno'}. Se resterà così anche nei prossimi mesi, aggiorna il piano. Ignoralo se dipende da voci una tantum, come tredicesima, conguagli o arretrati.`;
-    $('stipUpd').textContent=`Aggiorna il piano a ${fmt0(real)}`; $('stipUpd').dataset.v=String(Math.round(real));
+    $('stipTitle').textContent=`Lo stipendio di ${mLabel(S.month).toLowerCase()} è ${fmtS(real)}`;
+    $('stipText').textContent=`Nel piano hai ${fmtS0(prev)}: ${fmtS(Math.abs(d))} ${d>0?'in più':'in meno'}. Se resterà così anche nei prossimi mesi, aggiorna il piano. Ignoralo se dipende da voci una tantum, come tredicesima, conguagli o arretrati.`;
+    $('stipUpd').textContent=`Aggiorna il piano a ${fmtS0(real)}`; $('stipUpd').dataset.v=String(Math.round(real));
   }
   $('stipUpd').addEventListener('click', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, stipendio:Number($('stipUpd').dataset.v)||S.piano.stipendio, ignoraStipendio:S.month}); }catch(e){ status('Non sono riuscito ad aggiornare il piano. Riprova.',true); } });
   $('stipIgn').addEventListener('click', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, ignoraStipendio:S.month}); }catch(e){ status('Non salvato. Riprova.',true); } });
@@ -967,7 +969,7 @@ img{max-width:100%}
     return el('button',{class:'row',onclick:()=>openMov(m),'aria-label':`Modifica ${m.descrizione}`},
       el('span',{class:'dot',style:`background:${catColor(m.categoria,m.tipo)}`,text:(isIn?'+':catName(m.categoria).charAt(0))}),
       el('span',{style:'min-width:0'}, el('div',{class:'t',text:m.descrizione}), el('div',{class:'s'}, sub, m.auto?el('span',{class:'badge',text:'Fissa'}):null)),
-      el('span',{class:'amt'+(isIn?' in':''),text:(isIn?'+':'−')+fmt(m.importo).replace('-','')}));
+      el('span',{class:'amt'+(isIn?' in':''),text:(isIn?'+':'−')+(isIn?fmtS(m.importo):fmt(m.importo)).replace('-','')}));
   }
   const qCat=$('qCat');
   function buildQCat(){ const prev=qCat.value; qCat.replaceChildren(new Option('Tutte le categorie',''), ...CATS.map(c=>new Option(c.nome,c.id)), new Option('Entrate','entrate'), new Option('Pagate in contanti','contanti'), ...(sharing()?[new Option('Spese divise','divise')]:[]));
@@ -997,7 +999,7 @@ img{max-width:100%}
     const st=statsOf(S.month);
     renderDonut(st);
     $('rTitle').textContent = 'Recap di '+mLabel(S.month).toLowerCase();
-    $('rIn').textContent=fmt(st.entrate); $('rOut').textContent=fmt(st.spese); $('rSave').textContent=fmt(st.risp);
+    $('rIn').textContent=fmtS(st.entrate); $('rOut').textContent=fmt(st.spese); $('rSave').textContent=fmt(st.risp);
     $('rRate').textContent = st.entrate>0 ? pctF.format(st.risp/st.entrate) : '—';
     const avgLib=avgOf(S.month,s=>s.libere), avgSp=avgOf(S.month,s=>s.spese);
     const lead=$('rLead');
@@ -1060,6 +1062,7 @@ img{max-width:100%}
   // ---------- CONFRONTO ----------
   const METRICS = { libere:{f:s=>s.libere, lower:true, n:'spese libere'}, spese:{f:s=>s.spese, lower:true, n:'spese totali'}, risp:{f:s=>s.risp, lower:false, n:'messi da parte'}, entrate:{f:s=>s.entrate, lower:false, n:'entrate'} };
   function rangeMonths(n){ const dm=dataMonths(); const first = dm.length ? (dm[0]<S.month?dm[0]:S.month) : S.month; let start=shiftM(S.month,-(n-1)); if(start<first) start=first; const out=[]; let k=start; while(k<=S.month){ out.push(k); k=shiftM(k,1); } return out; }
+  const mf = v => S.metric==='entrate'?fmtS(v):fmt(v), mf0 = v => S.metric==='entrate'?fmtS0(v):fmt0(v);
   function renderConfronto(){
     const M=METRICS[S.metric]; const months=rangeMonths(12); const dm=new Set(dataMonths());
     const vals=months.map(k=>({k, v:M.f(statsOf(k)), has:dm.has(k)}));
@@ -1069,7 +1072,7 @@ img{max-width:100%}
     if(!withData.length){ facts.replaceChildren(el('span',{text:'Il confronto si riempie mese dopo mese, man mano che registri i movimenti.'})); }
     else {
       const hi=withData.reduce((a,b)=>b.v>a.v?b:a), lo=withData.reduce((a,b)=>b.v<a.v?b:a);
-      facts.replaceChildren(el('span',{},'Media ',el('b',{text:fmt(avg)})), el('span',{},'Più alto ',el('b',{text:`${mLabel(hi.k)} · ${fmt0(hi.v)}`})), el('span',{},'Più basso ',el('b',{text:`${mLabel(lo.k)} · ${fmt0(lo.v)}`})));
+      facts.replaceChildren(el('span',{},'Media ',el('b',{text:mf(avg)})), el('span',{},'Più alto ',el('b',{text:`${mLabel(hi.k)} · ${mf0(hi.v)}`})), el('span',{},'Più basso ',el('b',{text:`${mLabel(lo.k)} · ${mf0(lo.v)}`})));
     }
     drawChart(vals, avg, M.lower);
     renderCTable(); renderCVoci();
@@ -1097,17 +1100,17 @@ img{max-width:100%}
       } else {
         svg.append(sv('rect',{x:cx-bw/2,y:y(0)-2,width:bw,height:2,rx:1,style:'fill:var(--fill2)'}));
       }
-      if(sel && d.has){ const t=sv('text',{x:cx,y:y(d.v)-7,'text-anchor':'middle',style:'fill:var(--ink);font-weight:600'}); t.textContent=fmt0(d.v); svg.append(t); }
+      if(sel && d.has){ const t=sv('text',{x:cx,y:y(d.v)-7,'text-anchor':'middle',style:'fill:var(--ink);font-weight:600'}); t.textContent=mf0(d.v); svg.append(t); }
       const lab=sv('text',{x:cx,y:H-8,'text-anchor':'middle',style:`fill:${sel?'var(--ink)':'var(--muted)'};font-weight:${sel?600:400}`}); lab.textContent= (i===0||d.k.endsWith('-01')) ? `${mShort(d.k)} ${d.k.slice(2,4)}` : mShort(d.k); svg.append(lab);
       const hit=sv('rect',{x:padL+slot*i,y:padT-10,width:slot,height:H-padT-padB+10,style:'fill:transparent;cursor:pointer'});
-      hit.addEventListener('mouseenter',()=>{ tip.replaceChildren(el('span',{style:'color:var(--muted)',text:mLabel(d.k)}), el('b',{text: d.has?fmt(d.v):'Nessun dato'})); tip.style.left=Math.min(Math.max(cx/W*box.clientWidth,70),box.clientWidth-70)+'px'; tip.style.top=(d.has?y(d.v):y(0))/H*box.clientHeight+'px'; tip.style.opacity=1; });
+      hit.addEventListener('mouseenter',()=>{ tip.replaceChildren(el('span',{style:'color:var(--muted)',text:mLabel(d.k)}), el('b',{text: d.has?mf(d.v):'Nessun dato'})); tip.style.left=Math.min(Math.max(cx/W*box.clientWidth,70),box.clientWidth-70)+'px'; tip.style.top=(d.has?y(d.v):y(0))/H*box.clientHeight+'px'; tip.style.opacity=1; });
       hit.addEventListener('mouseleave',()=>{ tip.style.opacity=0; });
       hit.addEventListener('click',()=>{ S.month=d.k; render(); });
       svg.append(hit);
     });
     if(avg>0){
       svg.append(sv('line',{x1:padL,x2:W-padR,y1:y(avg),y2:y(avg),style:'stroke:var(--muted)','stroke-width':1.5,'stroke-dasharray':'5 5'}));
-      const t=sv('text',{x:W-padR,y:y(avg)-6,'text-anchor':'end',style:'fill:var(--muted);font-weight:600'}); t.textContent='Media '+fmt0(avg); svg.append(t);
+      const t=sv('text',{x:W-padR,y:y(avg)-6,'text-anchor':'end',style:'fill:var(--muted);font-weight:600'}); t.textContent='Media '+mf0(avg); svg.append(t);
     }
     box.prepend(svg);
   }
@@ -1145,11 +1148,11 @@ img{max-width:100%}
   const numIn = v => (v==null||v==='') ? '' : String(v).replace('.',',');
   const accVals = () => Object.fromEntries(CONTI.map(c=>[c.id, r2(Number((S.saldi||{})[c.id])||0)]));
   function accTotals(){
-    const v=accVals(); $('accTot').textContent=fmt(Object.values(v).reduce((s,x)=>s+x,0));
+    const v=accVals(); $('accTot').textContent=fmtS(Object.values(v).reduce((s,x)=>s+x,0));
     CONTI.filter(c=>c.goal).forEach(c=>{ const goal=Number(c.obiettivo)||0; const p=goal>0?Math.min(1,v[c.id]/goal):0;
-      $('gb_'+c.id).style.width=(p*100)+'%'; $('gt_'+c.id).textContent = goal>0 ? (v[c.id]>=goal?`Obiettivo di ${fmt0(goal)} raggiunto`:`${pctF.format(p)} di ${fmt0(goal)} · mancano ${fmt0(goal-v[c.id])}`) : 'Nessun obiettivo'; });
+      $('gb_'+c.id).style.width=(p*100)+'%'; $('gt_'+c.id).textContent = goal>0 ? (v[c.id]>=goal?`Obiettivo di ${fmtS0(goal)} raggiunto`:`${pctF.format(p)} di ${fmtS0(goal)} · mancano ${fmtS0(goal-v[c.id])}`) : 'Nessun obiettivo'; });
   }
-  function applySaldi(){ renderWallets(); const s=S.saldi||{}; CONTI.forEach(c=>{ const i=$('acc_'+c.id); if(i) i.textContent=fmt(Number(s[c.id])||0); });
+  function applySaldi(){ renderWallets(); const s=S.saldi||{}; CONTI.forEach(c=>{ const i=$('acc_'+c.id); if(i) i.textContent=fmtS(Number(s[c.id])||0); });
     $('accUpd').textContent = s.aggiornato ? 'Aggiornati il '+new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}) : 'Inserisci i saldi attuali'; accTotals(); }
 
 
@@ -1174,7 +1177,7 @@ img{max-width:100%}
   // ---------- IMPOSTAZIONI ----------
   let PLAN = [];
   function buildPlan(){ PLAN=[{id:'stipendio',nome:'Stipendio netto previsto'}, ...CATS.map(c=>({id:c.id,nome:c.nome}))];
-    $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,class:'money',type:'text',inputmode:'decimal'})))); }
+    $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,class:f.id==='stipendio'?'money':'',type:'text',inputmode:'decimal'})))); }
   function applyPlan(){ const p=S.piano||{}, b={...(p.budget||{})}, s=S.saldi||{};
     if(b.salute!=null && b.palestra==null && b.nutrizionista==null){ b.palestra=30; b.nutrizionista=Math.max(0,b.salute-30); }
     PLAN.forEach(f=>{ const i=$('pl_'+f.id); if(!i||document.activeElement===i) return; i.value=numIn(f.id==='stipendio'?p.stipendio:b[f.id]); }); planCheck(); }
@@ -1210,15 +1213,15 @@ img{max-width:100%}
     const box=$('wallets'), s=S.saldi||{};
     if(!CONTI.length){ $('wTot').textContent='—'; $('wUpd').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'Crea i tuoi conti nella sezione Conti.'})); return; }
     const vals=CONTI.map(c=>({c, v:Number(s[c.id])||0})); const tot=vals.reduce((a,x)=>a+x.v,0);
-    $('wTot').textContent=fmt(tot);
+    $('wTot').textContent=fmtS(tot);
     $('wUpd').textContent = (s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · ` : '') + 'tocca un conto per modificarlo' + (CONTI.some(c=>c.contanti)?' · i contanti si aggiornano da soli':'');
     box.replaceChildren(...vals.map(({c,v})=>{
       const goal = Number(c.obiettivo)||0;
       const pct = goal>0 ? v/goal : (tot>0 ? v/tot : 0);
-      const cap = goal>0 ? (v>=goal ? 'Obiettivo raggiunto' : `dell'obiettivo di ${fmt0(goal)}`) : 'del totale';
+      const cap = goal>0 ? (v>=goal ? 'Obiettivo raggiunto' : `dell'obiettivo di ${fmtS0(goal)}`) : 'del totale';
       return el('button',{class:'wal',onclick:()=>openAcc(c),'aria-label':`${c.nome}. Modifica il conto`},
         el('span',{class:'wt',text:c.nome}), miniRing(pct, c.col||'var(--accent)'),
-        el('span',{class:'wa num',text:fmt(v)}), el('span',{class:'wc',text:cap}));
+        el('span',{class:'wa num',text:fmtS(v)}), el('span',{class:'wc',text:cap}));
     }));
   }
   $('wGo').addEventListener('click',()=>setTab('conti'));
@@ -1240,9 +1243,9 @@ img{max-width:100%}
     box.replaceChildren(...S.goals.map(g=>{
       const target=Number(g.target)||0, messi=Number(g.messi)||0, left=Math.max(0,target-messi), p=target>0?Math.min(1,messi/target):0;
       const months = g.entro ? monthsBetween(cur,g.entro) : 0;
-      const sub = left<=0 ? 'Obiettivo raggiunto' : !g.entro ? `Mancano ${fmt0(left)}` : months<=0 ? `Mancano ${fmt0(left)} · la scadenza è passata` : `Mancano ${fmt0(left)} · circa ${fmt0(Math.ceil(left/months))} al mese fino a ${mLabel(g.entro).toLowerCase()}`;
+      const sub = left<=0 ? 'Obiettivo raggiunto' : !g.entro ? `Mancano ${fmtS0(left)}` : months<=0 ? `Mancano ${fmtS0(left)} · la scadenza è passata` : `Mancano ${fmtS0(left)} · circa ${fmtS0(Math.ceil(left/months))} al mese fino a ${mLabel(g.entro).toLowerCase()}`;
       return el('button',{class:'goalrow'+(left<=0?' done':''),onclick:()=>openGoal(g)},
-        el('div',{class:'top'}, el('span',{class:'t',text:g.nome}), el('span',{class:'num',style:'font-weight:600',text:`${fmt0(messi)} / ${fmt0(target)}`})),
+        el('div',{class:'top'}, el('span',{class:'t',text:g.nome}), el('span',{class:'num',style:'font-weight:600',text:`${fmtS0(messi)} / ${fmtS0(target)}`})),
         el('div',{class:'prog'}, el('i',{style:`width:${p*100}%`})),
         el('div',{class:'sub',text:sub}));
     }));
@@ -1566,7 +1569,7 @@ img{max-width:100%}
 
   // ---------- nascondi importi ----------
   function applyPriv(){ document.body.classList.toggle('priv',PRIV);
-    document.querySelectorAll('[data-eye]').forEach(b=>{ b.setAttribute('aria-pressed',PRIV?'true':'false'); const l=PRIV?'Mostra gli importi':'Nascondi gli importi'; b.setAttribute('aria-label',l); b.title=l; }); }
+    document.querySelectorAll('[data-eye]').forEach(b=>{ b.setAttribute('aria-pressed',PRIV?'true':'false'); const l=PRIV?'Mostra saldi ed entrate':'Nascondi saldi ed entrate'; b.setAttribute('aria-label',l); b.title=l; }); }
   document.querySelectorAll('[data-eye]').forEach(b=>b.addEventListener('click',()=>{ PRIV=!PRIV; try{ localStorage.setItem('conti-privacy',PRIV?'1':'0'); }catch(e){} applyPriv(); render(); applySaldi(); renderStructureLists(); }));
   applyPriv();
 
