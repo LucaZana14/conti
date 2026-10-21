@@ -22,6 +22,7 @@
 :root{
   --bg:#f5f5f7; --card:#ffffff; --fill:#f2f2f7; --fill2:#e8e8ed; --ink:#1d1d1f; --muted:#6e6e73; --faint:#aeaeb2; --line:#e5e5ea;
   --glass:rgba(245,245,247,.78); --overlay:rgba(0,0,0,.28);
+  --lg-bg:rgba(255,255,255,.58); --lg-brd:rgba(255,255,255,.75); --lg-hi:rgba(255,255,255,.9); --lg-sel:rgba(118,118,128,.16); --lg-shadow:0 8px 32px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.08);
   --accent:#0071e3; --accent-ink:#ffffff; --green:#248a3d; --green-bg:#e3f5e8; --orange:#c93400; --orange-bg:#fff0e0; --red:#d70015; --red-bg:#ffe5e7;
   --k-casa:#0071e3; --k-bollette:#ff9500; --k-palestra:#34c759; --k-nutrizionista:#30b0c7; --k-libere:#af52de; --k-fondo:#5856d6; --k-pac:#ff2d55; --k-yellow:#c69c00; --k-red:#e5383b; --k-in:#248a3d; --k-other:#8e8e93;
   --shadow:0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
@@ -32,12 +33,14 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c; --ink:#f5f5f7; --muted:#98989d; --faint:#636366; --line:#38383a;
   --glass:rgba(0,0,0,.72); --overlay:rgba(0,0,0,.55);
+  --lg-bg:rgba(44,44,48,.52); --lg-brd:rgba(255,255,255,.12); --lg-hi:rgba(255,255,255,.18); --lg-sel:rgba(255,255,255,.14); --lg-shadow:0 10px 36px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
   --accent:#0a84ff; --accent-ink:#ffffff; --green:#30d158; --green-bg:#0f2e18; --orange:#ff9f0a; --orange-bg:#33230a; --red:#ff453a; --red-bg:#3a1514;
   --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-in:#30d158; --k-other:#8e8e93;
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c; --ink:#f5f5f7; --muted:#98989d; --faint:#636366; --line:#38383a;
   --glass:rgba(0,0,0,.72); --overlay:rgba(0,0,0,.55);
+  --lg-bg:rgba(44,44,48,.52); --lg-brd:rgba(255,255,255,.12); --lg-hi:rgba(255,255,255,.18); --lg-sel:rgba(255,255,255,.14); --lg-shadow:0 10px 36px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
   --accent:#0a84ff; --accent-ink:#ffffff; --green:#30d158; --green-bg:#0f2e18; --orange:#ff9f0a; --orange-bg:#33230a; --red:#ff453a; --red-bg:#3a1514;
   --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-in:#30d158; --k-other:#8e8e93;
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}
@@ -49,22 +52,33 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid color-mix(in srgb, var(--accent) 45%, transparent);outline-offset:2px;border-radius:8px}
 
-/* header */
-header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
-.bar .gut{padding-block:14px 12px;display:flex;flex-direction:column;gap:12px}
-.toprow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
-h1{font-size:28px;font-weight:700;letter-spacing:-.025em;margin:0;line-height:1.1}
-h1 small{display:block;font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0;margin-bottom:2px}
-.month{display:flex;align-items:center;gap:2px;background:var(--fill);border-radius:999px;padding:3px}
-.month span{min-width:8.6rem;text-align:center;font-weight:600;font-size:14px}
-.month button{width:30px;height:30px;border:0;border-radius:50%;background:transparent;display:grid;place-items:center;color:var(--accent);font-size:18px;line-height:1}
-.month button:hover{background:var(--card)}
-.tabs{display:flex;gap:2px;background:var(--fill);border-radius:11px;padding:3px;overflow-x:auto;scrollbar-width:none;align-self:flex-start;max-width:100%}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{flex:none;border:0;background:transparent;padding:7px 15px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
-.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+/* header: barra in vetro con occhio, mese e nuovo movimento */
+.glass{background:var(--lg-bg);-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);border:1px solid var(--lg-brd);box-shadow:var(--lg-shadow), inset 0 1px 0 var(--lg-hi)}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;pointer-events:none}
+.bar .gut{padding-block:10px 4px}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.toprow > *{pointer-events:auto}
+.round{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;padding:0;flex:none;cursor:pointer;color:var(--ink)}
+.round.add{background:var(--accent);color:var(--accent-ink);border:1px solid color-mix(in srgb, var(--accent) 70%, white);box-shadow:0 8px 24px color-mix(in srgb, var(--accent) 38%, transparent), inset 0 1px 0 rgba(255,255,255,.35)}
+.round.add:hover{filter:brightness(1.08)}
+.month{display:flex;align-items:center;gap:2px;border-radius:999px;padding:4px;height:46px;box-sizing:border-box}
+.month span{min-width:8.4rem;text-align:center;font-weight:600;font-size:15px}
+.month button{width:36px;height:36px;border:0;border-radius:50%;background:transparent;display:grid;place-items:center;color:var(--accent);font-size:20px;line-height:1;cursor:pointer}
+.month button:hover{background:var(--lg-sel)}
+.bigtitle{display:flex;flex-direction:column;gap:2px;padding-top:6px}
+.bigtitle h1{font-size:34px;font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.05}
+.bigtitle small{font-size:13px;font-weight:500;color:var(--muted)}
+/* barra in basso */
+nav.dock{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:min(calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)), 560px);display:flex;justify-content:space-between;gap:2px;padding:6px;border-radius:34px;box-sizing:border-box}
+nav.dock button{flex:1 1 0;min-width:0;border:0;background:transparent;border-radius:26px;padding:7px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink);cursor:pointer;position:relative;transition:background .2s, color .2s}
+nav.dock button svg{width:25px;height:25px}
+nav.dock button span.l{font-size:10.5px;font-weight:600;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+nav.dock button[aria-selected="true"]{background:var(--lg-sel);color:var(--accent)}
+nav.dock button:active{transform:scale(.96)}
+nav.dock .bdg{position:absolute;top:1px;left:calc(50% + 6px);min-width:19px;height:19px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--card)}
+@media (max-width:380px){ nav.dock button span.l{font-size:10px} .month span{min-width:7rem;font-size:14px} }
 
-main.gut{padding-block:22px 130px;display:flex;flex-direction:column;gap:18px}
+main.gut{padding-block:6px calc(120px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px}
 section.page{display:flex;flex-direction:column;gap:18px}
 .notice{background:var(--card);border-radius:var(--r-card);padding:14px 18px;box-shadow:var(--shadow);color:var(--muted)}
 .notice.err{color:var(--red)}
@@ -229,8 +243,6 @@ input.tog:checked::after{transform:translateX(20px)}
 }
 @media (max-width:420px){ .fgrid{grid-template-columns:1fr} .ring{width:76px;height:76px} }
 @media (max-width:600px){ .tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px} .tiles.tiles4{grid-template-columns:repeat(2,minmax(0,1fr))} .tile{padding:12px} .tile .v{font-size:17px} .tile .sub{font-size:11.5px} .tile .cap{font-size:10.5px;letter-spacing:.04em} }
-.fab{position:fixed;z-index:25;right:calc(max(20px, env(safe-area-inset-right,0px) + 16px));bottom:calc(env(safe-area-inset-bottom,0px) + 24px);width:58px;height:58px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:30px;font-weight:300;line-height:1;box-shadow:0 8px 24px color-mix(in srgb, var(--accent) 40%, transparent);display:grid;place-items:center}
-.fab:hover{filter:brightness(1.08)}
 .filters{display:flex;flex-wrap:wrap;gap:8px}
 .filters input{flex:1 1 170px}
 .filters select{flex:0 1 190px;width:auto}
@@ -295,6 +307,7 @@ input.tog:checked::after{transform:translateX(20px)}
 .welcome ol b{color:var(--ink);font-weight:600}
 .topright{display:flex;align-items:center;gap:8px}
 .eye{width:36px;height:36px;border-radius:50%;border:0;background:var(--fill);color:var(--accent);display:grid;place-items:center;padding:0;flex:none;cursor:pointer}
+.round.eye{width:46px;height:46px;color:var(--ink)}
 .eye:hover{background:var(--fill2)}
 .eye .i-off{display:none}
 .eye[aria-pressed="true"] .i-on{display:none}
@@ -328,31 +341,30 @@ img{max-width:100%}
 <header class="bar">
   <div class="gut">
     <div class="toprow">
-      <h1><small>Bilancio personale</small><span id="appTitle">I miei conti</span></h1>
-      <div class="topright">
-        <div class="month" role="group" aria-label="Mese">
-          <button id="prevM" aria-label="Mese precedente">‹</button>
-          <span id="monthLabel">—</span>
-          <button id="nextM" aria-label="Mese successivo">›</button>
-        </div>
-        <button class="eye" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="round eye glass" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="month glass" role="group" aria-label="Mese">
+        <button id="prevM" aria-label="Mese precedente">‹</button>
+        <span id="monthLabel">—</span>
+        <button id="nextM" aria-label="Mese successivo">›</button>
       </div>
+      <button class="round add" id="fab" aria-label="Nuovo movimento" title="Nuovo movimento"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Sezioni">
-      <button role="tab" data-tab="mese" id="tab-mese" aria-selected="true">Mese</button>
-      <button role="tab" data-tab="recap" id="tab-recap" aria-selected="false">Recap</button>
-      <button role="tab" data-tab="confronto" id="tab-confronto" aria-selected="false">Confronto</button>
-      <button role="tab" data-tab="conti" id="tab-conti" aria-selected="false">Conti</button>
-      <button role="tab" data-tab="impostazioni" id="tab-impostazioni" aria-selected="false">Impostazioni</button>
-    </nav>
   </div>
 </header>
+<nav class="dock glass" role="tablist" aria-label="Sezioni">
+  <button role="tab" data-tab="mese" id="tab-mese" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="8.5" cy="14.5" r="1.2" fill="currentColor"/><circle cx="12" cy="14.5" r="1.2" fill="currentColor"/></svg><span class="l">Mese</span><span class="bdg" id="dockBdg" hidden></span></button>
+  <button role="tab" data-tab="recap" id="tab-recap" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5H12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M15 3.9A8.5 8.5 0 0 1 20.1 9H15z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span class="l">Recap</span></button>
+  <button role="tab" data-tab="confronto" id="tab-confronto" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20.5h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="5" y="11" width="3.4" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10.3" y="6" width="3.4" height="12" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="15.6" y="9" width="3.4" height="9" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span class="l">Confronto</span></button>
+  <button role="tab" data-tab="conti" id="tab-conti" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H17v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="7.5" width="16.5" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20.5 11.5h-3.5a2 2 0 0 0 0 4h3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span class="l">Conti</span></button>
+  <button role="tab" data-tab="impostazioni" id="tab-impostazioni" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.8l1.6 2.3 2.7-.7.7 2.7 2.6 1-.6 2.7 1.8 2.1-1.8 2.1.6 2.7-2.6 1-.7 2.7-2.7-.7L12 21.2l-1.6-2.3-2.7.7-.7-2.7-2.6-1 .6-2.7L3.2 12l1.8-2.1-.6-2.7 2.6-1 .7-2.7 2.7.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="l">Impostazioni</span></button>
+</nav>
 
 <main class="gut">
+  <div class="bigtitle"><small>Bilancio personale</small><h1 id="appTitle">I miei conti</h1></div>
   <div id="status" class="notice" hidden></div>
 
   <!-- MESE -->
-  <section class="page" id="mese" data-page="mese">
+  <section class="page" id="page-mese" data-page="mese">
     <div class="card welcome" id="welcome" hidden>
       <h2>Benvenuto in Conti</h2>
       <ol>
@@ -414,7 +426,7 @@ img{max-width:100%}
   </section>
 
   <!-- RECAP -->
-  <section class="page" id="recap" data-page="recap" hidden>
+  <section class="page" id="page-recap" data-page="recap" hidden>
     <div class="card">
       <div class="head"><h2 id="rTitle">Recap</h2><span id="rDelta"></span></div>
       <p class="lead" id="rLead">Il riepilogo del mese compare quando ci sono movimenti.</p>
@@ -446,7 +458,7 @@ img{max-width:100%}
   </section>
 
   <!-- CONFRONTO -->
-  <section class="page" id="confronto" data-page="confronto" hidden>
+  <section class="page" id="page-confronto" data-page="confronto" hidden>
     <div class="card">
       <div class="head"><h2>Andamento</h2>
         <div class="seg" id="metricSeg" role="group" aria-label="Cosa confrontare">
@@ -473,7 +485,7 @@ img{max-width:100%}
   </section>
 
   <!-- CONTI -->
-  <section class="page" id="conti" data-page="conti" hidden>
+  <section class="page" id="page-conti" data-page="conti" hidden>
     <div class="card">
       <div class="head"><h2>Saldi</h2><div class="btns"><span class="sub" id="accUpd">—</span><button class="btn" id="accAdd">Aggiungi conto</button></div></div>
       <div class="accs" id="accs"></div>
@@ -501,7 +513,7 @@ img{max-width:100%}
   </section>
 
   <!-- IMPOSTAZIONI -->
-  <section class="page" id="impostazioni" data-page="impostazioni" hidden>
+  <section class="page" id="page-impostazioni" data-page="impostazioni" hidden>
     <div class="card">
       <div class="head"><h2>Profilo</h2></div>
       <div class="fgrid">
@@ -554,7 +566,6 @@ img{max-width:100%}
   </section>
 </main>
 
-<button class="fab" id="fab" aria-label="Nuovo movimento">+</button>
 
 <!-- movement sheet -->
 <div class="overlay" id="movSheet" hidden>
@@ -825,8 +836,8 @@ img{max-width:100%}
   }
 
   // ---------- tabs & month ----------
-  function setTab(t){ S.tab=t; document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ history.replaceState(null,'','#'+t); }catch(e){} render(); }
-  document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+  function setTab(t){ S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ history.replaceState(null,'','#'+t); }catch(e){} render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
+  document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
   $('prevM').addEventListener('click',()=>{ S.month=shiftM(S.month,-1); render(); });
   $('nextM').addEventListener('click',()=>{ S.month=shiftM(S.month,1); render(); });
   document.querySelectorAll('#metricSeg button').forEach(b=>b.addEventListener('click',()=>{ S.metric=b.dataset.m; document.querySelectorAll('#metricSeg button').forEach(x=>x.setAttribute('aria-pressed', x===b)); renderConfronto(); }));
@@ -910,6 +921,7 @@ img{max-width:100%}
         el('span',{class:'amt',text:fmt(amount)}));
     });
     box.replaceChildren(...rows);
+    { const bd=$('dockBdg'), left=k===mk(todayISO())?nAct-nDone:0; bd.hidden=!(left>0); bd.textContent=left>9?'9+':String(left); }
     $('fixSub').textContent = `${nDone} di ${nAct} pagate · ${fmt0(aDone)} su ${fmt0(aTot)}`;
     $('fixBar').style.width = (aTot>0?aDone/aTot*100:0)+'%';
   }
@@ -1583,7 +1595,7 @@ img{max-width:100%}
   });
   const cfg = window.CONTI_CONFIG || {};
   let client=null;
-  function showGate(text){ $('gate').hidden=false; $('fab').hidden=true; if(text) $('gateText').textContent=text; }
+  function showGate(text){ $('gate').hidden=false; $('fab').hidden=true; document.querySelector('nav.dock').hidden=true; if(text) $('gateText').textContent=text; }
   const configured = cfg.supabaseUrl && cfg.supabaseAnonKey && !/INSERISCI/.test(cfg.supabaseUrl+cfg.supabaseAnonKey);
   if(!window.supabase || !configured){
     showGate(!configured ? 'Manca la configurazione: inserisci URL e chiave di Supabase nel file config.js.' : 'Non riesco a caricare la libreria di Supabase. Controlla la connessione e riapri l\'app.');
@@ -1617,7 +1629,7 @@ img{max-width:100%}
   }
   function start(user){
     if(started) return; started=true;
-    $('gate').hidden=true; $('fab').hidden=false; $('accEmail').textContent=user.email||'';
+    $('gate').hidden=true; $('fab').hidden=false; document.querySelector('nav.dock').hidden=false; $('accEmail').textContent=user.email||'';
     db = window.ContiStore.createStore(client, user.id);
     db.collection('movimenti').onSnapshot(snap=>{
       S.movs = snap.docs.map(d=>({id:d.id, ...d.data()})).filter(m=>typeof m.data==='string'&&m.data.length>=10).map(m=>({...m, mese:m.mese||m.data.slice(0,7), importo:Number(m.importo)||0, descrizione:m.descrizione||catName(m.categoria)}));
