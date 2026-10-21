@@ -293,6 +293,15 @@ input.tog:checked::after{transform:translateX(20px)}
 .addrow input{flex:1}
 .welcome ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:14.5px}
 .welcome ol b{color:var(--ink);font-weight:600}
+.topright{display:flex;align-items:center;gap:8px}
+.eye{width:36px;height:36px;border-radius:50%;border:0;background:var(--fill);color:var(--accent);display:grid;place-items:center;padding:0;flex:none;cursor:pointer}
+.eye:hover{background:var(--fill2)}
+.eye .i-off{display:none}
+.eye[aria-pressed="true"] .i-on{display:none}
+.eye[aria-pressed="true"] .i-off{display:block}
+.money .head .hr{display:flex;align-items:center;gap:12px}
+body.priv input.money{-webkit-text-security:disc}
+.acc .bal{font-size:22px;font-weight:600;letter-spacing:-.015em}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 </style>
 <style>
@@ -320,10 +329,13 @@ img{max-width:100%}
   <div class="gut">
     <div class="toprow">
       <h1><small>Bilancio personale</small><span id="appTitle">I miei conti</span></h1>
-      <div class="month" role="group" aria-label="Mese">
-        <button id="prevM" aria-label="Mese precedente">‹</button>
-        <span id="monthLabel">—</span>
-        <button id="nextM" aria-label="Mese successivo">›</button>
+      <div class="topright">
+        <div class="month" role="group" aria-label="Mese">
+          <button id="prevM" aria-label="Mese precedente">‹</button>
+          <span id="monthLabel">—</span>
+          <button id="nextM" aria-label="Mese successivo">›</button>
+        </div>
+        <button class="eye" data-eye aria-pressed="false" aria-label="Nascondi gli importi" title="Nascondi gli importi"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Sezioni">
@@ -360,7 +372,7 @@ img{max-width:100%}
       <svg class="ring" id="ring" width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"></svg>
     </div>
     <div class="card money" id="moneyCard">
-      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><button class="link" id="wGo">Tutti i saldi</button></div>
+      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button><button class="eye" data-eye aria-pressed="false" aria-label="Nascondi gli importi" title="Nascondi gli importi"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
       <div class="wallets" id="wallets"><div class="empty">I saldi compaiono qui. Inseriscili in Conti.</div></div>
       <div class="sub" id="wUpd"></div>
     </div>
@@ -467,7 +479,7 @@ img{max-width:100%}
       <div class="accs" id="accs"></div>
       <div class="total">
         <div><div class="cap">Totale</div><div class="v" id="accTot">—</div></div>
-        <div class="btns"><span class="msg" id="accMsg" role="status" aria-live="polite"></span><button class="btn pri" id="accSave">Salva saldi</button></div>
+        <div class="btns"><span class="sub">Per cambiare un saldo tocca Modifica</span></div>
       </div>
     </div>
     <div class="card">
@@ -529,7 +541,7 @@ img{max-width:100%}
     <div class="card">
       <div class="head"><h2>Piano mensile</h2><span class="sub">Quanto prevedi per ogni voce</span></div>
       <div class="fgrid" id="planGrid"></div>
-      <div class="sh-foot"><span class="msg" id="planCheck"></span><div class="btns"><span class="msg" id="planMsg" role="status" aria-live="polite"></span><button class="btn pri" id="planSave">Salva piano</button></div></div>
+      <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="planMsg" role="status" aria-live="polite"></span><button class="btn pri" id="planSave">Salva piano</button></div></div>
     </div>
     <div class="card">
       <div class="head"><h2>Account</h2><span class="sub" id="accEmail">—</span></div>
@@ -593,8 +605,9 @@ img{max-width:100%}
       <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="cCol"></div></div>
       <label class="sw-row wide" for="cVar" id="cVarWrap"><span>Cambia molto da un mese all'altro<small>Come le bollette: mostra anche il totale da inizio anno</small></span><input type="checkbox" class="tog" id="cVar"></label>
     </div>
+    <p class="prose" id="cInfo" hidden></p>
     <div class="msg" id="cMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="cSave">Salva</button></div>
+    <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><button class="btn" id="cArch" hidden>Archivia</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="cSave">Salva</button></div>
   </div>
 </div>
 
@@ -754,7 +767,8 @@ img{max-width:100%}
   // ---------- helpers ----------
   const eur = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'});
   const eur0 = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0});
-  const fmt = v => eur.format(v||0), fmt0 = v => eur0.format(Math.round(v||0));
+  let PRIV=false; try{ PRIV = localStorage.getItem('conti-privacy')==='1'; }catch(e){}
+  const fmt = v => PRIV ? '***,** €' : eur.format(v||0), fmt0 = v => PRIV ? '*** €' : eur0.format(Math.round(v||0));
   const pctF = new Intl.NumberFormat('it-IT',{style:'percent',maximumFractionDigits:0});
   const parseAmt = s => { const t=String(s??'').trim().replace(/\s|€/g,''); if(!t) return NaN; return t.includes(',') ? Number(t.replace(/\./g,'').replace(',','.')) : Number(t); };
   const r2 = n => Math.round(n*100)/100;
@@ -1125,20 +1139,19 @@ img{max-width:100%}
   }
 
   // ---------- CONTI ----------
-  function buildAccs(){ $('accs').replaceChildren(...(CONTI.length ? CONTI.map(c=>el('div',{class:'acc'}, el('div',{class:'head2'}, el('div',{class:'w',text:c.w||' '}), el('button',{class:'ed',onclick:()=>openAcc(c),text:'Modifica'})), el('label',{for:'acc_'+c.id,text:c.nome}),
-    el('input',{id:'acc_'+c.id,type:'text',inputmode:'decimal',placeholder:'0,00',oninput:accTotals}),
+  function buildAccs(){ $('accs').replaceChildren(...(CONTI.length ? CONTI.map(c=>el('div',{class:'acc'}, el('div',{class:'head2'}, el('div',{class:'w',text:c.w||' '}), el('button',{class:'ed',onclick:()=>openAcc(c),text:'Modifica'})), el('div',{style:'font-weight:600',text:c.nome}),
+    el('div',{class:'bal num',id:'acc_'+c.id,text:'—'}),
     c.goal ? el('div',{class:'prog'}, el('i',{id:'gb_'+c.id,style:`background:${c.col}`})) : null, c.goal ? el('div',{class:'sub',id:'gt_'+c.id}) : null)) : [el('div',{class:'empty',text:'Nessun conto. Aggiungi il tuo conto corrente, i risparmi o i contanti.'})])); }
   const numIn = v => (v==null||v==='') ? '' : String(v).replace('.',',');
-  const accVals = () => Object.fromEntries(CONTI.map(c=>{ const v=parseAmt($('acc_'+c.id).value); return [c.id, isNaN(v)?0:r2(v)]; }));
+  const accVals = () => Object.fromEntries(CONTI.map(c=>[c.id, r2(Number((S.saldi||{})[c.id])||0)]));
   function accTotals(){
     const v=accVals(); $('accTot').textContent=fmt(Object.values(v).reduce((s,x)=>s+x,0));
     CONTI.filter(c=>c.goal).forEach(c=>{ const goal=Number(c.obiettivo)||0; const p=goal>0?Math.min(1,v[c.id]/goal):0;
       $('gb_'+c.id).style.width=(p*100)+'%'; $('gt_'+c.id).textContent = goal>0 ? (v[c.id]>=goal?`Obiettivo di ${fmt0(goal)} raggiunto`:`${pctF.format(p)} di ${fmt0(goal)} · mancano ${fmt0(goal-v[c.id])}`) : 'Nessun obiettivo'; });
   }
-  function applySaldi(){ renderWallets(); const s=S.saldi||{}; CONTI.forEach(c=>{ const i=$('acc_'+c.id); if(i && document.activeElement!==i) i.value=numIn(s[c.id]); });
+  function applySaldi(){ renderWallets(); const s=S.saldi||{}; CONTI.forEach(c=>{ const i=$('acc_'+c.id); if(i) i.textContent=fmt(Number(s[c.id])||0); });
     $('accUpd').textContent = s.aggiornato ? 'Aggiornati il '+new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}) : 'Inserisci i saldi attuali'; accTotals(); }
-  $('accSave').addEventListener('click', async ()=>{ const m=$('accMsg'); if(!guard(m)) return; $('accSave').disabled=true;
-    try{ await db.doc('impostazioni/saldi').set({...(S.saldi||{}), ...accVals(), aggiornato:new Date().toISOString()}); say(m,'Saldi salvati.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('accSave').disabled=false; } });
+
 
   // export
   async function save(filename, data){ const m=$('expMsg');
@@ -1161,12 +1174,11 @@ img{max-width:100%}
   // ---------- IMPOSTAZIONI ----------
   let PLAN = [];
   function buildPlan(){ PLAN=[{id:'stipendio',nome:'Stipendio netto previsto'}, ...CATS.map(c=>({id:c.id,nome:c.nome}))];
-    $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,type:'text',inputmode:'decimal',oninput:planCheck})))); }
+    $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,class:'money',type:'text',inputmode:'decimal'})))); }
   function applyPlan(){ const p=S.piano||{}, b={...(p.budget||{})}, s=S.saldi||{};
     if(b.salute!=null && b.palestra==null && b.nutrizionista==null){ b.palestra=30; b.nutrizionista=Math.max(0,b.salute-30); }
     PLAN.forEach(f=>{ const i=$('pl_'+f.id); if(!i||document.activeElement===i) return; i.value=numIn(f.id==='stipendio'?p.stipendio:b[f.id]); }); planCheck(); }
-  function planCheck(){ if(!$('pl_stipendio')) return; const st=parseAmt($('pl_stipendio').value)||0, tot=CATS.reduce((s,c)=>s+(parseAmt($('pl_'+c.id).value)||0),0), d=st-tot, e=$('planCheck');
-    e.className='msg '+(Math.abs(d)<.5?'ok':'ko'); e.textContent = !st?'':Math.abs(d)<.5?`Le voci fanno ${fmt0(tot)}, come lo stipendio.`:d>0?`Le voci fanno ${fmt0(tot)}: restano ${fmt0(d)} da assegnare.`:`Le voci fanno ${fmt0(tot)}: superi lo stipendio di ${fmt0(-d)}.`; }
+  function planCheck(){}
   $('planSave').addEventListener('click', async ()=>{ const m=$('planMsg'); if(!guard(m)) return;
     const b={...((S.piano&&S.piano.budget)||{})}; CATS.forEach(c=>b[c.id]=r2(parseAmt($('pl_'+c.id).value)||0));
     const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:b, inizio:(S.piano&&S.piano.inizio)||S.month};
@@ -1199,12 +1211,12 @@ img{max-width:100%}
     if(!CONTI.length){ $('wTot').textContent='—'; $('wUpd').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'Crea i tuoi conti nella sezione Conti.'})); return; }
     const vals=CONTI.map(c=>({c, v:Number(s[c.id])||0})); const tot=vals.reduce((a,x)=>a+x.v,0);
     $('wTot').textContent=fmt(tot);
-    $('wUpd').textContent = (s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · ` : '') + 'tocca un conto per aggiornarlo' + (CONTI.some(c=>c.contanti)?' · i contanti si aggiornano da soli':'');
+    $('wUpd').textContent = (s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · ` : '') + 'tocca un conto per modificarlo' + (CONTI.some(c=>c.contanti)?' · i contanti si aggiornano da soli':'');
     box.replaceChildren(...vals.map(({c,v})=>{
       const goal = Number(c.obiettivo)||0;
       const pct = goal>0 ? v/goal : (tot>0 ? v/tot : 0);
       const cap = goal>0 ? (v>=goal ? 'Obiettivo raggiunto' : `dell'obiettivo di ${fmt0(goal)}`) : 'del totale';
-      return el('button',{class:'wal',onclick:()=>openBal(c),'aria-label':`${c.nome}: ${fmt(v)}. Aggiorna il saldo`},
+      return el('button',{class:'wal',onclick:()=>openAcc(c),'aria-label':`${c.nome}. Modifica il conto`},
         el('span',{class:'wt',text:c.nome}), miniRing(pct, c.col||'var(--accent)'),
         el('span',{class:'wa num',text:fmt(v)}), el('span',{class:'wc',text:cap}));
     }));
@@ -1449,7 +1461,7 @@ img{max-width:100%}
   let CE=null, cG='spesa', cColor='blue';
   const setCG = g => { cG=g; $('cSpesa').setAttribute('aria-pressed',g==='spesa'); $('cRisp').setAttribute('aria-pressed',g==='risp'); $('cVarWrap').hidden = g==='risp'; };
   $('cSpesa').addEventListener('click',()=>setCG('spesa')); $('cRisp').addEventListener('click',()=>setCG('risp'));
-  const catInUse = id => S.movs.some(m=>m.categoria===id) || S.ric.some(r=>r.categoria===id);
+  const useCount = id => ({ m:S.movs.filter(m=>m.categoria===id).length, r:S.ric.filter(r=>r.categoria===id&&r.attiva!==false).length });
   function openCat(c){
     CE=c||null; $('cMsg').textContent=''; $('cTitle').textContent = c?'Modifica voce':'Nuova voce';
     $('cNome').value=c?c.nome:''; $('cDesc').value=c?c.desc:''; $('cVar').checked=!!(c&&c.variabile);
@@ -1457,8 +1469,11 @@ img{max-width:100%}
     swatches('cCol', cColor, k=>cColor=k); setCG(c?c.g:'spesa');
     const isLib = c && c.id==='libere';
     $('cSpesa').disabled=isLib; $('cRisp').disabled=isLib;
-    $('cDel').hidden = !c || isLib;
-    $('cDel').textContent = c && c.archiviata ? 'Ripristina' : (c && catInUse(c.id) ? 'Archivia' : 'Elimina');
+    const used = c ? useCount(c.id) : {m:0,r:0};
+    $('cDel').hidden = !c || isLib; $('cDel').textContent='Elimina'; cDelArmed=false;
+    $('cArch').hidden = !c || isLib || (!c.archiviata && !used.m && !used.r); $('cArch').textContent = c && c.archiviata ? 'Ripristina' : 'Archivia';
+    const info=$('cInfo'); info.hidden = !c || isLib || (!used.m && !used.r);
+    if(!info.hidden) info.textContent = `È usata in ${used.m} ${used.m===1?'movimento':'movimenti'}${used.r?` e ${used.r} ${used.r===1?'spesa fissa':'spese fisse'}`:''}. Archivia: la nascondi dalle scelte ma resta nello storico, e puoi ripristinarla. Elimina: sparisce del tutto; i movimenti già registrati restano come "Voce eliminata"${used.r?' e le spese fisse collegate vengono messe in pausa':''}.`;
     openSheet('catSheet','cNome');
   }
   $('catAdd').addEventListener('click',()=>openCat(null));
@@ -1469,13 +1484,22 @@ img{max-width:100%}
     try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
   });
   let cDelArmed=false;
+  $('cArch').addEventListener('click', async ()=>{
+    const m=$('cMsg'); if(!CE||!guard(m)) return;
+    const list = ST.categorie.map(c=>c.id===CE.id?{...c,archiviata:!CE.archiviata}:c);
+    try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
+  });
   $('cDel').addEventListener('click', async ()=>{
     const m=$('cMsg'); if(!CE||!guard(m)) return;
-    const restore = !!CE.archiviata, archive = !restore && catInUse(CE.id);
-    if(!restore && !cDelArmed){ cDelArmed=true; $('cDel').textContent = archive ? 'Tocca di nuovo per archiviare' : 'Tocca di nuovo per eliminare'; setTimeout(()=>{ cDelArmed=false; if(CE) $('cDel').textContent = archive?'Archivia':'Elimina'; },3000); return; }
-    cDelArmed=false;
-    const list = restore ? ST.categorie.map(c=>c.id===CE.id?{...c,archiviata:false}:c) : archive ? ST.categorie.map(c=>c.id===CE.id?{...c,archiviata:true}:c) : ST.categorie.filter(c=>c.id!==CE.id);
-    try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
+    if(!cDelArmed){ cDelArmed=true; $('cDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ cDelArmed=false; $('cDel').textContent='Elimina'; },3000); return; }
+    cDelArmed=false; $('cDel').textContent='Elimina';
+    const id=CE.id;
+    try{
+      await saveStructure({...ST, categorie:ST.categorie.filter(c=>c.id!==id)});
+      if(S.piano && S.piano.budget && id in S.piano.budget){ const b={...S.piano.budget}; delete b[id]; await db.doc('impostazioni/piano').set({...S.piano, budget:b}); }
+      for(const r of S.ric.filter(x=>x.categoria===id && x.attiva!==false)){ const {id:rid,...rest}=r; await db.collection('ricorrenti').doc(rid).set({...rest, attiva:false}); }
+      closeSheet('catSheet');
+    }catch(e){ say(m,'Non eliminata del tutto. Riprova.',false); }
   });
   // conti
   let AE=null, aColor='blue';
@@ -1539,6 +1563,12 @@ img{max-width:100%}
     vDelArmed=false; $('vDel').textContent='Elimina';
     try{ await saveStructure({...ST, voci:VOCI.filter(x=>x!==VE)}); closeSheet('voceSheet'); }catch(e){ say(m,'Non eliminata. Riprova.',false); }
   });
+
+  // ---------- nascondi importi ----------
+  function applyPriv(){ document.body.classList.toggle('priv',PRIV);
+    document.querySelectorAll('[data-eye]').forEach(b=>{ b.setAttribute('aria-pressed',PRIV?'true':'false'); const l=PRIV?'Mostra gli importi':'Nascondi gli importi'; b.setAttribute('aria-label',l); b.title=l; }); }
+  document.querySelectorAll('[data-eye]').forEach(b=>b.addEventListener('click',()=>{ PRIV=!PRIV; try{ localStorage.setItem('conti-privacy',PRIV?'1':'0'); }catch(e){} applyPriv(); render(); applySaldi(); renderStructureLists(); }));
+  applyPriv();
 
   // ---------- Supabase: accesso e dati ----------
   $('impJson').addEventListener('click',()=>$('impFile').click());
