@@ -46,7 +46,7 @@
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}
 html,body{background:var(--bg)}
 body{color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 0}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+
 .num,.v,.amt,td.n{font-variant-numeric:tabular-nums}
 .gut{max-width:1040px;margin-inline:auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -54,7 +54,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* header: barra in vetro con occhio, mese e nuovo movimento */
 .glass{background:var(--lg-bg);-webkit-backdrop-filter:blur(24px) saturate(190%);backdrop-filter:blur(24px) saturate(190%);border:1px solid var(--lg-brd);box-shadow:var(--lg-shadow), inset 0 1px 0 var(--lg-hi)}
-header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;pointer-events:none}
+header.bar{position:sticky;top:0;z-index:20;pointer-events:none;padding-top:env(safe-area-inset-top,0px)}
+header.bar::before{content:"";position:absolute;inset:0 0 -22px 0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom, var(--bg) 0%, var(--bg) 45%, color-mix(in srgb, var(--bg) 70%, transparent) 75%, transparent 100%)}
 .bar .gut{padding-block:10px 4px}
 .toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .toprow > *{pointer-events:auto}
@@ -69,7 +70,7 @@ header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;pointer-e
 .bigtitle h1{font-size:34px;font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.05}
 .bigtitle small{font-size:13px;font-weight:500;color:var(--muted)}
 /* barra in basso */
-nav.dock{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:min(calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)), 560px);display:flex;justify-content:space-between;gap:2px;padding:6px;border-radius:34px;box-sizing:border-box}
+nav.dock{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:max(10px, calc(env(safe-area-inset-bottom,0px) - 12px));width:min(calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)), 560px);display:flex;justify-content:space-between;gap:2px;padding:6px;border-radius:34px;box-sizing:border-box}
 nav.dock button{flex:1 1 0;min-width:0;border:0;background:transparent;border-radius:26px;padding:7px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink);cursor:pointer;position:relative;transition:background .2s, color .2s}
 nav.dock button svg{width:25px;height:25px}
 nav.dock button span.l{font-size:10.5px;font-weight:600;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
@@ -78,7 +79,7 @@ nav.dock button:active{transform:scale(.96)}
 nav.dock .bdg{position:absolute;top:1px;left:calc(50% + 6px);min-width:19px;height:19px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--card)}
 @media (max-width:380px){ nav.dock button span.l{font-size:10px} .month span{min-width:7rem;font-size:14px} }
 
-main.gut{padding-block:6px calc(120px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px}
+main.gut{padding-block:6px calc(104px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px}
 section.page{display:flex;flex-direction:column;gap:18px}
 .notice{background:var(--card);border-radius:var(--r-card);padding:14px 18px;box-shadow:var(--shadow);color:var(--muted)}
 .notice.err{color:var(--red)}
@@ -315,11 +316,38 @@ input.tog:checked::after{transform:translateX(20px)}
 .money .head .hr{display:flex;align-items:center;gap:12px}
 body.priv input.money{-webkit-text-security:disc}
 .acc .bal{font-size:22px;font-weight:600;letter-spacing:-.015em}
+.salary{display:flex;align-items:flex-end;gap:10px}
+.salary .fld{flex:1}
+.planbar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--fill);gap:2px}
+.planbar i{display:block;height:100%;min-width:3px}
+.pgroup{display:flex;flex-direction:column;gap:8px}
+.pv{display:flex;flex-direction:column;gap:9px;width:100%;text-align:left;border:0;background:var(--fill);border-radius:16px;padding:14px;font:inherit;color:inherit;cursor:pointer}
+.pv:hover{background:var(--fill2)}
+.pv.arch{opacity:.55}
+.pv .top{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center}
+.pv .nm{font-weight:600;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pv .ds{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pv .bud{text-align:right;white-space:nowrap}
+.pv .bud b{font-size:16px;font-weight:700;display:block}
+.pv .bud span{font-size:11.5px;color:var(--muted)}
+.pv .cov{height:6px;border-radius:3px;background:var(--fill2);overflow:hidden;display:flex}
+.pv .cov i{display:block;height:100%}
+.pv .fx{display:flex;flex-wrap:wrap;gap:6px}
+.pv .fx span{font-size:12.5px;background:var(--card);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.pv .fx span.off{opacity:.5;text-decoration:line-through}
+.pv .fx span.none{background:transparent;color:var(--muted);padding-left:0}
+.subsec{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:14px}
+.subsec h4{margin:0;font-size:15px;font-weight:700}
+.fxrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:0;background:var(--fill);border-radius:12px;padding:11px 12px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.fxrow:hover{background:var(--fill2)}
+.fxrow .t{font-weight:500}
+.fxrow .s{font-size:12px;color:var(--muted)}
+.fxrow b{font-weight:600;white-space:nowrap}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 </style>
 <style>
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{-webkit-text-size-adjust:100%}
 body{margin:0;min-height:100vh}
 img{max-width:100%}
 [hidden]{display:none!important}
@@ -369,9 +397,8 @@ img{max-width:100%}
       <h2>Benvenuto in Conti</h2>
       <ol>
         <li><b>Impostazioni → Profilo:</b> scrivi il tuo nome.</li>
-        <li><b>Impostazioni → Voci del piano:</b> crea le voci che usi (casa, bollette, risparmi…) e scrivi quanto prevedi per ognuna nel Piano mensile, insieme allo stipendio.</li>
+        <li><b>Impostazioni → Il tuo piano:</b> scrivi lo stipendio, poi tocca ogni voce (casa, bollette, risparmi…) per darle un budget e aggiungere le sue spese fisse, come affitto e abbonamenti.</li>
         <li><b>Conti:</b> crea i tuoi conti e inserisci i saldi.</li>
-        <li><b>Impostazioni → Spese fisse:</b> aggiungi affitto, abbonamenti e bonifici di ogni mese.</li>
       </ol>
       <div class="btns"><button class="btn pri" id="welcomeGo">Inizia dalle Impostazioni</button></div>
     </div>
@@ -514,35 +541,21 @@ img{max-width:100%}
 
   <!-- IMPOSTAZIONI -->
   <section class="page" id="page-impostazioni" data-page="impostazioni" hidden>
-    <div class="card">
-      <div class="head"><h2>Profilo</h2></div>
-      <div class="fgrid">
-        <div class="fld"><label for="pfNome">Il tuo nome</label><input id="pfNome" type="text" maxlength="40" autocomplete="given-name" placeholder="Es. Luca"></div>
-        <div class="fld"><span class="lb">Titolo dell'app</span><div class="sub" id="pfPrev" style="padding:11px 0">—</div></div>
+    <div class="card" id="planCard">
+      <div class="head"><h2>Il tuo piano</h2><button class="btn" id="catAdd">Nuova voce</button></div>
+      <p class="prose">Come dividi lo stipendio ogni mese. Ogni voce ha un <b>budget</b> e, se vuoi, delle <b>spese fisse</b> (affitto, abbonamenti, bonifici) che ogni mese ritrovi da spuntare nella sezione Mese. Tocca una voce per modificarla.</p>
+      <div class="salary">
+        <div class="fld"><label for="pl_stipendio">Stipendio netto al mese (€)</label><input id="pl_stipendio" class="money" type="text" inputmode="decimal" autocomplete="off"></div>
+        <button class="btn pri" id="planSave">Salva</button>
       </div>
-      <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="pfMsg" role="status" aria-live="polite"></span><button class="btn pri" id="pfSave">Salva</button></div></div>
-    </div>
-    <div class="card">
-      <div class="head"><h2>Spese fisse</h2><button class="btn" id="ricAdd">Aggiungi</button></div>
-      <p class="prose">Ogni mese compaiono nella sezione Mese come una lista da spuntare. Quando ne spunti una viene registrata come pagata e la sua voce del budget si riempie. Se un mese l'importo è diverso, dopo averla spuntata tocca il movimento e correggilo.</p>
-      <div class="list" id="ricList"><div class="empty">Nessuna spesa fissa.</div></div>
+      <div class="msg" id="planMsg" role="status" aria-live="polite"></div>
+      <div class="planbar" id="planBar" aria-hidden="true"></div>
+      <div id="planList"></div>
     </div>
     <div class="card">
       <div class="head"><h2>Spese non mensili</h2><span class="sub" id="annSub"></span></div>
       <p class="prose">Le spese fisse che arrivano ogni 2, 3, 6 o 12 mesi, divise per mese: è quanto conviene mettere da parte ogni mese per non avere sorprese.</p>
       <div class="list" id="annList"></div>
-    </div>
-    <div class="card">
-      <div class="head"><h2>Voci del piano</h2><button class="btn" id="catAdd">Aggiungi voce</button></div>
-      <p class="prose">Le voci in cui dividi lo stipendio. Le voci di <b>risparmio</b> (fondo, investimenti) contano come soldi messi da parte, non come spese. "Spese libere" non si può eliminare: è la voce principale della sezione Mese.</p>
-      <div class="list" id="catList"></div>
-    </div>
-    <div class="card">
-      <div class="head"><h2>Voci delle spese libere</h2></div>
-      <p class="prose">Le sottocategorie che scegli quando registri una spesa libera. Tocca una voce per rinominarla o eliminarla.</p>
-      <div class="chips" id="voceList"></div>
-      <div class="addrow"><input id="voceNew" type="text" maxlength="40" placeholder="Nuova voce, es. Videogiochi" aria-label="Nuova voce" autocomplete="off"><button class="btn" id="voceAdd">Aggiungi</button></div>
-      <div class="msg" id="voceMsg" role="status" aria-live="polite"></div>
     </div>
     <div class="card">
       <div class="head"><h2>Spese divise</h2></div>
@@ -551,9 +564,12 @@ img{max-width:100%}
       <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="shMsg" role="status" aria-live="polite"></span><button class="btn pri" id="shSave">Salva</button></div></div>
     </div>
     <div class="card">
-      <div class="head"><h2>Piano mensile</h2><span class="sub">Quanto prevedi per ogni voce</span></div>
-      <div class="fgrid" id="planGrid"></div>
-      <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="planMsg" role="status" aria-live="polite"></span><button class="btn pri" id="planSave">Salva piano</button></div></div>
+      <div class="head"><h2>Profilo</h2></div>
+      <div class="fgrid">
+        <div class="fld"><label for="pfNome">Il tuo nome</label><input id="pfNome" type="text" maxlength="40" autocomplete="given-name" placeholder="Es. Luca"></div>
+        <div class="fld"><span class="lb">Titolo dell'app</span><div class="sub" id="pfPrev" style="padding:11px 0">—</div></div>
+      </div>
+      <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="pfMsg" role="status" aria-live="polite"></span><button class="btn pri" id="pfSave">Salva</button></div></div>
     </div>
     <div class="card">
       <div class="head"><h2>Account</h2><span class="sub" id="accEmail">—</span></div>
@@ -610,12 +626,27 @@ img{max-width:100%}
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cTitle">
     <div class="sh-head"><h3 id="cTitle">Voce del piano</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
     <div class="fgrid">
-      <div class="fld wide"><label for="cNome">Nome</label><input id="cNome" type="text" maxlength="40" placeholder="Es. Auto" autocomplete="off"></div>
+      <div class="fld"><label for="cNome">Nome</label><input id="cNome" type="text" maxlength="40" placeholder="Es. Auto" autocomplete="off"></div>
+      <div class="fld"><label for="cBudget">Budget al mese (€)</label><input id="cBudget" type="text" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+    </div>
+    <div class="subsec" id="cFixSec">
+      <div class="head"><h4>Spese fisse</h4><button class="btn" id="cFixAdd" type="button">Aggiungi</button></div>
+      <div class="sub" id="cFixHint"></div>
+      <div class="pgroup" id="cFixList"></div>
+    </div>
+    <div class="subsec" id="cVociSec" hidden>
+      <h4>Sottocategorie</h4>
+      <div class="sub">Le scegli quando registri una spesa libera. Tocca una sottocategoria per rinominarla o eliminarla.</div>
+      <div class="chips" id="voceList"></div>
+      <div class="addrow"><input id="voceNew" type="text" maxlength="40" placeholder="Nuova, es. Videogiochi" aria-label="Nuova sottocategoria" autocomplete="off"><button class="btn" id="voceAdd" type="button">Aggiungi</button></div>
+      <div class="msg" id="voceMsg" role="status" aria-live="polite"></div>
+    </div>
+    <div class="subsec"><h4>Altre impostazioni</h4><div class="fgrid">
       <div class="fld wide"><span class="lb">Tipo</span><div class="seg" role="group" aria-label="Tipo di voce"><button type="button" id="cSpesa" aria-pressed="true" style="flex:1">Spesa</button><button type="button" id="cRisp" aria-pressed="false" style="flex:1">Risparmio</button></div></div>
       <div class="fld wide"><label for="cDesc">Nota (facoltativa)</label><input id="cDesc" type="text" maxlength="80" placeholder="Es. Assicurazione, benzina, bollo" autocomplete="off"></div>
       <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="cCol"></div></div>
       <label class="sw-row wide" for="cVar" id="cVarWrap"><span>Cambia molto da un mese all'altro<small>Come le bollette: mostra anche il totale da inizio anno</small></span><input type="checkbox" class="tog" id="cVar"></label>
-    </div>
+    </div></div>
     <p class="prose" id="cInfo" hidden></p>
     <div class="msg" id="cMsg" role="status" aria-live="polite"></div>
     <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><button class="btn" id="cArch" hidden>Archivia</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="cSave">Salva</button></div>
@@ -684,8 +715,8 @@ img{max-width:100%}
     <div class="fgrid">
       <div class="fld wide"><label for="rNome">Nome</label><input id="rNome" type="text" maxlength="60" placeholder="Es. Affitto" autocomplete="off"></div>
       <div class="fld"><label for="rImp">Importo (€)</label><input id="rImp" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
-      <div class="fld"><label for="rCat">Categoria</label><select id="rCat"></select></div>
-      <div class="fld wide" id="rVoceWrap"><label for="rVoce">Voce</label><select id="rVoce"></select></div>
+      <div class="fld"><label for="rCat">Voce del piano</label><select id="rCat"></select></div>
+      <div class="fld wide" id="rVoceWrap"><label for="rVoce">Sottocategoria</label><select id="rVoce"></select></div>
       <div class="fld"><label for="rGiorno">Giorno del mese</label><select id="rGiorno"></select></div>
       <div class="fld"><label for="rOgni">Ogni</label><select id="rOgni"><option value="1">mese</option><option value="2">2 mesi</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12">anno</option></select></div>
       <div class="fld wide"><label for="rDa">A partire da</label><select id="rDa"></select></div>
@@ -907,7 +938,7 @@ img{max-width:100%}
     if(!S.ricReady){ return; }
     const due=dueIn(k);
     renderFixUp();
-    if(!due.length){ box.replaceChildren(el('div',{class:'empty',text:'Nessuna spesa fissa in questo mese. Aggiungile in Impostazioni.'})); $('fixSub').textContent=''; $('fixBar').style.width='0%'; return; }
+    if(!due.length){ box.replaceChildren(el('div',{class:'empty',text:'Nessuna spesa fissa in questo mese. Aggiungile in Impostazioni → Il tuo piano, toccando una voce.'})); $('fixSub').textContent=''; $('fixBar').style.width='0%'; return; }
     let nDone=0, aDone=0, aTot=0, nAct=0;
     const isCur = k===mk(todayISO()), today=new Date().getDate();
     const rows=due.map(r=>{
@@ -1187,30 +1218,36 @@ img{max-width:100%}
   $('expJson').addEventListener('click',()=>{ save(`backup-conti-${todayISO()}.json`, JSON.stringify({esportato:new Date().toISOString(), struttura:ST, piano:S.piano, saldi:S.saldi, obiettivi:S.goals, speseAutomatiche:S.ric, movimenti:S.movs}, null, 2)); });
 
   // ---------- IMPOSTAZIONI ----------
-  let PLAN = [];
-  function buildPlan(){ PLAN=[{id:'stipendio',nome:'Stipendio netto previsto'}, ...CATS.map(c=>({id:c.id,nome:c.nome}))];
-    $('planGrid').replaceChildren(...PLAN.map(f=>el('div',{class:'fld'}, el('label',{for:'pl_'+f.id,text:f.nome}), el('input',{id:'pl_'+f.id,class:f.id==='stipendio'?'money':'',type:'text',inputmode:'decimal'})))); }
-  function applyPlan(){ const p=S.piano||{}, b={...(p.budget||{})}, s=S.saldi||{};
-    if(b.salute!=null && b.palestra==null && b.nutrizionista==null){ b.palestra=30; b.nutrizionista=Math.max(0,b.salute-30); }
-    PLAN.forEach(f=>{ const i=$('pl_'+f.id); if(!i||document.activeElement===i) return; i.value=numIn(f.id==='stipendio'?p.stipendio:b[f.id]); }); planCheck(); }
+  // ---------- il tuo piano ----------
+  const monthlyFix = id => S.ric.filter(r=>r.categoria===id && r.attiva!==false && Number(r.importo)>0).reduce((a,r)=>a+Number(r.importo)/Math.max(1,Number(r.ogniMesi)||1),0);
+  function buildPlan(){}
+  function applyPlan(){ const p=S.piano||{}; const i=$('pl_stipendio'); if(i && document.activeElement!==i) i.value=numIn(p.stipendio); renderPlan(); }
   function planCheck(){}
   $('planSave').addEventListener('click', async ()=>{ const m=$('planMsg'); if(!guard(m)) return;
-    const b={...((S.piano&&S.piano.budget)||{})}; CATS.forEach(c=>b[c.id]=r2(parseAmt($('pl_'+c.id).value)||0));
-    const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:b, inizio:(S.piano&&S.piano.inizio)||S.month};
-    $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); say(m,'Piano salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
-
-  function renderRic(){
-    const box=$('ricList');
-    if(!S.ricReady){ box.replaceChildren(el('div',{class:'empty',text:'Carico le spese automatiche…'})); return; }
-    if(!S.ric.length){ box.replaceChildren(el('div',{class:'empty',text:'Nessuna spesa fissa. Aggiungi affitto, abbonamenti e bonifici fissi.'})); return; }
-    const list=[...S.ric].sort((a,b)=>(a.giorno-b.giorno)||a.nome.localeCompare(b.nome));
-    box.replaceChildren(...list.map(r=>{ const ogni=Number(r.ogniMesi||1);
-      const when = ogni===1?`Ogni mese, il ${r.giorno}`: ogni===12?`Ogni anno, il ${r.giorno}`:`Ogni ${ogni} mesi, il ${r.giorno}`;
-      return el('button',{class:'row',onclick:()=>openRic(r),style:r.attiva===false?'opacity:.5':''},
-        el('span',{class:'dot',style:`background:${catColor(r.categoria)}`,text:catName(r.categoria).charAt(0)}),
-        el('span',{style:'min-width:0'}, el('div',{class:'t',text:r.nome}), el('div',{class:'s',text:`${when} · ${catName(r.categoria)}${r.attiva===false?' · in pausa':''} · da ${mLabel(r.daMese).toLowerCase()}`})),
-        el('span',{class:'amt',text:fmt(r.importo)})); }));
+    const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:{...((S.piano&&S.piano.budget)||{})}, inizio:(S.piano&&S.piano.inizio)||S.month};
+    $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); say(m,'Stipendio salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
+  function fixChip(r){ const e=Math.max(1,Number(r.ogniMesi)||1); const per = e===1?'':e===12?'/anno':`/${e} mesi`; return el('span',{class:r.attiva===false?'off':'',text:`${r.nome} ${fmt0(r.importo)}${per}`}); }
+  function renderPlan(){
+    const box=$('planList'); if(!box) return;
+    const sal=Number((S.piano||{}).stipendio)||0, tot=CATS.reduce((a,c)=>a+budget(c.id),0), scale=Math.max(sal,tot,1);
+    $('planBar').replaceChildren(...CATS.filter(c=>budget(c.id)>0).map(c=>el('i',{style:`width:${budget(c.id)/scale*100}%;background:${colVar(c.colore)}`,title:c.nome})));
+    const row = c => {
+      const b=budget(c.id), fx=S.ric.filter(r=>r.categoria===c.id).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||a.giorno-z.giorno), mf=monthlyFix(c.id);
+      const desc = c.id==='libere' ? `Spese variabili · ${VOCI.length} sottocategorie` : [c.g==='risp'?'Risparmio':'', c.desc].filter(Boolean).join(' · ') || (c.g==='risp'?'Risparmio':'Spesa');
+      const cov = b>0 ? Math.min(1,mf/b) : 0;
+      return el('button',{class:'pv'+(c.archiviata?' arch':''),onclick:()=>openCat(c)},
+        el('div',{class:'top'}, el('span',{class:'dot',style:`background:${colVar(c.colore)}`,text:c.nome.charAt(0).toUpperCase()}),
+          el('span',{style:'min-width:0'}, el('div',{class:'nm',text:c.nome}), el('div',{class:'ds',text:c.archiviata?'Archiviata':desc})),
+          el('span',{class:'bud'}, el('b',{class:'num',text:fmt0(b)}), el('span',{text:'al mese'}))),
+        (mf>0 && b>0) ? el('div',{class:'cov',title:'Parte del budget coperta dalle spese fisse'}, el('i',{style:`width:${cov*100}%;background:${colVar(c.colore)}`})) : null,
+        c.id==='libere' && !fx.length ? null : el('div',{class:'fx'}, ...(fx.length ? fx.map(fixChip) : [el('span',{class:'none',text:'Nessuna spesa fissa'})]), (mf>0 && b>0) ? el('span',{class:'none',text: b>=mf ? `fisse ${fmt0(mf)} · margine ${fmt0(b-mf)}` : `fisse ${fmt0(mf)}`}) : null)
+      );
+    };
+    const grp = (title, list) => list.length ? [el('div',{class:'cap',style:'margin-top:6px',text:title}), el('div',{class:'pgroup'}, ...list.map(row))] : [];
+    box.replaceChildren(...grp('Spese', CATS.filter(c=>c.g!=='risp')), ...grp('Risparmi', CATS.filter(c=>c.g==='risp')), ...grp('Archiviate', ALLCATS.filter(c=>c.archiviata)));
   }
+
+  function renderRic(){ renderPlan(); }
 
   // ---------- i tuoi soldi (riepilogo saldi in Mese) ----------
 
@@ -1281,7 +1318,9 @@ img{max-width:100%}
   function guard(m){ if(!db){ say(m,'Accedi per poter salvare.',false); return false; } if(!S.canWrite){ say(m,'Non puoi modificare questi dati.',false); return false; } return true; }
   let lastFocus=null;
   function openSheet(id, focusId){ lastFocus=document.activeElement; const o=$(id); o.hidden=false; requestAnimationFrame(()=>o.classList.add('show')); setTimeout(()=>{ const f=$(focusId); if(f) f.focus(); },60); }
-  function closeSheet(id){ const o=$(id); o.classList.remove('show'); setTimeout(()=>{ o.hidden=true; },200); if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
+  let RIC_RET=null, RIC_NOTE='';
+  function closeSheet(id, keepRet){ const o=$(id); o.classList.remove('show'); setTimeout(()=>{ o.hidden=true; },200); if(lastFocus&&lastFocus.focus) lastFocus.focus();
+    if(id==='ricSheet' && RIC_RET && !keepRet){ const back=ALLCATS.find(c=>c.id===RIC_RET), note=RIC_NOTE; RIC_RET=null; RIC_NOTE=''; if(back) setTimeout(()=>openCat(back,note),240); } }
   ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ const o=$(id); o.addEventListener('click',e=>{ if(e.target===o || e.target.closest('[data-close]')) closeSheet(id); }); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ if(!$(id).hidden) closeSheet(id); }); } });
 
@@ -1349,15 +1388,14 @@ img{max-width:100%}
     catch(e){ say(msg,'Non eliminato. Riprova.',false); }
   });
 
-  function openRic(r){
+  function openRic(r, presetCat){
     S.editRic=r||null; $('rsMsg').textContent='';
     $('rsTitle').textContent = r ? 'Modifica spesa fissa' : 'Nuova spesa fissa'; $('rsDel').hidden=!r;
-    $('rNome').value=r?r.nome:''; $('rImp').value=r?numIn(r.importo):''; $('rCat').value=r?(CATS.some(c=>c.id===r.categoria)?r.categoria:'casa'):'casa';
+    $('rNome').value=r?r.nome:''; $('rImp').value=r?numIn(r.importo):''; $('rCat').value = r ? (CATS.some(c=>c.id===r.categoria)?r.categoria:(CATS[0]||{}).id) : (presetCat && CATS.some(c=>c.id===presetCat) ? presetCat : (CATS[0]||{}).id);
     $('rVoce').value=r&&r.voce?r.voce:VOCI[0]; $('rVoceWrap').hidden=$('rCat').value!=='libere';
     $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r?r.ogniMesi||1:1); fillRDa(r?r.daMese:mk(todayISO())); $('rAttiva').checked = r ? r.attiva!==false : true;
     openSheet('ricSheet','rNome');
   }
-  $('ricAdd').addEventListener('click',()=>openRic(null));
   $('rsSave').addEventListener('click', async ()=>{
     const msg=$('rsMsg'); if(!guard(msg)) return;
     const nome=$('rNome').value.trim(), imp=parseAmt($('rImp').value);
@@ -1366,7 +1404,10 @@ img{max-width:100%}
     const cat=$('rCat').value;
     const body={nome, importo:r2(imp), categoria:cat, voce:cat==='libere'?$('rVoce').value:'', giorno:Number($('rGiorno').value), ogniMesi:Number($('rOgni').value), daMese:$('rDa').value, attiva:$('rAttiva').checked, aggiornato:new Date().toISOString()};
     $('rsSave').disabled=true;
-    try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); } else await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()}); closeSheet('ricSheet'); }
+    try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); } else await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()});
+      const need=Math.ceil(monthlyFix(cat)), have=budget(cat);
+      if(need>have){ await db.doc('impostazioni/piano').set({...(S.piano||{stipendio:0}), budget:{...((S.piano&&S.piano.budget)||{}), [cat]:need}, inizio:(S.piano&&S.piano.inizio)||S.month}); RIC_NOTE=`Budget portato a ${fmt0(need)} per coprire le spese fisse.`; }
+      if(!RIC_RET) RIC_NOTE=''; closeSheet('ricSheet'); }
     catch(e){ say(msg,'Non salvato. Riprova.',false); } finally{ $('rsSave').disabled=false; }
   });
   let rDelArmed=false;
@@ -1457,7 +1498,7 @@ img{max-width:100%}
   function swatches(boxId, selected, onPick){ const box=$(boxId); box.replaceChildren(...Object.keys(COLORS).map(k=>{ const b=el('button',{type:'button',class:'swatch','aria-label':k,'aria-pressed':k===selected?'true':'false',style:`background:${colVar(k)}`}); b.addEventListener('click',()=>{ box.querySelectorAll('.swatch').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); onPick(k); }); return b; })); }
   function renderStructureLists(){
     // voci del piano
-    const cl=$('catList'); if(cl){ cl.replaceChildren(...ALLCATS.map(c=>{ const usedB=budget(c.id);
+    renderPlan(); const cl=null; if(cl){ cl.replaceChildren(...ALLCATS.map(c=>{ const usedB=budget(c.id);
       return el('button',{class:'row',onclick:()=>openCat(c),style:c.archiviata?'opacity:.5':''},
         el('span',{class:'dot',style:`background:${colVar(c.colore)}`,text:c.nome.charAt(0).toUpperCase()}),
         el('span',{style:'min-width:0'}, el('div',{class:'t',text:c.nome}), el('div',{class:'s',text:[c.g==='risp'?'Risparmio':'Spesa', c.variabile?'varia molto':'', c.archiviata?'archiviata':'', c.desc].filter(Boolean).join(' · ')})),
@@ -1477,8 +1518,11 @@ img{max-width:100%}
   const setCG = g => { cG=g; $('cSpesa').setAttribute('aria-pressed',g==='spesa'); $('cRisp').setAttribute('aria-pressed',g==='risp'); $('cVarWrap').hidden = g==='risp'; };
   $('cSpesa').addEventListener('click',()=>setCG('spesa')); $('cRisp').addEventListener('click',()=>setCG('risp'));
   const useCount = id => ({ m:S.movs.filter(m=>m.categoria===id).length, r:S.ric.filter(r=>r.categoria===id&&r.attiva!==false).length });
-  function openCat(c){
-    CE=c||null; $('cMsg').textContent=''; $('cTitle').textContent = c?'Modifica voce':'Nuova voce';
+  function openCat(c, note){
+    if(c){ c = ALLCATS.find(x=>x.id===c.id) || c; }
+    CE=c||null; $('cMsg').textContent=''; if(note) say($('cMsg'),note,true); $('cTitle').textContent = c?c.nome:'Nuova voce';
+    $('cBudget').value = c ? numIn(budget(c.id)||'') : '';
+    renderCatFix();
     $('cNome').value=c?c.nome:''; $('cDesc').value=c?c.desc:''; $('cVar').checked=!!(c&&c.variabile);
     cColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!ALLCATS.some(x=>x.colore===k)) || 'gray';
     swatches('cCol', cColor, k=>cColor=k); setCG(c?c.g:'spesa');
@@ -1489,14 +1533,31 @@ img{max-width:100%}
     $('cArch').hidden = !c || isLib || (!c.archiviata && !used.m && !used.r); $('cArch').textContent = c && c.archiviata ? 'Ripristina' : 'Archivia';
     const info=$('cInfo'); info.hidden = !c || isLib || (!used.m && !used.r);
     if(!info.hidden) info.textContent = `È usata in ${used.m} ${used.m===1?'movimento':'movimenti'}${used.r?` e ${used.r} ${used.r===1?'spesa fissa':'spese fisse'}`:''}. Archivia: la nascondi dalle scelte ma resta nello storico, e puoi ripristinarla. Elimina: sparisce del tutto; i movimenti già registrati restano come "Voce eliminata"${used.r?' e le spese fisse collegate vengono messe in pausa':''}.`;
-    openSheet('catSheet','cNome');
+    openSheet('catSheet', c ? null : 'cNome');
   }
+  function renderCatFix(){
+    const c=CE, isLib=c&&c.id==='libere';
+    $('cVociSec').hidden = !isLib;
+    $('cFixAdd').hidden = !c;
+    if(!c){ $('cFixHint').textContent='Salva la voce, poi riaprila per aggiungere le spese fisse.'; $('cFixList').replaceChildren(); return; }
+    const fx=S.ric.filter(r=>r.categoria===c.id).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||a.giorno-z.giorno), mf=monthlyFix(c.id);
+    $('cFixHint').textContent = fx.length ? `Ogni mese le ritrovi da spuntare nella sezione Mese${mf>0?` · in media ${fmt0(mf)} al mese`:''}.` : (isLib ? 'Di solito le spese libere non hanno spese fisse, ma puoi aggiungerne (es. un abbonamento).' : 'Spese che si ripetono, come affitto o abbonamenti: ogni mese le ritrovi da spuntare nella sezione Mese.');
+    $('cFixList').replaceChildren(...fx.map(r=>{ const e=Math.max(1,Number(r.ogniMesi)||1); const when=e===1?`Ogni mese, il ${r.giorno}`:e===12?`Ogni anno, il ${r.giorno}`:`Ogni ${e} mesi, il ${r.giorno}`;
+      return el('button',{class:'fxrow',type:'button',style:r.attiva===false?'opacity:.55':'',onclick:()=>{ RIC_RET=c.id; closeSheet('catSheet',true); setTimeout(()=>openRic(r),220); }},
+        el('span',{style:'min-width:0'}, el('div',{class:'t',text:r.nome}), el('div',{class:'s',text:when+(r.attiva===false?' · in pausa':'')})), el('b',{class:'num',text:fmt(r.importo)})); }));
+  }
+  $('cFixAdd').addEventListener('click',()=>{ if(!CE) return; RIC_RET=CE.id; const id=CE.id; closeSheet('catSheet',true); setTimeout(()=>openRic(null,id),220); });
+
   $('catAdd').addEventListener('click',()=>openCat(null));
   $('cSave').addEventListener('click', async ()=>{
     const m=$('cMsg'); if(!guard(m)) return; const nome=$('cNome').value.trim(); if(!nome) return say(m,'Dai un nome alla voce.',false);
     const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked};
     const list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : [...ST.categorie, {id:uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute'])), ...data}];
-    try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
+    const bv=parseAmt($('cBudget').value); const cid = CE ? CE.id : list[list.length-1].id;
+    try{ await saveStructure({...ST, categorie:list});
+      const cur=(S.piano&&S.piano.budget)||{}; const nb = isNaN(bv)?0:r2(bv);
+      if((cur[cid]||0)!==nb || !S.piano){ await db.doc('impostazioni/piano').set({...(S.piano||{stipendio:0}), budget:{...cur, [cid]:nb}, inizio:(S.piano&&S.piano.inizio)||S.month}); }
+      closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
   });
   let cDelArmed=false;
   $('cArch').addEventListener('click', async ()=>{
