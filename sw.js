@@ -1,7 +1,7 @@
 // Conti — service worker: tiene i file dell'app sul telefono, così si apre anche senza rete.
 // I dati non passano di qui: vanno sempre a Supabase.
 // Quando aggiorni i file su GitHub, cambia VERSION per far scaricare la nuova versione.
-const VERSION = 'conti-v12';
+const VERSION = 'conti-v13';
 const SHELL = [
   './', 'index.html', 'store.js', 'config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',

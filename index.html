@@ -343,6 +343,37 @@ body.priv input.money{-webkit-text-security:disc}
 .fxrow .t{font-weight:500}
 .fxrow .s{font-size:12px;color:var(--muted)}
 .fxrow b{font-weight:600;white-space:nowrap}
+details.more{border-radius:var(--r-ctl);background:var(--fill)}
+details.more > summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;font-weight:600;font-size:14.5px}
+details.more > summary::-webkit-details-marker{display:none}
+details.more > summary small{display:block;font-weight:500;font-size:12.5px;color:var(--muted);margin-top:1px}
+details.more > summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;flex:none;margin-right:4px}
+details.more[open] > summary::after{transform:rotate(-135deg)}
+details.more > .in{padding:0 14px 14px;display:flex;flex-direction:column;gap:12px}
+details.more .sw-row{background:var(--card)}
+details.more input, details.more select{background:var(--card)}
+.toast{position:fixed;z-index:45;left:50%;transform:translateX(-50%);bottom:calc(max(10px, calc(env(safe-area-inset-bottom,0px) - 12px)) + 86px);width:min(calc(100% - 32px), 460px);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px 12px 18px;border-radius:18px;font-size:14.5px;font-weight:500;box-sizing:border-box}
+.toast button{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;padding:6px 8px;cursor:pointer}
+.unsaved{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;background:var(--orange-bg);color:var(--ink);border-radius:var(--r-ctl);padding:12px 14px;font-size:14px}
+.unsaved .btns{gap:8px}
+.setup{position:fixed;inset:0;z-index:58;background:var(--bg);overflow:auto;display:flex;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 24px) max(20px, env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(20px, env(safe-area-inset-left,0px))}
+.setup .box{width:min(100%,440px);display:flex;flex-direction:column;gap:18px}
+.setup .dots{display:flex;gap:6px}
+.setup section{display:flex;flex-direction:column;gap:10px}
+.setup .dots i{height:5px;flex:1;border-radius:3px;background:var(--fill2)}
+.setup .dots i.on{background:var(--accent)}
+.setup h2{font-size:30px;font-weight:800;letter-spacing:-.025em;margin:0;line-height:1.1}
+.setup p.lead{color:var(--muted);margin:0;font-size:16px;line-height:1.45}
+.setup .fld input{font-size:18px;padding:13px 14px}
+.setup .row2{display:flex;gap:10px;align-items:center}
+.setup .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:6px}
+.setup .nav .btn.pri{padding:13px 26px;font-size:16px}
+.setup .big{font-size:44px;font-weight:800;letter-spacing:-.03em;color:var(--accent);line-height:1}
+.setup .sumlist{display:flex;flex-direction:column;gap:8px;background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.setup .sumlist div{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.setup .skip{border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;padding:8px 4px}
+.linkbtn{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;padding:6px}
+.morebtn{width:100%;margin-top:4px}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 </style>
 <style>
@@ -393,15 +424,6 @@ img{max-width:100%}
 
   <!-- MESE -->
   <section class="page" id="page-mese" data-page="mese">
-    <div class="card welcome" id="welcome" hidden>
-      <h2>Benvenuto in Conti</h2>
-      <ol>
-        <li><b>Impostazioni → Profilo:</b> scrivi il tuo nome.</li>
-        <li><b>Impostazioni → Il tuo piano:</b> scrivi lo stipendio, poi tocca ogni voce (casa, bollette, risparmi…) per darle un budget e aggiungere le sue spese fisse, come affitto e abbonamenti.</li>
-        <li><b>Conti:</b> crea i tuoi conti e inserisci i saldi.</li>
-      </ol>
-      <div class="btns"><button class="btn pri" id="welcomeGo">Inizia dalle Impostazioni</button></div>
-    </div>
     <div class="card hero" id="hero">
       <div style="min-width:0">
         <div class="cap">Spese libere rimaste</div>
@@ -409,16 +431,6 @@ img{max-width:100%}
         <div class="sub" id="hSub">Il piano mensile si sta caricando</div>
       </div>
       <svg class="ring" id="ring" width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"></svg>
-    </div>
-    <div class="card money" id="moneyCard">
-      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button><button class="eye" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
-      <div class="wallets" id="wallets"><div class="empty">I saldi compaiono qui. Inseriscili in Conti.</div></div>
-      <div class="sub" id="wUpd"></div>
-    </div>
-    <div class="tiles">
-      <div class="tile"><span class="cap">Entrate</span><span class="v" id="tIn">—</span><span class="sub" id="tInS">—</span></div>
-      <div class="tile"><span class="cap">Spese</span><span class="v" id="tOut">—</span><span class="sub" id="tOutS">—</span></div>
-      <div class="tile"><span class="cap">Messi da parte</span><span class="v" id="tSave">—</span><span class="sub" id="tSaveS">—</span></div>
     </div>
     <div class="card alert" id="stipCard" hidden>
       <div style="min-width:0"><b id="stipTitle"></b><div class="sub" id="stipText"></div></div>
@@ -428,27 +440,36 @@ img{max-width:100%}
       <div style="min-width:0"><b id="owesTitle"></b><div class="sub" id="owesText"></div></div>
       <div class="btns"><button class="btn pri" id="owesBtn">Registra rimborso</button></div>
     </div>
+    <div class="card money" id="moneyCard">
+      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button><button class="eye" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+      <div class="wallets" id="wallets"><div class="empty">I saldi compaiono qui. Inseriscili in Conti.</div></div>
+      <div class="sub" id="wUpd"></div>
+    </div>
     <div class="card" id="fixCard">
       <div class="head"><h2>Spese fisse</h2><span class="sub" id="fixSub">—</span></div>
       <div class="prog fixprog"><i id="fixBar" style="width:0%"></i></div>
       <div class="list" id="fixList"><div class="empty">Carico le spese fisse…</div></div>
       <div class="fixup" id="fixUp" hidden></div>
     </div>
-    <div class="cols">
-      <div class="card">
-        <div class="head"><h2>Budget</h2><span class="sub">Speso su previsto</span></div>
-        <div class="grp" id="budget"><div class="empty">Qui compaiono le voci del piano mensile con quanto hai già speso.</div></div>
+    <div class="card">
+      <div class="head"><h2>Movimenti</h2><span class="sub" id="movCount">—</span></div>
+      <div class="filters" id="movFilters" hidden>
+        <input id="qText" type="search" placeholder="Cerca" aria-label="Cerca nei movimenti" autocomplete="off">
+        <select id="qCat" aria-label="Filtra per categoria"></select>
+        <label class="sw-mini" for="qAll"><input type="checkbox" id="qAll">Tutti i mesi</label>
       </div>
-      <div class="card">
-        <div class="head"><h2>Movimenti</h2><span class="sub" id="movCount">—</span></div>
-        <div class="filters">
-          <input id="qText" type="search" placeholder="Cerca" aria-label="Cerca nei movimenti" autocomplete="off">
-          <select id="qCat" aria-label="Filtra per categoria"></select>
-          <label class="sw-mini" for="qAll"><input type="checkbox" id="qAll">Tutti i mesi</label>
-        </div>
-        <div class="qtot" id="qTot" hidden></div>
-        <div class="list" id="movList"><div class="empty">Nessun movimento in questo mese. Tocca + per aggiungere il primo.</div></div>
-      </div>
+      <div class="qtot" id="qTot" hidden></div>
+      <div class="list" id="movList"><div class="empty">Nessun movimento in questo mese. Tocca + in alto per aggiungere il primo.</div></div>
+      <button class="btn morebtn" id="movMore" hidden>Vedi tutti e cerca</button>
+    </div>
+    <div class="card">
+      <div class="head"><h2>Budget</h2><span class="sub">Speso su previsto</span></div>
+      <div class="grp" id="budget"><div class="empty">Qui compaiono le categorie del piano con quanto hai già speso.</div></div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><span class="cap">Entrate</span><span class="v" id="tIn">—</span><span class="sub" id="tInS">—</span></div>
+      <div class="tile"><span class="cap">Spese</span><span class="v" id="tOut">—</span><span class="sub" id="tOutS">—</span></div>
+      <div class="tile"><span class="cap">Messi da parte</span><span class="v" id="tSave">—</span><span class="sub" id="tSaveS">—</span></div>
     </div>
   </section>
 
@@ -469,13 +490,13 @@ img{max-width:100%}
       <div class="donut"><svg id="donut" width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="Spese del mese per categoria"></svg><div class="dleg" id="dLeg"></div></div>
     </div>
     <div class="card">
-      <div class="head"><h2>Voci del piano</h2><span class="sub">Media = media degli altri mesi registrati</span></div>
-      <div class="tbox"><table id="rCats"><thead><tr><th>Voce</th><th class="n">Speso</th><th class="n">Budget</th><th class="n">Media</th><th class="n">Rispetto alla media</th></tr></thead><tbody></tbody></table></div>
+      <div class="head"><h2>Categorie</h2><span class="sub">Media = media degli altri mesi registrati</span></div>
+      <div class="tbox"><table id="rCats"><thead><tr><th>Categoria</th><th class="n">Speso</th><th class="n">Budget</th><th class="n">Media</th><th class="n">Rispetto alla media</th></tr></thead><tbody></tbody></table></div>
     </div>
     <div class="cols">
       <div class="card">
-        <div class="head"><h2>Spese libere per voce</h2><span class="sub" id="rVociSub"></span></div>
-        <div class="tbox"><table id="rVoci"><thead><tr><th>Voce</th><th class="n">Questo mese</th><th class="n">Media</th><th class="n">Differenza</th></tr></thead><tbody></tbody></table></div>
+        <div class="head"><h2>Spese libere per sottocategoria</h2><span class="sub" id="rVociSub"></span></div>
+        <div class="tbox"><table id="rVoci"><thead><tr><th>Sottocategoria</th><th class="n">Questo mese</th><th class="n">Media</th><th class="n">Differenza</th></tr></thead><tbody></tbody></table></div>
       </div>
       <div class="card">
         <div class="head"><h2>Spese più grandi</h2><span class="sub">Tra le spese libere</span></div>
@@ -500,7 +521,7 @@ img{max-width:100%}
       <div class="legend"><span><i style="background:var(--accent)"></i>Sotto la media</span><span><i style="background:var(--orange)"></i>Sopra la media</span><span><i style="background:transparent;border-top:2px dashed var(--muted);height:0;border-radius:0"></i>Media</span></div>
     </div>
     <div class="card">
-      <div class="head"><h2>Voci mese per mese</h2><span class="sub">Ultimi 6 mesi · in arancione sopra la media del 10% o più, in verde sotto</span></div>
+      <div class="head"><h2>Categorie mese per mese</h2><span class="sub">Ultimi 6 mesi · in arancione sopra la media del 10% o più, in verde sotto</span></div>
       <div class="tbox"><table id="cTable"></table></div>
     </div>
     <div class="card">
@@ -542,8 +563,8 @@ img{max-width:100%}
   <!-- IMPOSTAZIONI -->
   <section class="page" id="page-impostazioni" data-page="impostazioni" hidden>
     <div class="card" id="planCard">
-      <div class="head"><h2>Il tuo piano</h2><button class="btn" id="catAdd">Nuova voce</button></div>
-      <p class="prose">Come dividi lo stipendio ogni mese. Ogni voce ha un <b>budget</b> e, se vuoi, delle <b>spese fisse</b> (affitto, abbonamenti, bonifici) che ogni mese ritrovi da spuntare nella sezione Mese. Tocca una voce per modificarla.</p>
+      <div class="head"><h2>Il tuo piano</h2><button class="btn" id="catAdd">Nuova categoria</button></div>
+      <p class="prose">Come dividi lo stipendio ogni mese. Ogni categoria ha un <b>budget</b> e, se vuoi, delle <b>spese fisse</b> (affitto, abbonamenti, bonifici) che ogni mese ritrovi da spuntare nella sezione Mese. Tocca una categoria per modificarla.</p>
       <div class="salary">
         <div class="fld"><label for="pl_stipendio">Stipendio netto al mese (€)</label><input id="pl_stipendio" class="money" type="text" inputmode="decimal" autocomplete="off"></div>
         <button class="btn pri" id="planSave">Salva</button>
@@ -590,16 +611,20 @@ img{max-width:100%}
     <div class="seg" role="group" aria-label="Tipo"><button id="mUscita" aria-pressed="true" style="flex:1">Uscita</button><button id="mEntrata" aria-pressed="false" style="flex:1">Entrata</button></div>
     <div class="fgrid">
       <div class="fld"><label for="mImp">Importo (€)</label><input id="mImp" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
-      <div class="fld"><label for="mData">Data</label><input id="mData" type="date" min="2020-01-01" max="2099-12-31"></div>
-      <div class="fld wide"><label for="mDesc">Descrizione</label><input id="mDesc" type="text" maxlength="80" placeholder="Es. Cena con amici" autocomplete="off"></div>
+      <div class="fld"><label for="mDesc">Descrizione</label><input id="mDesc" type="text" maxlength="80" placeholder="Es. Cena con amici" autocomplete="off"></div>
       <div class="fld"><label for="mCat">Categoria</label><select id="mCat"></select></div>
-      <div class="fld" id="mVoceWrap"><label for="mVoce">Voce</label><select id="mVoce"></select></div>
-      <div class="fld wide"><label for="mAcc" id="mMetLb">Pagato da</label><select id="mAcc"></select></div>
+      <div class="fld" id="mVoceWrap"><label for="mVoce">Sottocategoria</label><select id="mVoce"></select></div>
       <label class="sw-row wide" id="mBudgetWrap" for="mBudget"><span>Aggiungi alle spese libere<small>Questi soldi alzano il budget delle spese libere del mese</small></span><input type="checkbox" class="tog" id="mBudget"></label>
-      <label class="sw-row wide" id="mSplitWrap" for="mSplit"><span id="mSplitLb">Divisa<small>Paghi tu tutto, poi ti rimborsano la loro parte</small></span><input type="checkbox" class="tog" id="mSplit"></label>
-      <div class="fld wide" id="mQuotaWrap"><label for="mQuota" id="mQuotaLb">La loro parte (€)</label><input id="mQuota" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
-      <label class="sw-row wide" id="mAutoWrap" for="mAuto"><span>È una spesa fissa<small>Ogni mese la ritrovi nella lista da spuntare</small></span><input type="checkbox" class="tog" id="mAuto"></label>
     </div>
+    <details class="more" id="mMore"><summary><span>Data e conto<small id="mSum">Oggi · Conto corrente</small></span></summary><div class="in">
+      <div class="fgrid">
+        <div class="fld"><label for="mData">Data</label><input id="mData" type="date" min="2020-01-01" max="2099-12-31"></div>
+        <div class="fld"><label for="mAcc" id="mMetLb">Pagato da</label><select id="mAcc"></select></div>
+      </div>
+      <label class="sw-row" id="mSplitWrap" for="mSplit"><span id="mSplitLb">Divisa<small>Paghi tu tutto, poi ti rimborsano la loro parte</small></span><input type="checkbox" class="tog" id="mSplit"></label>
+      <div class="fld" id="mQuotaWrap"><label for="mQuota" id="mQuotaLb">La loro parte (€)</label><input id="mQuota" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
+      <label class="sw-row" id="mAutoWrap" for="mAuto"><span>Si ripete ogni mese<small>La aggiungo alle spese fisse da spuntare</small></span><input type="checkbox" class="tog" id="mAuto"></label>
+    </div></details>
     <div class="msg" id="mMsg" role="status" aria-live="polite"></div>
     <div class="sh-foot"><button class="btn dan" id="mDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="mSave">Aggiungi</button></div>
   </div>
@@ -624,10 +649,11 @@ img{max-width:100%}
 <!-- category sheet -->
 <div class="overlay" id="catSheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cTitle">
-    <div class="sh-head"><h3 id="cTitle">Voce del piano</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
+    <div class="sh-head"><h3 id="cTitle">Categoria</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
     <div class="fgrid">
       <div class="fld"><label for="cNome">Nome</label><input id="cNome" type="text" maxlength="40" placeholder="Es. Auto" autocomplete="off"></div>
       <div class="fld"><label for="cBudget">Budget al mese (€)</label><input id="cBudget" type="text" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+      <label class="sw-row wide" for="cAuto" id="cAutoWrap" hidden><span>Quello che resta dello stipendio<small>Si calcola da solo: stipendio meno le altre categorie</small></span><input type="checkbox" class="tog" id="cAuto"></label>
     </div>
     <div class="subsec" id="cFixSec">
       <div class="head"><h4>Spese fisse</h4><button class="btn" id="cFixAdd" type="button">Aggiungi</button></div>
@@ -641,13 +667,13 @@ img{max-width:100%}
       <div class="addrow"><input id="voceNew" type="text" maxlength="40" placeholder="Nuova, es. Videogiochi" aria-label="Nuova sottocategoria" autocomplete="off"><button class="btn" id="voceAdd" type="button">Aggiungi</button></div>
       <div class="msg" id="voceMsg" role="status" aria-live="polite"></div>
     </div>
-    <div class="subsec"><h4>Altre impostazioni</h4><div class="fgrid">
-      <div class="fld wide"><span class="lb">Tipo</span><div class="seg" role="group" aria-label="Tipo di voce"><button type="button" id="cSpesa" aria-pressed="true" style="flex:1">Spesa</button><button type="button" id="cRisp" aria-pressed="false" style="flex:1">Risparmio</button></div></div>
-      <div class="fld wide" id="cDestWrap"><label for="cDest">I soldi vanno sul conto</label><select id="cDest"></select><span class="sub">Quando paghi questa voce, i soldi escono dal conto scelto e arrivano qui.</span></div>
+    <details class="more"><summary><span>Altre impostazioni<small>Tipo, colore, nota</small></span></summary><div class="in"><div class="fgrid">
+      <div class="fld wide"><span class="lb">Tipo</span><div class="seg" role="group" aria-label="Tipo di categoria"><button type="button" id="cSpesa" aria-pressed="true" style="flex:1">Spesa</button><button type="button" id="cRisp" aria-pressed="false" style="flex:1">Risparmio</button></div></div>
+      <div class="fld wide" id="cDestWrap"><label for="cDest">I soldi vanno sul conto</label><select id="cDest"></select><span class="sub">Quando paghi questa categoria, i soldi escono dal conto scelto e arrivano qui.</span></div>
       <div class="fld wide"><label for="cDesc">Nota (facoltativa)</label><input id="cDesc" type="text" maxlength="80" placeholder="Es. Assicurazione, benzina, bollo" autocomplete="off"></div>
       <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="cCol"></div></div>
       <label class="sw-row wide" for="cVar" id="cVarWrap"><span>Cambia molto da un mese all'altro<small>Come le bollette: mostra anche il totale da inizio anno</small></span><input type="checkbox" class="tog" id="cVar"></label>
-    </div></div>
+    </div></div></details>
     <p class="prose" id="cInfo" hidden></p>
     <div class="msg" id="cMsg" role="status" aria-live="polite"></div>
     <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><button class="btn" id="cArch" hidden>Archivia</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="cSave">Salva</button></div>
@@ -659,14 +685,16 @@ img{max-width:100%}
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="aTitle">
     <div class="sh-head"><h3 id="aTitle">Conto</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
     <div class="fgrid">
-      <div class="fld wide"><label for="aNome">Nome</label><input id="aNome" type="text" maxlength="40" placeholder="Es. Conto Fineco" autocomplete="off"></div>
-      <div class="fld wide"><label for="aDove">Dove si trova (facoltativo)</label><input id="aDove" type="text" maxlength="60" placeholder="Es. Banca, salvadanaio, app" autocomplete="off"></div>
       <div class="fld"><label for="aSaldo">Saldo attuale (€)</label><input id="aSaldo" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
-      <div class="fld"><label for="aGoal">Obiettivo (€, facoltativo)</label><input id="aGoal" type="text" inputmode="decimal" placeholder="Nessuno" autocomplete="off"></div>
-      <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="aCol"></div></div>
-      <label class="sw-row wide" for="aMain"><span>Conto principale<small>Già selezionato quando aggiungi una spesa o un'entrata</small></span><input type="checkbox" class="tog" id="aMain"></label>
-      <label class="sw-row wide" for="aCash"><span>Sono i miei contanti<small>Le spese in contanti si riconoscono nei filtri e nell'export</small></span><input type="checkbox" class="tog" id="aCash"></label>
+      <div class="fld"><label for="aNome">Nome</label><input id="aNome" type="text" maxlength="40" placeholder="Es. Conto Fineco" autocomplete="off"></div>
     </div>
+    <details class="more" id="aMore"><summary><span>Altre opzioni<small>Obiettivo, colore, conto principale</small></span></summary><div class="in">
+      <div class="fld"><label for="aDove">Dove si trova (facoltativo)</label><input id="aDove" type="text" maxlength="60" placeholder="Es. Banca, salvadanaio, app" autocomplete="off"></div>
+      <div class="fld"><label for="aGoal">Obiettivo (€, facoltativo)</label><input id="aGoal" type="text" inputmode="decimal" placeholder="Nessuno" autocomplete="off"></div>
+      <div class="fld"><span class="lb">Colore</span><div class="swatches" id="aCol"></div></div>
+      <label class="sw-row" for="aMain"><span>Conto principale<small>Già selezionato quando aggiungi una spesa o un'entrata</small></span><input type="checkbox" class="tog" id="aMain"></label>
+      <label class="sw-row" for="aCash"><span>Sono i miei contanti<small>Le spese in contanti si riconoscono nei filtri e nell'export</small></span><input type="checkbox" class="tog" id="aCash"></label>
+    </div></details>
     <div class="msg" id="aMsg" role="status" aria-live="polite"></div>
     <div class="sh-foot"><button class="btn dan" id="aDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="aSave">Salva</button></div>
   </div>
@@ -675,7 +703,7 @@ img{max-width:100%}
 <!-- voce sheet -->
 <div class="overlay" id="voceSheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="vTitle">
-    <div class="sh-head"><h3 id="vTitle">Voce</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
+    <div class="sh-head"><h3 id="vTitle">Sottocategoria</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
     <div class="fld"><label for="vNome">Nome</label><input id="vNome" type="text" maxlength="40" autocomplete="off"></div>
     <p class="prose" id="vInfo"></p>
     <div class="msg" id="vMsg" role="status" aria-live="polite"></div>
@@ -717,19 +745,65 @@ img{max-width:100%}
     <div class="fgrid">
       <div class="fld wide"><label for="rNome">Nome</label><input id="rNome" type="text" maxlength="60" placeholder="Es. Affitto" autocomplete="off"></div>
       <div class="fld"><label for="rImp">Importo (€)</label><input id="rImp" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
-      <div class="fld"><label for="rCat">Voce del piano</label><select id="rCat"></select></div>
-      <div class="fld wide" id="rVoceWrap"><label for="rVoce">Sottocategoria</label><select id="rVoce"></select></div>
       <div class="fld"><label for="rGiorno">Giorno del mese</label><select id="rGiorno"></select></div>
-      <div class="fld"><label for="rOgni">Ogni</label><select id="rOgni"><option value="1">mese</option><option value="2">2 mesi</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12">anno</option></select></div>
-      <div class="fld"><label for="rDa">A partire da</label><select id="rDa"></select></div>
-      <div class="fld"><label for="rAcc">Pagata da</label><select id="rAcc"></select></div>
-      <label class="sw-row wide" for="rAttiva"><span>Attiva<small>Se la spegni, non compare più nella lista</small></span><input type="checkbox" class="tog" id="rAttiva" checked></label>
+      <div class="fld"><label for="rCat">Categoria</label><select id="rCat"></select></div>
+      <div class="fld" id="rVoceWrap"><label for="rVoce">Sottocategoria</label><select id="rVoce"></select></div>
+      <label class="sw-row wide" for="rPaid" id="rPaidWrap"><span>L'ho già pagata questo mese<small>La segno come pagata senza cambiare il saldo</small></span><input type="checkbox" class="tog" id="rPaid"></label>
     </div>
+    <details class="more" id="rMore"><summary><span>Altre opzioni<small id="rSum">Ogni mese · dal mese corrente</small></span></summary><div class="in">
+      <div class="fgrid">
+        <div class="fld"><label for="rOgni">Ogni</label><select id="rOgni"><option value="1">mese</option><option value="2">2 mesi</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12">anno</option></select></div>
+        <div class="fld"><label for="rDa">A partire da</label><select id="rDa"></select></div>
+        <div class="fld wide"><label for="rAcc">Pagata da</label><select id="rAcc"></select></div>
+      </div>
+      <label class="sw-row" for="rAttiva"><span>Attiva<small>Se la spegni, non compare più nella lista</small></span><input type="checkbox" class="tog" id="rAttiva" checked></label>
+    </div></details>
     <div class="msg" id="rsMsg" role="status" aria-live="polite"></div>
     <div class="sh-foot"><button class="btn dan" id="rsDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="rsSave">Salva</button></div>
   </div>
 </div>
 
+
+<div class="toast glass" id="toast" role="status" aria-live="polite" hidden><span id="toastT"></span><button id="toastUndo" type="button">Annulla</button></div>
+
+<div class="setup" id="setup" hidden>
+  <div class="box">
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <section data-step="1">
+      <h2>Ciao! Iniziamo</h2>
+      <p class="lead">Ti faccio 3 domande veloci per preparare il tuo piano. Potrai cambiare tutto quando vuoi.</p>
+      <div class="fld" style="margin-top:18px"><label for="w1Nome">Come ti chiami?</label><input id="w1Nome" type="text" maxlength="40" autocomplete="given-name" placeholder="Il tuo nome"></div>
+      <div class="fld" style="margin-top:12px"><label for="w1Stip">Quanto guadagni al mese, netto? (€)</label><input id="w1Stip" type="text" inputmode="decimal" placeholder="Es. 1.400"></div>
+    </section>
+    <section data-step="2" hidden>
+      <h2>Dove tieni i soldi?</h2>
+      <p class="lead">Scrivi quanto hai oggi. Poi l'app aggiorna i saldi da sola quando registri spese ed entrate.</p>
+      <div class="fld" style="margin-top:18px"><label for="w2Nome">Il tuo conto principale</label><input id="w2Nome" type="text" maxlength="40" value="Conto corrente"></div>
+      <div class="fld" style="margin-top:12px"><label for="w2Saldo">Quanto c'è sopra oggi? (€)</label><input id="w2Saldo" type="text" inputmode="decimal" placeholder="Es. 2.000"></div>
+      <div class="fld" style="margin-top:12px"><label for="w2Cash">Contanti nel portafoglio (€, facoltativo)</label><input id="w2Cash" type="text" inputmode="decimal" placeholder="0"></div>
+    </section>
+    <section data-step="3" hidden>
+      <h2>Le spese di ogni mese</h2>
+      <p class="lead">Più o meno quanto spendi. Lascia vuoto quello che non hai.</p>
+      <div class="fld" style="margin-top:18px"><label for="w3Aff">Affitto o mutuo (€)</label><input id="w3Aff" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="fld" style="margin-top:12px"><label for="w3Bol">Bollette in media: luce, gas, acqua (€)</label><input id="w3Bol" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="fld" style="margin-top:12px"><label for="w3Net">Internet e telefono (€)</label><input id="w3Net" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="fld" style="margin-top:12px"><label for="w3Abb">Abbonamenti: palestra, streaming… (€)</label><input id="w3Abb" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="fld" style="margin-top:12px"><label for="w3Risp">Quanto vuoi mettere da parte al mese (€)</label><input id="w3Risp" type="text" inputmode="decimal" placeholder="0"></div>
+      <label class="sw-row" for="w3Paid" style="margin-top:12px"><span>Le spese fisse di questo mese le ho già pagate<small>Affitto, internet e abbonamenti risulteranno già spuntati</small></span><input type="checkbox" class="tog" id="w3Paid"></label>
+    </section>
+    <section data-step="4" hidden>
+      <h2>Il tuo piano è pronto</h2>
+      <p class="lead">Ogni mese ti restano per le spese libere (uscite, spesa, svago):</p>
+      <div class="big num" id="w4Lib" style="margin:12px 0 16px">—</div>
+      <div class="sumlist" id="w4List"></div>
+      <p class="lead" style="margin-top:14px;font-size:14.5px">Usa il <b>+</b> in alto per registrare una spesa. Nella sezione Mese trovi le spese fisse da spuntare quando le paghi.</p>
+    </section>
+    <div class="msg" id="wMsg" role="status" aria-live="polite"></div>
+    <div class="nav"><button class="skip" id="wBack" type="button">Indietro</button><button class="btn pri" id="wNext" type="button">Avanti</button></div>
+    <button class="skip" id="wSkip" type="button">Salta, lo configuro da solo</button>
+  </div>
+</div>
 
 <div class="gate" id="gate" hidden>
   <div class="box">
@@ -740,6 +814,7 @@ img{max-width:100%}
       <div class="fld"><label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="username" inputmode="email" required></div>
       <div class="fld"><label for="lPass">Password</label><input id="lPass" type="password" autocomplete="current-password" required></div>
       <button class="btn pri" type="submit" id="lBtn">Accedi</button>
+      <button class="linkbtn" type="button" id="lForgot">Password dimenticata?</button>
       <div class="msg" id="lMsg" role="status" aria-live="polite" style="text-align:center"></div>
     </form>
   </div>
@@ -781,15 +856,14 @@ img{max-width:100%}
     categorie:[
       {id:'casa', nome:'Casa', desc:'Affitto, condominio, internet', g:'spesa', colore:'blue'},
       {id:'bollette', nome:'Bollette', desc:'Luce, gas, acqua', g:'spesa', colore:'orange', variabile:true},
-      {id:'spesa', nome:'Spesa alimentare', desc:'', g:'spesa', colore:'green'},
       {id:'libere', nome:'Spese libere', desc:'', g:'spesa', colore:'purple'},
       {id:'risparmio', nome:'Risparmio', desc:'Quello che metti da parte ogni mese', g:'risp', colore:'indigo'}],
     conti:[
       {id:'conto', nome:'Conto corrente', dove:'Il conto dove ricevi lo stipendio', colore:'blue'},
       {id:'risparmi', nome:'Risparmi', dove:'Conto deposito o salvadanaio', colore:'indigo'},
       {id:'contanti', nome:'Contanti', dove:'Portafoglio', colore:'green', contanti:true}],
-    voci:DEFAULT_VOCI.filter(v=>v!=='Spesa extra'),
-    divise:{attiva:false, nome:''} }; }
+    voci:['Spesa alimentare', ...DEFAULT_VOCI.filter(v=>v!=='Spesa extra')],
+    divise:{attiva:false, nome:''}, setupDone:false }; }
   let ST = freshStructure();
   let ALLCATS=[], CATS=[], CONTI=[], VOCI=[];
   const LEGACY = {salute:'Palestra e nutrizionista'};
@@ -806,7 +880,7 @@ img{max-width:100%}
     VOCI = Array.isArray(st.voci) && st.voci.length ? st.voci.slice() : DEFAULT_VOCI.slice();
     ENTRATE = ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e, nome:`Rimborso da ${shareName().toLowerCase()}`}:e).filter(e=>e.id!=='rimborso' || sharing() || S.movs.some(m=>m.categoria==='rimborso'));
   }
-  const catName = id => (ALLCATS.find(c=>c.id===id)||ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e,nome:`Rimborso da ${shareName().toLowerCase()}`}:e).find(c=>c.id===id)||{nome:LEGACY[id]||'Voce eliminata'}).nome;
+  const catName = id => (ALLCATS.find(c=>c.id===id)||ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e,nome:`Rimborso da ${shareName().toLowerCase()}`}:e).find(c=>c.id===id)||{nome:LEGACY[id]||'Categoria eliminata'}).nome;
   const catColor = (id,tipo) => { if(tipo==='entrata') return 'var(--k-in)'; const c=ALLCATS.find(x=>x.id===id); return c ? colVar(c.colore) : 'var(--k-other)'; };
   const rispIds = () => ALLCATS.filter(c=>c.g==='risp').map(c=>c.id);
 
@@ -841,7 +915,11 @@ img{max-width:100%}
   const S = { month: mk(todayISO()), tab:'mese', metric:'libere', movs:[], ric:[], piano:null, saldi:null, movReady:false, ricReady:false, canWrite:true, edit:null, editRic:null, tipo:'uscita' };
   let db=null;
   const status = (m,err) => { const s=$('status'); s.hidden=!m; s.textContent=m||''; s.classList.toggle('err',!!err); };
-  const budget = id => S.piano&&S.piano.budget ? Number(S.piano.budget[id]||0) : 0;
+  const budgetRaw = id => S.piano&&S.piano.budget ? Number(S.piano.budget[id]||0) : 0;
+  const libereRest = () => Math.max(0, (Number((S.piano||{}).stipendio)||0) - CATS.filter(c=>c.id!=='libere').reduce((a,c)=>a+budgetRaw(c.id),0));
+  // spese libere "quello che resta": attivo se scelto, oppure se il valore salvato coincide già con il resto
+  const libereAuto = () => { if(!S.piano) return false; if(S.piano.libereAuto!==undefined) return !!S.piano.libereAuto; return Math.abs(budgetRaw('libere')-libereRest())<1 || !S.piano.budget || S.piano.budget.libere===undefined; };
+  const budget = id => (id==='libere' && libereAuto()) ? libereRest() : budgetRaw(id);
   const live = () => S.movs.filter(m=>!m.escluso);
   const extraLibere = k => sum(live().filter(m=>m.mese===k && m.tipo==='entrata' && m.aBudget));
   const budgetFor = (id,k) => budget(id) + (id==='libere' ? extraLibere(k||S.month) : 0);
@@ -871,7 +949,7 @@ img{max-width:100%}
   }
 
   // ---------- tabs & month ----------
-  function setTab(t){ S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ history.replaceState(null,'','#'+t); }catch(e){} render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
+  function setTab(t){ S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ if(!/access_token|type=recovery|error_description/.test(location.hash)) history.replaceState(null,'','#'+t); }catch(e){} document.querySelector('.month').style.visibility = ['conti','impostazioni'].includes(t) ? 'hidden' : ''; S.movAll=false; render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
   document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
   $('prevM').addEventListener('click',()=>{ S.month=shiftM(S.month,-1); render(); });
   $('nextM').addEventListener('click',()=>{ S.month=shiftM(S.month,1); render(); });
@@ -879,7 +957,6 @@ img{max-width:100%}
 
   function render(){
     $('monthLabel').textContent = mLabel(S.month);
-    $('welcome').hidden = !(S.ready && !S.piano && !S.movs.length);
     renderMese(); renderRecap(); renderConfronto(); renderRic(); renderAnn(); renderGoals(); renderStructureLists();
   }
 
@@ -942,13 +1019,13 @@ img{max-width:100%}
     if(!S.ricReady){ return; }
     const due=dueIn(k);
     renderFixUp();
-    if(!due.length){ box.replaceChildren(el('div',{class:'empty',text:'Nessuna spesa fissa in questo mese. Aggiungile in Impostazioni → Il tuo piano, toccando una voce.'})); $('fixSub').textContent=''; $('fixBar').style.width='0%'; return; }
+    if(!due.length){ box.replaceChildren(el('div',{class:'empty',text:'Nessuna spesa fissa in questo mese. Aggiungile in Impostazioni → Il tuo piano, toccando una categoria.'})); $('fixSub').textContent=''; $('fixBar').style.width='0%'; return; }
     let nDone=0, aDone=0, aTot=0, nAct=0;
     const isCur = k===mk(todayISO()), today=new Date().getDate();
     const rows=due.map(r=>{
       const skip=ricSkipped(r,k), m=fixMov(r,k), done=!!m, amount=done?m.importo:ricAmount(r,k), changed=!done && ovr(r,k).importo!=null;
       if(!skip){ nAct++; aTot+=amount; if(done){ nDone++; aDone+=amount; } }
-      const late = !skip && !done && ((isCur && r.giorno<today) || k<mk(todayISO()));
+      const late = !skip && !done && (k<mk(todayISO()) || (isCur && r.giorno<today && String(r.creato||'').slice(0,7)!==k));
       const b=el('button',{class:'chk','aria-pressed':done?'true':'false','aria-label':`${done?'Togli la spunta a':'Segna come pagata'} ${r.nome}`,disabled:skip||busy.has(r.id+k)||!S.canWrite||!db,onclick:()=>toggleFix(r,k,done)}); b.append(svgCheck());
       const subT = skip ? 'Saltata questo mese · tocca per ripristinare' : done ? `Pagata · ${catName(r.categoria)}` : late ? `Da pagare, scadeva il ${r.giorno}` : `Il ${r.giorno} del mese · ${catName(r.categoria)}${changed?' · importo cambiato':''}`;
       return el('div',{class:'frow'+(done?' done':'')+(skip?' skip':'')}, b,
@@ -987,9 +1064,11 @@ img{max-width:100%}
     for(const c of cats){
       if(c.g!==g){ g=c.g; out.push(el('div',{class:'cap',style:out.length?'margin-top:6px':'',text:g==='spesa'?'Spese':'Risparmio'})); }
       const b=budgetFor(c.id), s=st.byCat[c.id]||0, p=b>0?s/b:(s>0?1.01:0);
-      const cls = c.g==='risp' ? '' : p>1?'over':p>=.85?'warn':'';
-      const left=b-s;
-      const val = el('div',{class:'val'}, el('b',{text:fmt(s)}), ` / ${fmt0(b)}`, c.g==='spesa' ? el('span',{class:'left',text: left>=0?` · restano ${fmt(left)}`:` · oltre di ${fmt(-left)}`}) : null);
+      const hasDue = S.ricReady && dueActive(S.month).some(r=>r.categoria===c.id);
+      if(b<=0 && s<=0 && !hasDue) continue;
+      const left=b-s, full = s>0 && Math.abs(left)<0.005;
+      const cls = c.g==='risp' || full ? '' : p>1?'over':p>=.85?'warn':'';
+      const val = el('div',{class:'val'}, el('b',{text:fmt(s)}), ` / ${fmt0(b)}`, c.g==='spesa' ? el('span',{class:'left',text: full ? ' · completato' : left>=0?` · restano ${fmt(left)}`:` · oltre di ${fmt(-left)}`}) : null);
       const row = el('div',{class:'brow '+cls},
         el('div',{class:'n'}, el('i',{style:`background:${catColor(c.id)}`}), el('span',{text:c.nome})),
         val,
@@ -997,7 +1076,7 @@ img{max-width:100%}
       if(c.variabile){
         const start=S.piano.inizio||S.month, n=Math.max(0,monthsBetween(start,S.month));
         const paid=sumCost(live().filter(m=>m.tipo==='uscita'&&m.categoria===c.id&&m.mese>=start&&m.mese<=S.month));
-        if(n>0) row.append(el('div',{class:'note',text:`Da ${mLabel(start).toLowerCase()}: accantonati ${fmt0(n*b)}, pagati ${fmt(paid)}. D'inverno un mese può superare il budget: conta il totale.`}));
+        if(n>1) row.append(el('div',{class:'note',text:`Da ${mLabel(start).toLowerCase()}: messi in conto ${fmt0(n*b)}, pagati ${fmt(paid)}`}));
       } else {
         const dues=S.ricReady?dueActive(S.month).filter(r=>r.categoria===c.id):[];
         const parts=[];
@@ -1008,7 +1087,7 @@ img{max-width:100%}
       }
       out.push(row);
     }
-    box.replaceChildren(...out);
+    box.replaceChildren(...(out.some(x=>x.classList&&x.classList.contains('brow')) ? out.filter((x,i,a)=>!(x.classList.contains('cap') && !(a[i+1]&&a[i+1].classList.contains('brow')))) : [el('div',{class:'empty',text:'Dai un budget alle categorie in Impostazioni → Il tuo piano.'})]));
   }
   function movRow(m){
     const isIn=m.tipo==='entrata';
@@ -1020,22 +1099,25 @@ img{max-width:100%}
   }
   const qCat=$('qCat');
   function buildQCat(){ const prev=qCat.value; qCat.replaceChildren(new Option('Tutte le categorie',''), ...CATS.map(c=>new Option(c.nome,c.id)), new Option('Entrate','entrate'), new Option('Pagate in contanti','contanti'), ...(sharing()?[new Option('Spese divise','divise')]:[]));
-    const og=document.createElement('optgroup'); og.label='Voci delle spese libere'; VOCI.forEach(v=>og.append(new Option(v,'v:'+v))); qCat.append(og); if([...qCat.options].some(o=>o.value===prev)) qCat.value=prev; }
+    const og=document.createElement('optgroup'); og.label='Sottocategorie delle spese libere'; VOCI.forEach(v=>og.append(new Option(v,'v:'+v))); qCat.append(og); if([...qCat.options].some(o=>o.value===prev)) qCat.value=prev; }
   let qT=null;
   $('qText').addEventListener('input',()=>{ clearTimeout(qT); qT=setTimeout(()=>renderMovs(statsOf(S.month)),150); });
   qCat.addEventListener('change',()=>renderMovs(statsOf(S.month)));
   $('qAll').addEventListener('change',()=>renderMovs(statsOf(S.month)));
+  $('movMore').addEventListener('click',()=>{ S.movAll=true; renderMovs(statsOf(S.month)); });
   function renderMovs(st){
     const box=$('movList');
     const q=$('qText').value.trim().toLowerCase(), fc=qCat.value, all=$('qAll').checked, filtering=!!(q||fc||all);
     let base = all ? live() : st.list;
     if(fc) base=base.filter(m=> fc==='entrate'?m.tipo==='entrata' : fc==='contanti'?m.metodo==='contanti' : fc==='divise'?Number(m.quota)>0 : fc.startsWith('v:')?(m.categoria==='libere'&&(m.voce||'Altro')===fc.slice(2)) : (m.tipo==='uscita'&&m.categoria===fc));
     if(q) base=base.filter(m=>[m.descrizione,m.voce,catName(m.categoria)].join(' ').toLowerCase().includes(q));
-    const list=[...base].sort((a,b)=>b.data.localeCompare(a.data)||String(b.creato||'').localeCompare(String(a.creato||'')));
-    $('movCount').textContent = list.length ? `${list.length} ${list.length===1?'movimento':'movimenti'}` : '';
+    const full=[...base].sort((a,b)=>b.data.localeCompare(a.data)||String(b.creato||'').localeCompare(String(a.creato||'')));
+    const list = (S.movAll||filtering) ? full : full.slice(0,5);
+    $('movFilters').hidden = !S.movAll && !filtering; $('movMore').hidden = S.movAll || filtering || full.length<=5; $('movMore').textContent = `Vedi tutti (${full.length}) e cerca`;
+    $('movCount').textContent = full.length ? `${full.length} ${full.length===1?'movimento':'movimenti'}` : '';
     const qt=$('qTot'); qt.hidden=!filtering;
     if(filtering){ const o=sumCost(list.filter(m=>m.tipo==='uscita')), i=sum(list.filter(m=>m.tipo==='entrata')); qt.textContent=`${all?'In tutti i mesi':'In '+mLabel(S.month).toLowerCase()}: uscite ${fmt(o)}${i?` · entrate ${fmt(i)}`:''}`; }
-    if(!list.length){ box.replaceChildren(el('div',{class:'empty',text: !S.movReady ? 'Carico i movimenti…' : filtering ? 'Nessun movimento trovato.' : 'Nessun movimento in questo mese. Tocca + per aggiungere il primo.'})); return; }
+    if(!list.length){ box.replaceChildren(el('div',{class:'empty',text: !S.movReady ? 'Carico i movimenti…' : filtering ? 'Nessun movimento trovato.' : 'Nessun movimento in questo mese. Tocca + in alto per aggiungere il primo.'})); return; }
     const out=[]; let day=null;
     for(const m of list){ if(m.data!==day){ day=m.data; out.push(el('div',{class:'day',text: all ? new Date(day+'T12:00:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : dayLabel(day)})); } out.push(movRow(m)); }
     box.replaceChildren(...out);
@@ -1126,7 +1208,7 @@ img{max-width:100%}
   }
   function drawChart(vals, avg, lowerGood){
     const box=$('chart'); const tip=$('tip'); box.querySelectorAll('svg').forEach(s=>s.remove());
-    const W=Math.max(300, box.clientWidth||600), H=240, padL=8, padR=8, padT=24, padB=28;
+    const W=Math.max(300, box.clientWidth||600), H=240, padL=8, padR=8, padT=24, padB=40;
     const svg=sv('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',role:'img','aria-label':'Grafico mensile'});
     const max=Math.max(avg, ...vals.map(v=>v.v), 1)*1.12;
     const y=v=>padT+(H-padT-padB)*(1-v/max);
@@ -1148,7 +1230,8 @@ img{max-width:100%}
         svg.append(sv('rect',{x:cx-bw/2,y:y(0)-2,width:bw,height:2,rx:1,style:'fill:var(--fill2)'}));
       }
       if(sel && d.has){ const t=sv('text',{x:cx,y:y(d.v)-7,'text-anchor':'middle',style:'fill:var(--ink);font-weight:600'}); t.textContent=mf0(d.v); svg.append(t); }
-      const lab=sv('text',{x:cx,y:H-8,'text-anchor':'middle',style:`fill:${sel?'var(--ink)':'var(--muted)'};font-weight:${sel?600:400}`}); lab.textContent= (i===0||d.k.endsWith('-01')) ? `${mShort(d.k)} ${d.k.slice(2,4)}` : mShort(d.k); svg.append(lab);
+      const lab=sv('text',{x:cx,y:H-22,'text-anchor':'middle',style:`fill:${sel?'var(--ink)':'var(--muted)'};font-weight:${sel?600:400}`}); lab.textContent=mShort(d.k); svg.append(lab);
+      if(i===0||d.k.endsWith('-01')){ const yl=sv('text',{x:cx,y:H-7,'text-anchor':'middle',style:'fill:var(--muted);font-size:10.5px'}); yl.textContent=d.k.slice(0,4); svg.append(yl); }
       const hit=sv('rect',{x:padL+slot*i,y:padT-10,width:slot,height:H-padT-padB+10,style:'fill:transparent;cursor:pointer'});
       hit.addEventListener('mouseenter',()=>{ tip.replaceChildren(el('span',{style:'color:var(--muted)',text:mLabel(d.k)}), el('b',{text: d.has?mf(d.v):'Nessun dato'})); tip.style.left=Math.min(Math.max(cx/W*box.clientWidth,70),box.clientWidth-70)+'px'; tip.style.top=(d.has?y(d.v):y(0))/H*box.clientHeight+'px'; tip.style.opacity=1; });
       hit.addEventListener('mouseleave',()=>{ tip.style.opacity=0; });
@@ -1163,7 +1246,7 @@ img{max-width:100%}
   }
   function renderCTable(){
     const months=rangeMonths(6), t=$('cTable');
-    const head=el('tr',{}, el('th',{text:'Voce'}), ...months.map(k=>el('th',{class:'n'+(k===S.month?' sel':''),text:`${mShort(k)} ${k.slice(2,4)}`})), el('th',{class:'n',text:'Media'}));
+    const head=el('tr',{}, el('th',{text:'Categoria'}), ...months.map(k=>el('th',{class:'n'+(k===S.month?' sel':''),text:`${mShort(k)} '${k.slice(2,4)}`})), el('th',{class:'n',text:'Media'}));
     const dm=new Set(dataMonths());
     const rows=[...CATS.map(c=>({n:c.nome,col:catColor(c.id),f:s=>s.byCat[c.id]||0,lower:c.g!=='risp'})), {n:'Totale spese',col:'var(--ink)',f:s=>s.spese,lower:true,bold:true}];
     const body=rows.map(r=>{
@@ -1179,7 +1262,7 @@ img{max-width:100%}
   function renderCVoci(){
     const box=$('cVoci'); const st=statsOf(S.month); $('cSelName').textContent=mLabel(S.month);
     const rows=VOCI.map(v=>({v, s:st.byVoce[v]||0, a:avgOf(S.month,x=>x.byVoce[v]||0)||0})).filter(r=>r.s>0||r.a>0).sort((x,y)=>Math.max(y.s,y.a)-Math.max(x.s,x.a));
-    if(!rows.length){ box.style.display='block'; box.replaceChildren(el('div',{class:'empty',text:'Le voci delle spese libere compariranno qui con i primi movimenti.'})); return; }
+    if(!rows.length){ box.style.display='block'; box.replaceChildren(el('div',{class:'empty',text:'Le sottocategorie delle spese libere compariranno qui con i primi movimenti.'})); return; }
     box.style.display='';
     const max=Math.max(...rows.map(r=>Math.max(r.s,r.a)),1);
     box.replaceChildren(...rows.flatMap(r=>{ const d=r.s-r.a;
@@ -1217,7 +1300,7 @@ img{max-width:100%}
   }
   const csvCell = v => { const s=String(v??''); return /[;"\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
   $('expCsv').addEventListener('click',()=>{ const rows=live().slice().sort((a,b)=>a.data.localeCompare(b.data));
-    const lines=['Data;Tipo;Categoria;Voce;Descrizione;Importo;Pagamento;Fissa;Parte divisa', ...rows.map(m=>[m.data, m.tipo==='entrata'?'Entrata':'Uscita', catName(m.categoria), m.voce||'', m.descrizione, (m.tipo==='entrata'?1:-1)*m.importo, m.metodo==='contanti'?'Contanti':'Carta o conto', m.auto?'sì':'', Number(m.quota)>0?String(m.quota).replace('.',','):''].map((v,i)=>i===5?String(v).replace('.',','):csvCell(v)).join(';'))];
+    const lines=['Data;Tipo;Categoria;Sottocategoria;Descrizione;Importo;Pagamento;Fissa;Parte divisa', ...rows.map(m=>[m.data, m.tipo==='entrata'?'Entrata':'Uscita', catName(m.categoria), m.voce||'', m.descrizione, (m.tipo==='entrata'?1:-1)*m.importo, m.metodo==='contanti'?'Contanti':'Carta o conto', m.auto?'sì':'', Number(m.quota)>0?String(m.quota).replace('.',','):''].map((v,i)=>i===5?String(v).replace('.',','):csvCell(v)).join(';'))];
     save(`movimenti-${todayISO()}.csv`, '﻿'+lines.join('\n')); });
   $('expJson').addEventListener('click',()=>{ save(`backup-conti-${todayISO()}.json`, JSON.stringify({esportato:new Date().toISOString(), struttura:ST, piano:S.piano, saldi:S.saldi, obiettivi:S.goals, speseAutomatiche:S.ric, movimenti:S.movs}, null, 2)); });
 
@@ -1228,8 +1311,8 @@ img{max-width:100%}
   function applyPlan(){ const p=S.piano||{}; const i=$('pl_stipendio'); if(i && document.activeElement!==i) i.value=numIn(p.stipendio); renderPlan(); }
   function planCheck(){}
   $('planSave').addEventListener('click', async ()=>{ const m=$('planMsg'); if(!guard(m)) return;
-    const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:{...((S.piano&&S.piano.budget)||{})}, inizio:(S.piano&&S.piano.inizio)||S.month};
-    $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); say(m,'Stipendio salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
+    const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:{...((S.piano&&S.piano.budget)||{})}, inizio:(S.piano&&S.piano.inizio)||S.month, libereAuto: S.piano ? libereAuto() : true};
+    $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); say(m, libereAuto() ? `Salvato. Per le spese libere ti restano ${fmt0(libereRest())} al mese.` : 'Stipendio salvato.', true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
   function fixChip(r){ const e=Math.max(1,Number(r.ogniMesi)||1); const per = e===1?'':e===12?'/anno':`/${e} mesi`; return el('span',{class:r.attiva===false?'off':'',text:`${r.nome} ${fmt0(r.importo)}${per}`}); }
   function renderPlan(){
     const box=$('planList'); if(!box) return;
@@ -1237,7 +1320,7 @@ img{max-width:100%}
     $('planBar').replaceChildren(...CATS.filter(c=>budget(c.id)>0).map(c=>el('i',{style:`width:${budget(c.id)/scale*100}%;background:${colVar(c.colore)}`,title:c.nome})));
     const row = c => {
       const b=budget(c.id), fx=S.ric.filter(r=>r.categoria===c.id).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||a.giorno-z.giorno), mf=monthlyFix(c.id);
-      const desc = c.id==='libere' ? `Spese variabili · ${VOCI.length} sottocategorie` : [c.g==='risp'?'Risparmio':'', c.desc].filter(Boolean).join(' · ') || (c.g==='risp'?'Risparmio':'Spesa');
+      const desc = c.id==='libere' ? (libereAuto() ? `Quello che resta dello stipendio · ${VOCI.length} sottocategorie` : `Spese variabili · ${VOCI.length} sottocategorie`) : [c.g==='risp'?'Risparmio':'', c.desc].filter(Boolean).join(' · ') || (c.g==='risp'?'Risparmio':'Spesa');
       const cov = b>0 ? Math.min(1,mf/b) : 0;
       return el('button',{class:'pv'+(c.archiviata?' arch':''),onclick:()=>openCat(c)},
         el('div',{class:'top'}, el('span',{class:'dot',style:`background:${colVar(c.colore)}`,text:c.nome.charAt(0).toUpperCase()}),
@@ -1321,12 +1404,21 @@ img{max-width:100%}
   const say = (m,t,ok) => { m.className='msg '+(ok?'ok':'ko'); m.textContent=t; };
   function guard(m){ if(!db){ say(m,'Accedi per poter salvare.',false); return false; } if(!S.canWrite){ say(m,'Non puoi modificare questi dati.',false); return false; } return true; }
   let lastFocus=null;
-  function openSheet(id, focusId){ lastFocus=document.activeElement; const o=$(id); o.hidden=false; requestAnimationFrame(()=>o.classList.add('show')); setTimeout(()=>{ const f=$(focusId); if(f) f.focus(); },60); }
+  const SNAP={};
+  const snapOf = id => JSON.stringify([...$(id).querySelectorAll('input,select,textarea')].map(e=>e.type==='checkbox'?e.checked:e.value).concat([...$(id).querySelectorAll('.seg [aria-pressed],.swatch')].map(e=>e.getAttribute('aria-pressed'))));
+  function openSheet(id, focusId){ lastFocus=document.activeElement; const o=$(id); const ub=o.querySelector('.unsaved'); if(ub) ub.remove(); SNAP[id]=snapOf(id); o.hidden=false; requestAnimationFrame(()=>o.classList.add('show')); setTimeout(()=>{ const f=$(focusId); if(f) f.focus(); },60); }
   let RIC_RET=null, RIC_NOTE='';
   function closeSheet(id, keepRet){ const o=$(id); o.classList.remove('show'); setTimeout(()=>{ o.hidden=true; },200); if(lastFocus&&lastFocus.focus) lastFocus.focus();
     if(id==='ricSheet' && RIC_RET && !keepRet){ const back=ALLCATS.find(c=>c.id===RIC_RET), note=RIC_NOTE; RIC_RET=null; RIC_NOTE=''; if(back) setTimeout(()=>openCat(back,note),240); } }
-  ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ const o=$(id); o.addEventListener('click',e=>{ if(e.target===o || e.target.closest('[data-close]')) closeSheet(id); }); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ if(!$(id).hidden) closeSheet(id); }); } });
+  function requestClose(id){
+    const o=$(id); if(o.hidden) return;
+    if(SNAP[id]===undefined || snapOf(id)===SNAP[id]) return closeSheet(id);
+    if(o.querySelector('.unsaved')) return;
+    const bar=el('div',{class:'unsaved'}, el('span',{text:'Hai delle modifiche non salvate.'}), el('div',{class:'btns'}, el('button',{class:'btn',type:'button',onclick:()=>{ bar.remove(); }},'Continua'), el('button',{class:'btn dan',type:'button',onclick:()=>{ bar.remove(); closeSheet(id); }},'Esci senza salvare')));
+    const foot=o.querySelector('.sh-foot,.stack'); foot ? foot.before(bar) : o.querySelector('.sheet').append(bar); bar.scrollIntoView({block:'nearest'});
+  }
+  ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ const o=$(id); o.addEventListener('click',e=>{ if(e.target===o || e.target.closest('[data-close]')) requestClose(id); }); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ if(!$(id).hidden) requestClose(id); }); } });
 
   function buildSelects(){ $('mVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rCat').replaceChildren(...CATS.map(c=>new Option(c.nome,c.id))); }
   $('rGiorno').replaceChildren(...Array.from({length:28},(_,i)=>new Option(String(i+1),String(i+1))));
@@ -1352,15 +1444,20 @@ img{max-width:100%}
     if(changed) await db.doc('impostazioni/saldi').set(sd);
   }
   function setMetodo(){}
-  function syncM(){ $('mSplitLb').firstChild.textContent = `Divisa con ${shareName().toLowerCase()}`; $('mQuotaLb').textContent = `Parte di ${shareName().toLowerCase()} (€)`; $('mVoceWrap').hidden = !(S.tipo==='uscita' && $('mCat').value==='libere'); $('mAutoWrap').hidden = !!S.edit || S.tipo!=='uscita';
+  function syncM(){ $('mSplitLb').firstChild.textContent = `Divisa con ${shareName().toLowerCase()}`; $('mQuotaLb').textContent = `Parte di ${shareName().toLowerCase()} (€)`; $('mVoceWrap').hidden = !(S.tipo==='uscita' && $('mCat').value==='libere'); $('mAutoWrap').hidden = !!S.edit || S.tipo!=='uscita'; updMSum && $('mSum') && updMSum();
     $('mBudgetWrap').hidden = S.tipo!=='entrata' || ['stipendio','rimborso'].includes($('mCat').value);
     $('mSplitWrap').hidden = !sharing() || S.tipo!=='uscita' || rispIds().includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto su' : 'Pagato da';}
   // cash wallet: every cash movement moves the Contanti balance
+  function updMSum(){ const d=$('mData').value, today=todayISO(); const dl = d===today ? 'Oggi' : (d ? new Date(d+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long'}) : '—'); const a=(CONTI.find(x=>x.id===$('mAcc').value)||{nome:'nessun conto'}).nome; $('mSum').textContent = `${dl} · ${S.tipo==='entrata'?'su':'da'} ${a}${$('mSplit').checked?' · divisa':''}`; }
+  ['mData','mAcc','mSplit'].forEach(id=>$(id).addEventListener('change',updMSum));
   function setTipo(t){ S.tipo=t; $('mUscita').setAttribute('aria-pressed',t==='uscita'); $('mEntrata').setAttribute('aria-pressed',t==='entrata'); fillMCat(); }
   $('mUscita').addEventListener('click',()=>setTipo('uscita')); $('mEntrata').addEventListener('click',()=>setTipo('entrata'));
   $('mCat').addEventListener('change',syncM);
   $('mSplit').addEventListener('change',()=>{ if($('mSplit').checked && !$('mQuota').value){ const v=parseAmt($('mImp').value); if(v>0) $('mQuota').value=numIn(r2(v/2)); } syncM(); });
-  $('rCat').addEventListener('change',()=>{ $('rVoceWrap').hidden = $('rCat').value!=='libere'; });
+  function syncR(){ $('rVoceWrap').hidden = $('rCat').value!=='libere';
+    $('rPaidWrap').hidden = !!S.editRic || $('rDa').value!==mk(todayISO());
+    const e=Number($('rOgni').value); $('rSum').textContent = `${e===1?'Ogni mese':e===12?'Ogni anno':'Ogni '+e+' mesi'} · da ${mLabel($('rDa').value||mk(todayISO())).toLowerCase()} · ${(CONTI.find(a=>a.id===$('rAcc').value)||{nome:'nessun conto'}).nome}`; }
+  ['rCat','rDa','rOgni','rAcc'].forEach(id=>$(id).addEventListener('change',syncR));
 
   function openMov(m,preset){
     S.edit = m||null; $('mMsg').textContent=''; const P=preset||{};
@@ -1370,7 +1467,9 @@ img{max-width:100%}
     const defDate = m ? m.data : (S.month===mk(todayISO()) ? todayISO() : `${S.month}-01`);
     $('mImp').value = m ? numIn(m.importo) : numIn(P.importo); $('mData').value = defDate; $('mDesc').value = m ? m.descrizione : (P.descrizione||'');
     $('mSplit').checked = !!(m && Number(m.quota)>0); $('mQuota').value = m && Number(m.quota)>0 ? numIn(m.quota) : '';
-    $('mCat').value=''; fillMCat(); if(P.categoria) $('mCat').value=P.categoria; if(m){ $('mCat').value=m.categoria; if(m.voce) $('mVoce').value=m.voce; } accOptions($('mAcc'), m ? (m.conto!==undefined ? m.conto : (m.metodo==='contanti' ? cashId() : '')) : (P.metodo==='contanti' ? cashId() : defaultAcc())); $('mBudget').checked=!!(m&&m.aBudget); syncM();
+    $('mCat').value=''; fillMCat(); if(P.categoria) $('mCat').value=P.categoria; if(m){ $('mCat').value=m.categoria; if(m.voce) $('mVoce').value=m.voce; } accOptions($('mAcc'), m ? (m.conto!==undefined ? m.conto : (m.metodo==='contanti' ? cashId() : '')) : (P.metodo==='contanti' ? cashId() : defaultAcc())); $('mBudget').checked=!!(m&&m.aBudget);
+    if(!m && !P.voce){ const last=live().filter(x=>x.categoria==='libere'&&x.voce&&VOCI.includes(x.voce)).sort((a,b)=>String(b.creato||b.data).localeCompare(String(a.creato||a.data)))[0]; $('mVoce').value = last ? last.voce : VOCI[0]; }
+    $('mMore').open = !!(m && (Number(m.quota)>0)); syncM(); updMSum();
     openSheet('movSheet','mImp');
   }
   $('fab').addEventListener('click',()=>openMov(null));
@@ -1389,8 +1488,9 @@ img{max-width:100%}
         const rref=db.collection('ricorrenti').doc();
         await rref.set({nome:body.descrizione, importo:body.importo, categoria:cat, voce:body.voce, conto:body.conto, giorno:Math.min(28,Number(data.slice(8,10))), ogniMesi:1, daMese:body.mese, attiva:true, creato:new Date().toISOString()});
         await db.collection('movimenti').doc(`auto_${rref.id}_${body.mese}`).set({...body, creato:new Date().toISOString(), auto:true, ricorrente:rref.id});
-      } else { await db.collection('movimenti').add({...body, creato:new Date().toISOString()}); }
+      } else { var newRef = await db.collection('movimenti').add({...body, creato:new Date().toISOString()}); }
       try{ await applyEffects(S.edit, body); }catch(e){ status('Movimento salvato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); }
+      if(S.edit) toast('Modifiche salvate'); else if(newRef){ const ref=newRef, b=body; toast(`Aggiunta: ${b.descrizione} · ${b.tipo==='entrata'?fmtS(b.importo):fmt(b.importo)}`, async ()=>{ await ref.delete(); await applyEffects(b,null); }); } else toast('Spesa fissa aggiunta e segnata come pagata');
       if(body.mese!==S.month){ S.month=body.mese; render(); }
       closeSheet('movSheet');
     }catch(e){ say(msg, e&&e.code==='quota_exceeded'?'Spazio esaurito: esporta un backup ed elimina qualche movimento vecchio.':'Non salvato. Controlla la connessione e riprova.', false); }
@@ -1401,7 +1501,7 @@ img{max-width:100%}
     const msg=$('mMsg'); if(!S.edit||!guard(msg)) return;
     if(!delArmed){ delArmed=true; $('mDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ delArmed=false; $('mDel').textContent='Elimina'; },3000); return; }
     delArmed=false; $('mDel').textContent='Elimina';
-    try{ const old=S.edit; await db.collection('movimenti').doc(old.id).delete(); try{ await applyEffects(old, null); }catch(e){ status('Movimento eliminato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); } closeSheet('movSheet'); }
+    try{ const old=S.edit; await db.collection('movimenti').doc(old.id).delete(); try{ await applyEffects(old, null); }catch(e){ status('Movimento eliminato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); } closeSheet('movSheet'); toast('Movimento eliminato', async ()=>{ const {id,...rest}=old; await db.collection('movimenti').doc(id).set(rest); await applyEffects(null, old); }); }
     catch(e){ say(msg,'Non eliminato. Riprova.',false); }
   });
 
@@ -1410,7 +1510,7 @@ img{max-width:100%}
     $('rsTitle').textContent = r ? 'Modifica spesa fissa' : 'Nuova spesa fissa'; $('rsDel').hidden=!r;
     $('rNome').value=r?r.nome:''; $('rImp').value=r?numIn(r.importo):''; $('rCat').value = r ? (CATS.some(c=>c.id===r.categoria)?r.categoria:(CATS[0]||{}).id) : (presetCat && CATS.some(c=>c.id===presetCat) ? presetCat : (CATS[0]||{}).id);
     $('rVoce').value=r&&r.voce?r.voce:VOCI[0]; $('rVoceWrap').hidden=$('rCat').value!=='libere';
-    $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r?r.ogniMesi||1:1); fillRDa(r?r.daMese:mk(todayISO())); accOptions($('rAcc'), r && r.conto!==undefined ? r.conto : defaultAcc()); $('rAttiva').checked = r ? r.attiva!==false : true;
+    $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r?r.ogniMesi||1:1); fillRDa(r?r.daMese:mk(todayISO())); accOptions($('rAcc'), r && r.conto!==undefined ? r.conto : defaultAcc()); $('rAttiva').checked = r ? r.attiva!==false : true; $('rPaid').checked=false; $('rMore').open=false; syncR();
     openSheet('ricSheet','rNome');
   }
   $('rsSave').addEventListener('click', async ()=>{
@@ -1421,7 +1521,8 @@ img{max-width:100%}
     const cat=$('rCat').value;
     const body={nome, importo:r2(imp), categoria:cat, voce:cat==='libere'?$('rVoce').value:'', giorno:Number($('rGiorno').value), ogniMesi:Number($('rOgni').value), daMese:$('rDa').value, conto:$('rAcc').value, attiva:$('rAttiva').checked, aggiornato:new Date().toISOString()};
     $('rsSave').disabled=true;
-    try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); } else await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()});
+    try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); } else { const ref=await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()});
+        if(!$('rPaidWrap').hidden && $('rPaid').checked){ const k=mk(todayISO()); await db.collection('movimenti').doc(`auto_${ref.id}_${k}`).set({...fixBody({...body,id:ref.id},k,body.importo), conto:'', metodo:'conto'}); } }
       const need=Math.ceil(monthlyFix(cat)), have=budget(cat);
       if(need>have){ await db.doc('impostazioni/piano').set({...(S.piano||{stipendio:0}), budget:{...((S.piano&&S.piano.budget)||{}), [cat]:need}, inizio:(S.piano&&S.piano.inizio)||S.month}); RIC_NOTE=`Budget portato a ${fmt0(need)} per coprire le spese fisse.`; }
       if(!RIC_RET) RIC_NOTE=''; closeSheet('ricSheet'); }
@@ -1523,7 +1624,6 @@ img{max-width:100%}
     // voci libere
     const vl=$('voceList'); if(vl) vl.replaceChildren(...VOCI.map(v=>el('button',{class:'chip',onclick:()=>openVoce(v),text:v})));
   }
-  $('welcomeGo').addEventListener('click',()=>setTab('impostazioni'));
   // profilo
   $('pfNome').addEventListener('input',()=>{ const n=$('pfNome').value.trim(); $('pfPrev').textContent = n?`Conti di ${n}`:'I miei conti'; });
   $('pfSave').addEventListener('click', async ()=>{ const m=$('pfMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, nome:$('pfNome').value.trim()}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
@@ -1537,8 +1637,8 @@ img{max-width:100%}
   const useCount = id => ({ m:S.movs.filter(m=>m.categoria===id).length, r:S.ric.filter(r=>r.categoria===id&&r.attiva!==false).length });
   function openCat(c, note){
     if(c){ c = ALLCATS.find(x=>x.id===c.id) || c; }
-    CE=c||null; $('cMsg').textContent=''; if(note) say($('cMsg'),note,true); $('cTitle').textContent = c?c.nome:'Nuova voce';
-    $('cBudget').value = c ? numIn(budget(c.id)||'') : '';
+    CE=c||null; $('cMsg').textContent=''; if(note) say($('cMsg'),note,true); $('cTitle').textContent = c?c.nome:'Nuova categoria';
+    const isL = !!(c && c.id==='libere'); $('cAutoWrap').hidden=!isL; $('cAuto').checked = isL && libereAuto(); syncCAuto(); if(!$('cAuto').checked) $('cBudget').value = c ? numIn(budgetRaw(c.id)||'') : '';
     renderCatFix();
     $('cNome').value=c?c.nome:''; $('cDesc').value=c?c.desc:''; $('cVar').checked=!!(c&&c.variabile);
     cColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!ALLCATS.some(x=>x.colore===k)) || 'gray';
@@ -1549,33 +1649,41 @@ img{max-width:100%}
     $('cDel').hidden = !c || isLib; $('cDel').textContent='Elimina'; cDelArmed=false;
     $('cArch').hidden = !c || isLib || (!c.archiviata && !used.m && !used.r); $('cArch').textContent = c && c.archiviata ? 'Ripristina' : 'Archivia';
     const info=$('cInfo'); info.hidden = !c || isLib || (!used.m && !used.r);
-    if(!info.hidden) info.textContent = `È usata in ${used.m} ${used.m===1?'movimento':'movimenti'}${used.r?` e ${used.r} ${used.r===1?'spesa fissa':'spese fisse'}`:''}. Archivia: la nascondi dalle scelte ma resta nello storico, e puoi ripristinarla. Elimina: sparisce del tutto; i movimenti già registrati restano come "Voce eliminata"${used.r?' e le spese fisse collegate vengono messe in pausa':''}.`;
+    if(!info.hidden) info.textContent = `È usata in ${used.m} ${used.m===1?'movimento':'movimenti'}${used.r?` e ${used.r} ${used.r===1?'spesa fissa':'spese fisse'}`:''}. Archivia: la nascondi dalle scelte ma resta nello storico, e puoi ripristinarla. Elimina: sparisce del tutto; i movimenti già registrati restano come "Categoria eliminata"${used.r?' e le spese fisse collegate vengono messe in pausa':''}.`;
     openSheet('catSheet', c ? null : 'cNome');
   }
+  function syncCAuto(){ const on=!$('cAutoWrap').hidden && $('cAuto').checked; $('cBudget').disabled=on; if(on) $('cBudget').value=numIn(Math.round(libereRest())); }
+  $('cAuto').addEventListener('change',()=>{ if(!$('cAuto').checked) $('cBudget').value=numIn(Math.round(libereRest())); syncCAuto(); });
   function renderCatFix(){
     const c=CE, isLib=c&&c.id==='libere';
     $('cVociSec').hidden = !isLib;
     $('cFixAdd').hidden = !c;
-    if(!c){ $('cFixHint').textContent='Salva la voce, poi riaprila per aggiungere le spese fisse.'; $('cFixList').replaceChildren(); return; }
+    if(!c){ $('cFixHint').textContent='Dopo aver scritto il nome puoi aggiungere le sue spese fisse.'; $('cFixList').replaceChildren(); $('cFixAdd').hidden=false; return; }
     const fx=S.ric.filter(r=>r.categoria===c.id).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||a.giorno-z.giorno), mf=monthlyFix(c.id);
     $('cFixHint').textContent = fx.length ? `Ogni mese le ritrovi da spuntare nella sezione Mese${mf>0?` · in media ${fmt0(mf)} al mese`:''}.` : (isLib ? 'Di solito le spese libere non hanno spese fisse, ma puoi aggiungerne (es. un abbonamento).' : 'Spese che si ripetono, come affitto o abbonamenti: ogni mese le ritrovi da spuntare nella sezione Mese.');
     $('cFixList').replaceChildren(...fx.map(r=>{ const e=Math.max(1,Number(r.ogniMesi)||1); const when=e===1?`Ogni mese, il ${r.giorno}`:e===12?`Ogni anno, il ${r.giorno}`:`Ogni ${e} mesi, il ${r.giorno}`;
-      return el('button',{class:'fxrow',type:'button',style:r.attiva===false?'opacity:.55':'',onclick:()=>{ RIC_RET=c.id; closeSheet('catSheet',true); setTimeout(()=>openRic(r),220); }},
+      return el('button',{class:'fxrow',type:'button',style:r.attiva===false?'opacity:.55':'',onclick:async ()=>{ if(!(await persistCat(false))) return; RIC_RET=c.id; closeSheet('catSheet',true); setTimeout(()=>openRic(r),220); }},
         el('span',{style:'min-width:0'}, el('div',{class:'t',text:r.nome}), el('div',{class:'s',text:when+(r.attiva===false?' · in pausa':'')})), el('b',{class:'num',text:fmt(r.importo)})); }));
   }
-  $('cFixAdd').addEventListener('click',()=>{ if(!CE) return; RIC_RET=CE.id; const id=CE.id; closeSheet('catSheet',true); setTimeout(()=>openRic(null,id),220); });
+  $('cFixAdd').addEventListener('click',async ()=>{ if(!(await persistCat(false))) return; RIC_RET=CE.id; const id=CE.id; closeSheet('catSheet',true); setTimeout(()=>openRic(null,id),220); });
 
   $('catAdd').addEventListener('click',()=>openCat(null));
-  $('cSave').addEventListener('click', async ()=>{
-    const m=$('cMsg'); if(!guard(m)) return; const nome=$('cNome').value.trim(); if(!nome) return say(m,'Dai un nome alla voce.',false);
+  async function persistCat(close){
+    const m=$('cMsg'); if(!guard(m)) return false; const nome=$('cNome').value.trim(); if(!nome){ say(m,'Dai un nome alla categoria.',false); return false; }
     const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked, contoDest: cG==='risp' ? $('cDest').value : ''};
     const list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : [...ST.categorie, {id:uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute'])), ...data}];
-    const bv=parseAmt($('cBudget').value); const cid = CE ? CE.id : list[list.length-1].id;
+    const cid = CE ? CE.id : list[list.length-1].id; const bv=parseAmt($('cBudget').value);
+    const isL = cid==='libere', auto = isL && $('cAuto').checked;
     try{ await saveStructure({...ST, categorie:list});
       const cur=(S.piano&&S.piano.budget)||{}; const nb = isNaN(bv)?0:r2(bv);
-      if((cur[cid]||0)!==nb || !S.piano){ await db.doc('impostazioni/piano').set({...(S.piano||{stipendio:0}), budget:{...cur, [cid]:nb}, inizio:(S.piano&&S.piano.inizio)||S.month}); }
-      closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
-  });
+      const base={...(S.piano||{stipendio:0}), inizio:(S.piano&&S.piano.inizio)||S.month, libereAuto: isL ? auto : (S.piano ? libereAuto() : true)};
+      if(auto) await db.doc('impostazioni/piano').set({...base, budget:{...cur}});
+      else if((cur[cid]||0)!==nb || !S.piano || (isL && libereAuto())) await db.doc('impostazioni/piano').set({...base, budget:{...cur, [cid]:nb}});
+      if(!CE) CE = ALLCATS.find(c=>c.id===cid) || {...data, id:cid};
+      if(close) closeSheet('catSheet'); return true; }
+    catch(e){ say(m,'Non salvato. Riprova.',false); return false; }
+  }
+  $('cSave').addEventListener('click', ()=>persistCat(true));
   let cDelArmed=false;
   $('cArch').addEventListener('click', async ()=>{
     const m=$('cMsg'); if(!CE||!guard(m)) return;
@@ -1600,8 +1708,8 @@ img{max-width:100%}
     AE=c||null; $('aMsg').textContent=''; $('aTitle').textContent = c?'Modifica conto':'Nuovo conto';
     $('aNome').value=c?c.nome:''; $('aDove').value=c?(c.dove||''):''; $('aSaldo').value=c?numIn((S.saldi||{})[c.id]):''; $('aGoal').value=c&&Number(c.obiettivo)>0?numIn(c.obiettivo):''; $('aCash').checked=!!(c&&c.contanti); $('aMain').checked = c ? (c.principale || (!CONTI.some(a=>a.principale) && defaultAcc()===c.id)) : !CONTI.length;
     aColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!CONTI.some(x=>x.colore===k)) || 'gray';
-    swatches('aCol', aColor, k=>aColor=k); $('aDel').hidden=!c; $('aDel').textContent='Elimina';
-    openSheet('accSheet','aNome');
+    swatches('aCol', aColor, k=>aColor=k); $('aDel').hidden=!c; $('aDel').textContent='Elimina'; $('aMore').open=false;
+    openSheet('accSheet', c ? 'aSaldo' : 'aNome'); if(c) setTimeout(()=>{ try{ $('aSaldo').select(); }catch(e){} },80);
   }
   $('accAdd').addEventListener('click',()=>openAcc(null));
   $('aSave').addEventListener('click', async ()=>{
@@ -1629,8 +1737,8 @@ img{max-width:100%}
   // voci libere
   $('voceAdd').addEventListener('click', async ()=>{
     const m=$('voceMsg'); if(!guard(m)) return; const v=$('voceNew').value.trim(); if(!v) return;
-    if(VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Questa voce c\'è già.',false);
-    try{ await saveStructure({...ST, voci:[...VOCI.filter(x=>x!=='Altro'), v, ...(VOCI.includes('Altro')?['Altro']:[])]}); $('voceNew').value=''; say(m,'Voce aggiunta.',true); }catch(e){ say(m,'Non salvata. Riprova.',false); }
+    if(VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Questa sottocategoria c\'è già.',false);
+    try{ await saveStructure({...ST, voci:[...VOCI.filter(x=>x!=='Altro'), v, ...(VOCI.includes('Altro')?['Altro']:[])]}); $('voceNew').value=''; say(m,'Sottocategoria aggiunta.',true); }catch(e){ say(m,'Non salvata. Riprova.',false); }
   });
   $('voceNew').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('voceAdd').click(); } });
   let VE=null;
@@ -1640,7 +1748,7 @@ img{max-width:100%}
     openSheet('voceSheet','vNome'); }
   $('vSave').addEventListener('click', async ()=>{
     const m=$('vMsg'); if(!VE||!guard(m)) return; const v=$('vNome').value.trim(); if(!v) return say(m,'Scrivi un nome.',false);
-    if(v!==VE && VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Esiste già una voce con questo nome.',false);
+    if(v!==VE && VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Esiste già una sottocategoria con questo nome.',false);
     $('vSave').disabled=true;
     try{
       await saveStructure({...ST, voci:VOCI.map(x=>x===VE?v:x)});
@@ -1652,7 +1760,7 @@ img{max-width:100%}
   let vDelArmed=false;
   $('vDel').addEventListener('click', async ()=>{
     const m=$('vMsg'); if(!VE||!guard(m)) return;
-    if(VOCI.length<=1) return say(m,'Serve almeno una voce.',false);
+    if(VOCI.length<=1) return say(m,'Serve almeno una sottocategoria.',false);
     if(!vDelArmed){ vDelArmed=true; $('vDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ vDelArmed=false; $('vDel').textContent='Elimina'; },3000); return; }
     vDelArmed=false; $('vDel').textContent='Elimina';
     try{ await saveStructure({...ST, voci:VOCI.filter(x=>x!==VE)}); closeSheet('voceSheet'); }catch(e){ say(m,'Non eliminata. Riprova.',false); }
@@ -1663,6 +1771,44 @@ img{max-width:100%}
     document.querySelectorAll('[data-eye]').forEach(b=>{ b.setAttribute('aria-pressed',PRIV?'true':'false'); const l=PRIV?'Mostra saldi ed entrate':'Nascondi saldi ed entrate'; b.setAttribute('aria-label',l); b.title=l; }); }
   document.querySelectorAll('[data-eye]').forEach(b=>b.addEventListener('click',()=>{ PRIV=!PRIV; try{ localStorage.setItem('conti-privacy',PRIV?'1':'0'); }catch(e){} applyPriv(); render(); applySaldi(); renderStructureLists(); }));
   applyPriv();
+
+  // ---------- avviso in basso con Annulla ----------
+  let toastTimer=null, toastUndo=null;
+  function toast(text, undo){ const t=$('toast'); $('toastT').textContent=text; toastUndo=undo||null; $('toastUndo').hidden=!undo; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ t.hidden=true; toastUndo=null; }, undo?6000:2600); }
+  $('toastUndo').addEventListener('click', async ()=>{ const u=toastUndo; $('toast').hidden=true; toastUndo=null; if(u){ try{ await u(); toast('Annullato'); }catch(e){ status('Non sono riuscito ad annullare. Riprova.',true); } } });
+
+  // ---------- configurazione guidata ----------
+  let WS=1;
+  function wShow(n){ WS=n; document.querySelectorAll('#setup [data-step]').forEach(sec=>sec.hidden = Number(sec.dataset.step)!==n); document.querySelectorAll('#setup .dots i').forEach((d,i)=>d.classList.toggle('on', i<n));
+    $('wBack').style.visibility = n>1 && n<4 ? '' : 'hidden'; $('wNext').textContent = n===3 ? 'Crea il mio piano' : n===4 ? 'Inizia' : 'Avanti'; $('wSkip').hidden = n===4; $('wMsg').textContent='';
+    if(n===4) wSummary(); setTimeout(()=>{ const f=document.querySelector(`#setup [data-step="${n}"] input`); if(f && n<4) f.focus(); },60); }
+  const wv = id => { const v=parseAmt($(id).value); return isNaN(v)||v<0 ? 0 : r2(v); };
+  function wSummary(){ const st=wv('w1Stip'), fixed=wv('w3Aff')+wv('w3Bol')+wv('w3Net')+wv('w3Abb'), risp=wv('w3Risp'), lib=Math.max(0,st-fixed-risp);
+    $('w4Lib').textContent = fmt0(lib) + ' al mese';
+    const rows=[['Stipendio',st],['Casa (affitto e internet)',wv('w3Aff')+wv('w3Net')],['Bollette',wv('w3Bol')],['Abbonamenti',wv('w3Abb')],['Risparmio',risp]].filter(r=>r[1]>0||r[0]==='Stipendio');
+    $('w4List').replaceChildren(...rows.map(([n,v])=>el('div',{}, el('span',{text:n}), el('b',{class:'num',text:fmt0(v)})))); }
+  async function wFinish(){
+    const k=mk(todayISO()), now=new Date().toISOString();
+    const nome=$('w1Nome').value.trim(), st=wv('w1Stip'), aff=wv('w3Aff'), bol=wv('w3Bol'), net=wv('w3Net'), abb=wv('w3Abb'), risp=wv('w3Risp');
+    const cats = ST.categorie.slice(); if(abb>0 && !cats.some(c=>c.id==='abbonamenti')) cats.splice(Math.max(0,cats.findIndex(c=>c.id==='libere')),0,{id:'abbonamenti', nome:'Abbonamenti', desc:'Palestra, streaming, app', g:'spesa', colore:'pink'});
+    const acc = (ST.conti||[]).map(a=>a.id==='conto' ? {...a, nome:$('w2Nome').value.trim()||'Conto corrente', principale:true} : a);
+    await saveStructure({...ST, nome, categorie:cats, conti:acc, setupDone:true});
+    await db.doc('impostazioni/piano').set({stipendio:st, budget:{casa:r2(aff+net), bollette:bol, abbonamenti:abb, risparmio:risp}, inizio:k, libereAuto:true});
+    await db.doc('impostazioni/saldi').set({...(S.saldi||{}), conto:wv('w2Saldo'), contanti:wv('w2Cash'), aggiornato:now});
+    const fx=[['Affitto',aff,'casa'],['Internet e telefono',net,'casa'],['Abbonamenti',abb,'abbonamenti']].filter(x=>x[1]>0);
+    for(const [n,v,cat] of fx){ const body={nome:n, importo:v, categoria:cat, voce:'', giorno:1, ogniMesi:1, daMese:k, conto:'conto', attiva:true, creato:now};
+      const ref=await db.collection('ricorrenti').add(body);
+      if($('w3Paid').checked) await db.collection('movimenti').doc(`auto_${ref.id}_${k}`).set({...fixBody({...body,id:ref.id},k,v), conto:'', metodo:'conto'}); }
+  }
+  $('wNext').addEventListener('click', async ()=>{
+    if(WS===1 && !(wv('w1Stip')>0)) return say($('wMsg'),'Scrivi quanto guadagni al mese, anche più o meno.',false);
+    if(WS<3) return wShow(WS+1);
+    if(WS===3){ $('wNext').disabled=true; try{ await wFinish(); wShow(4); }catch(e){ say($('wMsg'),'Non sono riuscito a salvare. Controlla la connessione e riprova.',false); } finally{ $('wNext').disabled=false; } return; }
+    $('setup').hidden=true; setTab('mese');
+  });
+  $('wBack').addEventListener('click',()=>{ if(WS>1) wShow(WS-1); });
+  $('wSkip').addEventListener('click', async ()=>{ try{ await saveStructure({...ST, setupDone:true}); }catch(e){} $('setup').hidden=true; setTab('impostazioni'); });
+  function maybeSetup(){ if(S.ready && S.hasStruct && ST.setupDone===false && $('setup').hidden && !S.setupShown){ S.setupShown=true; $('setup').hidden=false; wShow(1); } }
 
   // ---------- Supabase: accesso e dati ----------
   $('impJson').addEventListener('click',()=>$('impFile').click());
@@ -1680,7 +1826,10 @@ img{max-width:100%}
     showGate(!configured ? 'Manca la configurazione: inserisci URL e chiave di Supabase nel file config.js.' : 'Non riesco a caricare la libreria di Supabase. Controlla la connessione e riapri l\'app.');
     $('loginForm').hidden = !configured;
   } else {
-    client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:false } });
+    client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
+    if(client.auth.onAuthStateChange) client.auth.onAuthStateChange((ev, session)=>{ if(ev==='PASSWORD_RECOVERY' && session){ if(!started) start(session.user); setTimeout(()=>{ setTab('impostazioni'); const p=$('pw1'); p.scrollIntoView({block:'center'}); p.focus(); say($('accountMsg'),'Scegli una nuova password qui sopra e tocca Cambia password.',true); },400); } });
+    $('lForgot').addEventListener('click', async ()=>{ const m=$('lMsg'), email=$('lEmail').value.trim(); if(!email) return say(m,'Scrivi prima la tua email qui sopra.',false);
+      try{ const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo: location.origin+location.pathname}); if(error) throw error; say(m,'Ti ho mandato un\'email con il link per scegliere una nuova password.',true); }catch(e){ say(m,'Non sono riuscito a mandare l\'email. Riprova tra qualche minuto.',false); } });
     $('loginForm').addEventListener('submit', async e=>{
       e.preventDefault(); const m=$('lMsg'); const email=$('lEmail').value.trim(), password=$('lPass').value;
       if(!email || !password){ say(m,'Inserisci email e password.',false); return; }
@@ -1703,7 +1852,7 @@ img{max-width:100%}
   async function ensureStructure(){ if(!db || !S.ready || S.hasStruct || structWriting) return; structWriting=true; try{ await saveStructure(isLegacy()?legacyStructure(S.saldi):freshStructure()); }catch(e){} finally{ structWriting=false; } }
   async function syncNow(silent){
     if(!db) return;
-    try{ await db.refresh(); S.ready=true; ensureStructure(); render(); if(!silent) say($('accountMsg'),'Dati aggiornati.',true); if($('status').classList.contains('offline')) { status(''); $('status').classList.remove('offline'); } }
+    try{ await db.refresh(); S.ready=true; ensureStructure(); render(); maybeSetup(); if(!silent) say($('accountMsg'),'Dati aggiornati.',true); if($('status').classList.contains('offline')) { status(''); $('status').classList.remove('offline'); } }
     catch(e){ if(!db.hasData()){ status('Non riesco a raggiungere il database. Controlla la connessione.',true); } else { status('Sei offline: vedi i dati salvati sul telefono. Le modifiche non verranno salvate finché non torni online.'); $('status').classList.add('offline'); } }
   }
   function start(user){
@@ -1718,7 +1867,7 @@ img{max-width:100%}
     db.doc('impostazioni/piano').onSnapshot(s=>{ S.piano=s.exists?s.data():null; render(); applyPlan(); });
     db.doc('impostazioni/saldi').onSnapshot(s=>{ S.saldi=s.exists?s.data():null; applySaldi(); applyPlan(); });
     db.doc('impostazioni/obiettivi').onSnapshot(s=>{ const d=s.exists?s.data():null; S.goals=d&&Array.isArray(d.lista)?d.lista:[]; renderGoals(); });
-    db.doc('impostazioni/struttura').onSnapshot(s=>{ S.hasStruct=s.exists; if(s.exists) applyStructure(s.data()); else applyStructure(isLegacy()?legacyStructure(S.saldi):freshStructure()); ensureStructure(); });
+    db.doc('impostazioni/struttura').onSnapshot(s=>{ S.hasStruct=s.exists; if(s.exists) applyStructure(s.data()); else applyStructure(isLegacy()?legacyStructure(S.saldi):freshStructure()); ensureStructure(); maybeSetup(); });
     syncNow(true);
     document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') syncNow(true); });
     setInterval(()=>{ if(document.visibilityState==='visible') syncNow(true); }, 60000);
