@@ -24,7 +24,7 @@
   --glass:rgba(245,245,247,.78); --overlay:rgba(0,0,0,.28);
   --lg-bg:rgba(255,255,255,.58); --lg-brd:rgba(255,255,255,.75); --lg-hi:rgba(255,255,255,.9); --lg-sel:rgba(118,118,128,.16); --lg-shadow:0 8px 32px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.08);
   --accent:#0071e3; --accent-ink:#ffffff; --green:#248a3d; --green-bg:#e3f5e8; --orange:#c93400; --orange-bg:#fff0e0; --red:#d70015; --red-bg:#ffe5e7;
-  --k-casa:#0071e3; --k-bollette:#ff9500; --k-palestra:#34c759; --k-nutrizionista:#30b0c7; --k-libere:#af52de; --k-fondo:#5856d6; --k-pac:#ff2d55; --k-yellow:#c69c00; --k-red:#e5383b; --k-in:#248a3d; --k-other:#8e8e93;
+  --k-casa:#0071e3; --k-bollette:#ff9500; --k-palestra:#34c759; --k-nutrizionista:#30b0c7; --k-libere:#af52de; --k-fondo:#5856d6; --k-pac:#ff2d55; --k-yellow:#c69c00; --k-red:#e5383b; --k-rosa:#f45ca8; --k-in:#248a3d; --k-other:#8e8e93;
   --shadow:0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
   --shadow-up:0 10px 40px rgba(0,0,0,.18);
   --f:-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -35,14 +35,14 @@
   --glass:rgba(0,0,0,.72); --overlay:rgba(0,0,0,.55);
   --lg-bg:rgba(44,44,48,.52); --lg-brd:rgba(255,255,255,.12); --lg-hi:rgba(255,255,255,.18); --lg-sel:rgba(255,255,255,.14); --lg-shadow:0 10px 36px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
   --accent:#0a84ff; --accent-ink:#ffffff; --green:#30d158; --green-bg:#0f2e18; --orange:#ff9f0a; --orange-bg:#33230a; --red:#ff453a; --red-bg:#3a1514;
-  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-in:#30d158; --k-other:#8e8e93;
+  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-rosa:#ff7ac6; --k-in:#30d158; --k-other:#8e8e93;
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --fill2:#3a3a3c; --ink:#f5f5f7; --muted:#98989d; --faint:#636366; --line:#38383a;
   --glass:rgba(0,0,0,.72); --overlay:rgba(0,0,0,.55);
   --lg-bg:rgba(44,44,48,.52); --lg-brd:rgba(255,255,255,.12); --lg-hi:rgba(255,255,255,.18); --lg-sel:rgba(255,255,255,.14); --lg-shadow:0 10px 36px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
   --accent:#0a84ff; --accent-ink:#ffffff; --green:#30d158; --green-bg:#0f2e18; --orange:#ff9f0a; --orange-bg:#33230a; --red:#ff453a; --red-bg:#3a1514;
-  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-in:#30d158; --k-other:#8e8e93;
+  --k-casa:#0a84ff; --k-bollette:#ff9f0a; --k-palestra:#30d158; --k-nutrizionista:#40c8e0; --k-libere:#bf5af2; --k-fondo:#5e5ce6; --k-pac:#ff375f; --k-yellow:#ffd60a; --k-red:#ff6961; --k-rosa:#ff7ac6; --k-in:#30d158; --k-other:#8e8e93;
   --shadow:0 0 0 1px rgba(255,255,255,.04); --shadow-up:0 10px 40px rgba(0,0,0,.6); color-scheme:dark;}
 html,body{background:var(--bg)}
 body{color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 0}
@@ -594,7 +594,7 @@ img{max-width:100%}
       <div class="fld wide"><label for="mDesc">Descrizione</label><input id="mDesc" type="text" maxlength="80" placeholder="Es. Cena con amici" autocomplete="off"></div>
       <div class="fld"><label for="mCat">Categoria</label><select id="mCat"></select></div>
       <div class="fld" id="mVoceWrap"><label for="mVoce">Voce</label><select id="mVoce"></select></div>
-      <div class="fld wide"><span class="lb" id="mMetLb">Pagato con</span><div class="seg" role="group" aria-labelledby="mMetLb"><button type="button" id="mConto" aria-pressed="true" style="flex:1">Carta o conto</button><button type="button" id="mCash" aria-pressed="false" style="flex:1">Contanti</button></div></div>
+      <div class="fld wide"><label for="mAcc" id="mMetLb">Pagato da</label><select id="mAcc"></select></div>
       <label class="sw-row wide" id="mBudgetWrap" for="mBudget"><span>Aggiungi alle spese libere<small>Questi soldi alzano il budget delle spese libere del mese</small></span><input type="checkbox" class="tog" id="mBudget"></label>
       <label class="sw-row wide" id="mSplitWrap" for="mSplit"><span id="mSplitLb">Divisa<small>Paghi tu tutto, poi ti rimborsano la loro parte</small></span><input type="checkbox" class="tog" id="mSplit"></label>
       <div class="fld wide" id="mQuotaWrap"><label for="mQuota" id="mQuotaLb">La loro parte (€)</label><input id="mQuota" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
@@ -643,6 +643,7 @@ img{max-width:100%}
     </div>
     <div class="subsec"><h4>Altre impostazioni</h4><div class="fgrid">
       <div class="fld wide"><span class="lb">Tipo</span><div class="seg" role="group" aria-label="Tipo di voce"><button type="button" id="cSpesa" aria-pressed="true" style="flex:1">Spesa</button><button type="button" id="cRisp" aria-pressed="false" style="flex:1">Risparmio</button></div></div>
+      <div class="fld wide" id="cDestWrap"><label for="cDest">I soldi vanno sul conto</label><select id="cDest"></select><span class="sub">Quando paghi questa voce, i soldi escono dal conto scelto e arrivano qui.</span></div>
       <div class="fld wide"><label for="cDesc">Nota (facoltativa)</label><input id="cDesc" type="text" maxlength="80" placeholder="Es. Assicurazione, benzina, bollo" autocomplete="off"></div>
       <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="cCol"></div></div>
       <label class="sw-row wide" for="cVar" id="cVarWrap"><span>Cambia molto da un mese all'altro<small>Come le bollette: mostra anche il totale da inizio anno</small></span><input type="checkbox" class="tog" id="cVar"></label>
@@ -663,7 +664,8 @@ img{max-width:100%}
       <div class="fld"><label for="aSaldo">Saldo attuale (€)</label><input id="aSaldo" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
       <div class="fld"><label for="aGoal">Obiettivo (€, facoltativo)</label><input id="aGoal" type="text" inputmode="decimal" placeholder="Nessuno" autocomplete="off"></div>
       <div class="fld wide"><span class="lb">Colore</span><div class="swatches" id="aCol"></div></div>
-      <label class="sw-row wide" for="aCash"><span>Sono i miei contanti<small>Il saldo si aggiorna da solo con i movimenti in contanti</small></span><input type="checkbox" class="tog" id="aCash"></label>
+      <label class="sw-row wide" for="aMain"><span>Conto principale<small>Già selezionato quando aggiungi una spesa o un'entrata</small></span><input type="checkbox" class="tog" id="aMain"></label>
+      <label class="sw-row wide" for="aCash"><span>Sono i miei contanti<small>Le spese in contanti si riconoscono nei filtri e nell'export</small></span><input type="checkbox" class="tog" id="aCash"></label>
     </div>
     <div class="msg" id="aMsg" role="status" aria-live="polite"></div>
     <div class="sh-foot"><button class="btn dan" id="aDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="aSave">Salva</button></div>
@@ -719,7 +721,8 @@ img{max-width:100%}
       <div class="fld wide" id="rVoceWrap"><label for="rVoce">Sottocategoria</label><select id="rVoce"></select></div>
       <div class="fld"><label for="rGiorno">Giorno del mese</label><select id="rGiorno"></select></div>
       <div class="fld"><label for="rOgni">Ogni</label><select id="rOgni"><option value="1">mese</option><option value="2">2 mesi</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12">anno</option></select></div>
-      <div class="fld wide"><label for="rDa">A partire da</label><select id="rDa"></select></div>
+      <div class="fld"><label for="rDa">A partire da</label><select id="rDa"></select></div>
+      <div class="fld"><label for="rAcc">Pagata da</label><select id="rAcc"></select></div>
       <label class="sw-row wide" for="rAttiva"><span>Attiva<small>Se la spegni, non compare più nella lista</small></span><input type="checkbox" class="tog" id="rAttiva" checked></label>
     </div>
     <div class="msg" id="rsMsg" role="status" aria-live="polite"></div>
@@ -748,7 +751,8 @@ img{max-width:100%}
 (() => {
   // ---------- model ----------
   // ---- struttura: nome, conti, voci del piano, voci libere, spese divise (personale per ogni account) ----
-  const COLORS = {blue:'--k-casa', orange:'--k-bollette', green:'--k-palestra', teal:'--k-nutrizionista', purple:'--k-libere', indigo:'--k-fondo', pink:'--k-pac', yellow:'--k-yellow', red:'--k-red', gray:'--k-other'};
+  const COLORS = {blue:'--k-casa', orange:'--k-bollette', green:'--k-palestra', teal:'--k-nutrizionista', purple:'--k-libere', indigo:'--k-fondo', pink:'--k-pac', rosa:'--k-rosa', yellow:'--k-yellow', red:'--k-red', gray:'--k-other'};
+  const COLOR_NAMES = {blue:'Blu', orange:'Arancione', green:'Verde', teal:'Azzurro', purple:'Viola', indigo:'Indaco', pink:'Fucsia', rosa:'Rosa', yellow:'Giallo', red:'Rosso', gray:'Grigio'};
   const colVar = c => `var(${COLORS[c]||'--k-other'})`;
   const DEFAULT_VOCI = ['Ristoranti e cene','Bar e caffè','Aperitivi e serate','Cibo a domicilio','Spesa extra','Svago e hobby','Concerti e eventi','Viaggi e weekend','Carburante','Treni e mezzi','Parcheggi e pedaggi','Abbigliamento','Tecnologia','Abbonamenti digitali','Cura personale','Farmacia','Libri e università','Casa e arredamento','Regali','Altro'];
   // struttura di chi usava già l'app prima di questo aggiornamento (stesse voci e conti di prima)
@@ -966,12 +970,12 @@ img{max-width:100%}
     box.replaceChildren('In arrivo: ', ...items.flatMap((x,i)=>[i?' · ':'', el('b',{text:`${x.r.nome} ${fmt0(ricAmount(x.r,x.k))}`}), ` a ${MESI[Number(x.k.slice(5))-1]}`]));
   }
   function svgCheck(){ const s=sv('svg',{width:14,height:14,viewBox:'0 0 14 14','aria-hidden':'true'}); s.append(sv('path',{d:'M2.5 7.5 L5.6 10.5 L11.5 3.8',fill:'none','stroke-width':2.2,'stroke-linecap':'round','stroke-linejoin':'round',style:'stroke:#fff'})); return s; }
-  const fixBody = (r,k,importo) => ({data:`${k}-${pad(Math.min(Number(r.giorno)||1,daysIn(k)))}`, mese:k, importo:r2(importo), tipo:'uscita', categoria:r.categoria, descrizione:r.nome, voce:r.voce||'', metodo:'conto', auto:true, ricorrente:r.id, creato:new Date().toISOString()});
+  const fixBody = (r,k,importo) => ({data:`${k}-${pad(Math.min(Number(r.giorno)||1,daysIn(k)))}`, mese:k, importo:r2(importo), tipo:'uscita', categoria:r.categoria, descrizione:r.nome, voce:r.voce||'', conto:(r.conto!==undefined?r.conto:defaultAcc()), metodo:(((CONTI.find(a=>a.id===(r.conto!==undefined?r.conto:defaultAcc()))||{}).contanti)?'contanti':'conto'), auto:true, ricorrente:r.id, creato:new Date().toISOString()});
   async function toggleFix(r,k,done){
     if(!db||!S.canWrite) return;
     const key=r.id+k; if(busy.has(key)) return; busy.add(key); renderFix();
     const ref=db.collection('movimenti').doc(fixId(r,k));
-    try{ if(done) await ref.delete(); else await ref.set(fixBody(r,k,ricAmount(r,k))); }
+    try{ if(done){ const old=fixMov(r,k); await ref.delete(); await applyEffects(old,null); } else { const nb=fixBody(r,k,ricAmount(r,k)); await ref.set(nb); await applyEffects(null,nb); } }
     catch(e){ status('Non sono riuscito a salvare la spunta. Riprova.', true); setTimeout(()=>status(''),4000); }
     finally{ busy.delete(key); render(); }
   }
@@ -1263,7 +1267,7 @@ img{max-width:100%}
     if(!CONTI.length){ $('wTot').textContent='—'; $('wUpd').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'Crea i tuoi conti nella sezione Conti.'})); return; }
     const vals=CONTI.map(c=>({c, v:Number(s[c.id])||0})); const tot=vals.reduce((a,x)=>a+x.v,0);
     $('wTot').textContent=fmtS(tot);
-    $('wUpd').textContent = (s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · ` : '') + 'tocca un conto per modificarlo' + (CONTI.some(c=>c.contanti)?' · i contanti si aggiornano da soli':'');
+    $('wUpd').textContent = (s.aggiornato ? `Saldi aggiornati il ${new Date(s.aggiornato).toLocaleDateString('it-IT',{day:'numeric',month:'long'})} · ` : '') + 'si aggiornano da soli con i movimenti · tocca un conto per modificarlo';
     box.replaceChildren(...vals.map(({c,v})=>{
       const goal = Number(c.obiettivo)||0;
       const pct = goal>0 ? v/goal : (tot>0 ? v/tot : 0);
@@ -1328,16 +1332,30 @@ img{max-width:100%}
   $('rGiorno').replaceChildren(...Array.from({length:28},(_,i)=>new Option(String(i+1),String(i+1))));
   function fillRDa(sel){ const base=mk(todayISO()); const ks=[]; for(let i=-12;i<=24;i++) ks.push(shiftM(base,i)); if(sel && !ks.includes(sel)) ks.unshift(sel); $('rDa').replaceChildren(...ks.map(k=>new Option(mLabel(k),k))); $('rDa').value=sel||base; }
   function fillMCat(){ const sel=$('mCat'), prev=sel.value, list=S.tipo==='uscita'?CATS:ENTRATE; sel.replaceChildren(...list.map(c=>new Option(c.nome,c.id))); if(S.edit && S.edit.categoria==='salute' && S.tipo==='uscita') sel.append(new Option(LEGACY.salute,'salute')); sel.value = [...sel.options].some(o=>o.value===prev) ? prev : (S.tipo==='uscita'?'libere':'stipendio'); syncM(); }
-  S.metodo='conto';
-  function setMetodo(v){ S.metodo=v; $('mConto').setAttribute('aria-pressed',v==='conto'); $('mCash').setAttribute('aria-pressed',v==='contanti'); }
-  $('mConto').addEventListener('click',()=>setMetodo('conto')); $('mCash').addEventListener('click',()=>setMetodo('contanti'));
+  // ---- conti e saldi: ogni movimento sposta i soldi del conto scelto ----
+  const cashId = () => (CONTI.find(a=>a.contanti)||{}).id || '';
+  const defaultAcc = () => ((CONTI.find(a=>a.principale) || CONTI.find(a=>!a.contanti) || CONTI[0] || {}).id) || '';
+  const destOf = c => c ? (c.contoDest!==undefined ? c.contoDest : (CONTI.some(a=>a.id===c.id) ? c.id : '')) : '';
+  function accOptions(sel, value, noneLabel){ sel.replaceChildren(...CONTI.map(a=>new Option(a.nome, a.id)), new Option(noneLabel||'Nessun conto (non cambia i saldi)','')); sel.value = [...sel.options].some(o=>o.value===value) ? value : ''; }
+  function effects(m){
+    const out={}; if(!m) return out;
+    const add=(id,d)=>{ if(id && CONTI.some(a=>a.id===id)) out[id]=(out[id]||0)+d; };
+    const amt=Number(m.importo)||0, explicit = m.conto!==undefined;
+    const src = explicit ? m.conto : (m.metodo==='contanti' ? cashId() : '');
+    if(m.tipo==='entrata') add(src, amt);
+    else { add(src, -amt); if(explicit){ const c=ALLCATS.find(x=>x.id===m.categoria); if(c && c.g==='risp') add(destOf(c), amt); } }
+    return out;
+  }
+  async function applyEffects(oldM, newM){
+    const a=effects(oldM), b=effects(newM), sd={...(S.saldi||{})}; let changed=false;
+    new Set([...Object.keys(a),...Object.keys(b)]).forEach(id=>{ const d=r2((b[id]||0)-(a[id]||0)); if(d){ sd[id]=r2((Number(sd[id])||0)+d); changed=true; } });
+    if(changed) await db.doc('impostazioni/saldi').set(sd);
+  }
+  function setMetodo(){}
   function syncM(){ $('mSplitLb').firstChild.textContent = `Divisa con ${shareName().toLowerCase()}`; $('mQuotaLb').textContent = `Parte di ${shareName().toLowerCase()} (€)`; $('mVoceWrap').hidden = !(S.tipo==='uscita' && $('mCat').value==='libere'); $('mAutoWrap').hidden = !!S.edit || S.tipo!=='uscita';
     $('mBudgetWrap').hidden = S.tipo!=='entrata' || ['stipendio','rimborso'].includes($('mCat').value);
-    $('mSplitWrap').hidden = !sharing() || S.tipo!=='uscita' || rispIds().includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto' : 'Pagato con';
-    $('mConto').textContent = S.tipo==='entrata' ? 'Sul conto' : 'Carta o conto'; $('mCash').textContent = S.tipo==='entrata' ? 'In contanti' : 'Contanti'; }
+    $('mSplitWrap').hidden = !sharing() || S.tipo!=='uscita' || rispIds().includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto su' : 'Pagato da';}
   // cash wallet: every cash movement moves the Contanti balance
-  const cashDelta = m => (m && m.metodo==='contanti') ? (m.tipo==='entrata'?1:-1)*(Number(m.importo)||0) : 0;
-  async function adjustCash(d){ d=r2(d); const acc=CONTI.find(c=>c.contanti); if(!d||!acc) return; const cur=Number((S.saldi||{})[acc.id]||0); await db.doc('impostazioni/saldi').set({...(S.saldi||{}), [acc.id]:r2(cur+d)}); }
   function setTipo(t){ S.tipo=t; $('mUscita').setAttribute('aria-pressed',t==='uscita'); $('mEntrata').setAttribute('aria-pressed',t==='entrata'); fillMCat(); }
   $('mUscita').addEventListener('click',()=>setTipo('uscita')); $('mEntrata').addEventListener('click',()=>setTipo('entrata'));
   $('mCat').addEventListener('change',syncM);
@@ -1352,7 +1370,7 @@ img{max-width:100%}
     const defDate = m ? m.data : (S.month===mk(todayISO()) ? todayISO() : `${S.month}-01`);
     $('mImp').value = m ? numIn(m.importo) : numIn(P.importo); $('mData').value = defDate; $('mDesc').value = m ? m.descrizione : (P.descrizione||'');
     $('mSplit').checked = !!(m && Number(m.quota)>0); $('mQuota').value = m && Number(m.quota)>0 ? numIn(m.quota) : '';
-    $('mCat').value=''; fillMCat(); if(P.categoria) $('mCat').value=P.categoria; if(m){ $('mCat').value=m.categoria; if(m.voce) $('mVoce').value=m.voce; } setMetodo(m&&m.metodo==='contanti'?'contanti':'conto'); $('mBudget').checked=!!(m&&m.aBudget); syncM();
+    $('mCat').value=''; fillMCat(); if(P.categoria) $('mCat').value=P.categoria; if(m){ $('mCat').value=m.categoria; if(m.voce) $('mVoce').value=m.voce; } accOptions($('mAcc'), m ? (m.conto!==undefined ? m.conto : (m.metodo==='contanti' ? cashId() : '')) : (P.metodo==='contanti' ? cashId() : defaultAcc())); $('mBudget').checked=!!(m&&m.aBudget); syncM();
     openSheet('movSheet','mImp');
   }
   $('fab').addEventListener('click',()=>openMov(null));
@@ -1363,17 +1381,16 @@ img{max-width:100%}
     if(!data || !$('mData').validity.valid) return say(msg,'Scegli una data valida.',false);
     const split = S.tipo==='uscita' && !$('mSplitWrap').hidden && $('mSplit').checked; const quota = split ? parseAmt($('mQuota').value) : 0;
     if(split && !(quota>0 && quota<=imp)) return say(msg,'Scrivi la loro parte: più di zero e non oltre l\'importo.',false);
-    const body={ data, mese:mk(data), importo:r2(imp), tipo:S.tipo, categoria:cat, descrizione:$('mDesc').value.trim()||catName(cat), voce:(S.tipo==='uscita'&&cat==='libere')?$('mVoce').value:'', metodo:S.metodo, aBudget:(S.tipo==='entrata'&&!['stipendio','rimborso'].includes(cat))?$('mBudget').checked:false, quota: split ? r2(quota) : 0, aggiornato:new Date().toISOString() };
-    const oldCash=cashDelta(S.edit), newCash=cashDelta(body);
+    const body={ data, mese:mk(data), importo:r2(imp), tipo:S.tipo, categoria:cat, descrizione:$('mDesc').value.trim()||catName(cat), voce:(S.tipo==='uscita'&&cat==='libere')?$('mVoce').value:'', conto:$('mAcc').value, metodo:((CONTI.find(a=>a.id===$('mAcc').value)||{}).contanti?'contanti':'conto'), aBudget:(S.tipo==='entrata'&&!['stipendio','rimborso'].includes(cat))?$('mBudget').checked:false, quota: split ? r2(quota) : 0, aggiornato:new Date().toISOString() };
     $('mSave').disabled=true;
     try{
       if(S.edit){ const {id,...old}=S.edit; await db.collection('movimenti').doc(id).set({...old, ...body}); }
       else if($('mAuto').checked && S.tipo==='uscita'){
         const rref=db.collection('ricorrenti').doc();
-        await rref.set({nome:body.descrizione, importo:body.importo, categoria:cat, voce:body.voce, giorno:Math.min(28,Number(data.slice(8,10))), ogniMesi:1, daMese:body.mese, attiva:true, creato:new Date().toISOString()});
+        await rref.set({nome:body.descrizione, importo:body.importo, categoria:cat, voce:body.voce, conto:body.conto, giorno:Math.min(28,Number(data.slice(8,10))), ogniMesi:1, daMese:body.mese, attiva:true, creato:new Date().toISOString()});
         await db.collection('movimenti').doc(`auto_${rref.id}_${body.mese}`).set({...body, creato:new Date().toISOString(), auto:true, ricorrente:rref.id});
       } else { await db.collection('movimenti').add({...body, creato:new Date().toISOString()}); }
-      try{ await adjustCash(newCash-oldCash); }catch(e){ status('Movimento salvato, ma non ho aggiornato il saldo dei contanti: correggilo in Conti.',true); }
+      try{ await applyEffects(S.edit, body); }catch(e){ status('Movimento salvato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); }
       if(body.mese!==S.month){ S.month=body.mese; render(); }
       closeSheet('movSheet');
     }catch(e){ say(msg, e&&e.code==='quota_exceeded'?'Spazio esaurito: esporta un backup ed elimina qualche movimento vecchio.':'Non salvato. Controlla la connessione e riprova.', false); }
@@ -1384,7 +1401,7 @@ img{max-width:100%}
     const msg=$('mMsg'); if(!S.edit||!guard(msg)) return;
     if(!delArmed){ delArmed=true; $('mDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ delArmed=false; $('mDel').textContent='Elimina'; },3000); return; }
     delArmed=false; $('mDel').textContent='Elimina';
-    try{ const old=S.edit; await db.collection('movimenti').doc(old.id).delete(); try{ await adjustCash(-cashDelta(old)); }catch(e){ status('Movimento eliminato, ma non ho aggiornato il saldo dei contanti: correggilo in Conti.',true); } closeSheet('movSheet'); }
+    try{ const old=S.edit; await db.collection('movimenti').doc(old.id).delete(); try{ await applyEffects(old, null); }catch(e){ status('Movimento eliminato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); } closeSheet('movSheet'); }
     catch(e){ say(msg,'Non eliminato. Riprova.',false); }
   });
 
@@ -1393,7 +1410,7 @@ img{max-width:100%}
     $('rsTitle').textContent = r ? 'Modifica spesa fissa' : 'Nuova spesa fissa'; $('rsDel').hidden=!r;
     $('rNome').value=r?r.nome:''; $('rImp').value=r?numIn(r.importo):''; $('rCat').value = r ? (CATS.some(c=>c.id===r.categoria)?r.categoria:(CATS[0]||{}).id) : (presetCat && CATS.some(c=>c.id===presetCat) ? presetCat : (CATS[0]||{}).id);
     $('rVoce').value=r&&r.voce?r.voce:VOCI[0]; $('rVoceWrap').hidden=$('rCat').value!=='libere';
-    $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r?r.ogniMesi||1:1); fillRDa(r?r.daMese:mk(todayISO())); $('rAttiva').checked = r ? r.attiva!==false : true;
+    $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r?r.ogniMesi||1:1); fillRDa(r?r.daMese:mk(todayISO())); accOptions($('rAcc'), r && r.conto!==undefined ? r.conto : defaultAcc()); $('rAttiva').checked = r ? r.attiva!==false : true;
     openSheet('ricSheet','rNome');
   }
   $('rsSave').addEventListener('click', async ()=>{
@@ -1402,7 +1419,7 @@ img{max-width:100%}
     if(!nome) return say(msg,'Dai un nome alla spesa, ad esempio Affitto.',false);
     if(!(imp>0)) return say(msg,'Scrivi un importo maggiore di zero.',false);
     const cat=$('rCat').value;
-    const body={nome, importo:r2(imp), categoria:cat, voce:cat==='libere'?$('rVoce').value:'', giorno:Number($('rGiorno').value), ogniMesi:Number($('rOgni').value), daMese:$('rDa').value, attiva:$('rAttiva').checked, aggiornato:new Date().toISOString()};
+    const body={nome, importo:r2(imp), categoria:cat, voce:cat==='libere'?$('rVoce').value:'', giorno:Number($('rGiorno').value), ogniMesi:Number($('rOgni').value), daMese:$('rDa').value, conto:$('rAcc').value, attiva:$('rAttiva').checked, aggiornato:new Date().toISOString()};
     $('rsSave').disabled=true;
     try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); } else await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()});
       const need=Math.ceil(monthlyFix(cat)), have=budget(cat);
@@ -1444,12 +1461,12 @@ img{max-width:100%}
     try{
       if(mode==='skip'){
         if(ricSkipped(r,k)){ const o={...ov[k]}; delete o.saltata; if(Object.keys(o).length) ov[k]=o; else delete ov[k]; await saveRic(r,{override:ov}); }
-        else { ov[k]={...(ov[k]||{}), saltata:true}; await saveRic(r,{override:ov}); if(m) await db.collection('movimenti').doc(m.id).delete(); }
+        else { ov[k]={...(ov[k]||{}), saltata:true}; await saveRic(r,{override:ov}); if(m){ await db.collection('movimenti').doc(m.id).delete(); await applyEffects(m,null); } }
       } else {
         const v=parseAmt($('fsImp').value); if(!(v>0)) return say(msg,'Scrivi un importo maggiore di zero.',false);
         if(mode==='month'){ ov[k]={...(ov[k]||{}), importo:r2(v)}; await saveRic(r,{override:ov}); }
         else { Object.keys(ov).forEach(x=>{ if(x>=k){ delete ov[x].importo; if(!Object.keys(ov[x]).length) delete ov[x]; } }); await saveRic(r,{importo:r2(v), override:ov}); }
-        if(m){ const {id,...rest}=m; await db.collection('movimenti').doc(id).set({...rest, importo:r2(v), aggiornato:new Date().toISOString()}); }
+        if(m){ const {id,...rest}=m; const nm={...rest, importo:r2(v), aggiornato:new Date().toISOString()}; await db.collection('movimenti').doc(id).set(nm); await applyEffects(m,nm); }
       }
       closeSheet('fixSheet');
     }catch(e){ say(msg,'Non salvato. Riprova.',false); }
@@ -1495,7 +1512,7 @@ img{max-width:100%}
   const saveStructure = st => db.doc('impostazioni/struttura').set(JSON.parse(JSON.stringify(st)));
   const slug = t => (t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24) || 'voce';
   const uniqueId = (base, taken) => { let id=slug(base), n=2; while(taken.includes(id)) id=slug(base)+'-'+(n++); return id; };
-  function swatches(boxId, selected, onPick){ const box=$(boxId); box.replaceChildren(...Object.keys(COLORS).map(k=>{ const b=el('button',{type:'button',class:'swatch','aria-label':k,'aria-pressed':k===selected?'true':'false',style:`background:${colVar(k)}`}); b.addEventListener('click',()=>{ box.querySelectorAll('.swatch').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); onPick(k); }); return b; })); }
+  function swatches(boxId, selected, onPick){ const box=$(boxId); box.replaceChildren(...Object.keys(COLORS).map(k=>{ const b=el('button',{type:'button',class:'swatch','aria-label':COLOR_NAMES[k]||k,title:COLOR_NAMES[k]||k,'aria-pressed':k===selected?'true':'false',style:`background:${colVar(k)}`}); b.addEventListener('click',()=>{ box.querySelectorAll('.swatch').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); onPick(k); }); return b; })); }
   function renderStructureLists(){
     // voci del piano
     renderPlan(); const cl=null; if(cl){ cl.replaceChildren(...ALLCATS.map(c=>{ const usedB=budget(c.id);
@@ -1515,7 +1532,7 @@ img{max-width:100%}
   $('shSave').addEventListener('click', async ()=>{ const m=$('shMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, divise:{attiva:$('shOn').checked, nome:$('shName').value.trim()||'Coinquilino'}}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
   // voce del piano
   let CE=null, cG='spesa', cColor='blue';
-  const setCG = g => { cG=g; $('cSpesa').setAttribute('aria-pressed',g==='spesa'); $('cRisp').setAttribute('aria-pressed',g==='risp'); $('cVarWrap').hidden = g==='risp'; };
+  const setCG = g => { cG=g; $('cSpesa').setAttribute('aria-pressed',g==='spesa'); $('cRisp').setAttribute('aria-pressed',g==='risp'); $('cVarWrap').hidden = g==='risp'; $('cDestWrap').hidden = g!=='risp'; };
   $('cSpesa').addEventListener('click',()=>setCG('spesa')); $('cRisp').addEventListener('click',()=>setCG('risp'));
   const useCount = id => ({ m:S.movs.filter(m=>m.categoria===id).length, r:S.ric.filter(r=>r.categoria===id&&r.attiva!==false).length });
   function openCat(c, note){
@@ -1525,7 +1542,7 @@ img{max-width:100%}
     renderCatFix();
     $('cNome').value=c?c.nome:''; $('cDesc').value=c?c.desc:''; $('cVar').checked=!!(c&&c.variabile);
     cColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!ALLCATS.some(x=>x.colore===k)) || 'gray';
-    swatches('cCol', cColor, k=>cColor=k); setCG(c?c.g:'spesa');
+    accOptions($('cDest'), c ? destOf(c) : '', 'Nessun conto'); swatches('cCol', cColor, k=>cColor=k); setCG(c?c.g:'spesa');
     const isLib = c && c.id==='libere';
     $('cSpesa').disabled=isLib; $('cRisp').disabled=isLib;
     const used = c ? useCount(c.id) : {m:0,r:0};
@@ -1551,7 +1568,7 @@ img{max-width:100%}
   $('catAdd').addEventListener('click',()=>openCat(null));
   $('cSave').addEventListener('click', async ()=>{
     const m=$('cMsg'); if(!guard(m)) return; const nome=$('cNome').value.trim(); if(!nome) return say(m,'Dai un nome alla voce.',false);
-    const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked};
+    const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked, contoDest: cG==='risp' ? $('cDest').value : ''};
     const list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : [...ST.categorie, {id:uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute'])), ...data}];
     const bv=parseAmt($('cBudget').value); const cid = CE ? CE.id : list[list.length-1].id;
     try{ await saveStructure({...ST, categorie:list});
@@ -1581,7 +1598,7 @@ img{max-width:100%}
   let AE=null, aColor='blue';
   function openAcc(c){
     AE=c||null; $('aMsg').textContent=''; $('aTitle').textContent = c?'Modifica conto':'Nuovo conto';
-    $('aNome').value=c?c.nome:''; $('aDove').value=c?(c.dove||''):''; $('aSaldo').value=c?numIn((S.saldi||{})[c.id]):''; $('aGoal').value=c&&Number(c.obiettivo)>0?numIn(c.obiettivo):''; $('aCash').checked=!!(c&&c.contanti);
+    $('aNome').value=c?c.nome:''; $('aDove').value=c?(c.dove||''):''; $('aSaldo').value=c?numIn((S.saldi||{})[c.id]):''; $('aGoal').value=c&&Number(c.obiettivo)>0?numIn(c.obiettivo):''; $('aCash').checked=!!(c&&c.contanti); $('aMain').checked = c ? (c.principale || (!CONTI.some(a=>a.principale) && defaultAcc()===c.id)) : !CONTI.length;
     aColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!CONTI.some(x=>x.colore===k)) || 'gray';
     swatches('aCol', aColor, k=>aColor=k); $('aDel').hidden=!c; $('aDel').textContent='Elimina';
     openSheet('accSheet','aNome');
@@ -1589,11 +1606,12 @@ img{max-width:100%}
   $('accAdd').addEventListener('click',()=>openAcc(null));
   $('aSave').addEventListener('click', async ()=>{
     const m=$('aMsg'); if(!guard(m)) return; const nome=$('aNome').value.trim(); if(!nome) return say(m,'Dai un nome al conto.',false);
-    const saldo=parseAmt($('aSaldo').value), goal=parseAmt($('aGoal').value), cash=$('aCash').checked;
-    const data={nome, dove:$('aDove').value.trim(), colore:aColor, obiettivo:goal>0?r2(goal):0, contanti:cash};
+    const saldo=parseAmt($('aSaldo').value), goal=parseAmt($('aGoal').value), cash=$('aCash').checked, main=$('aMain').checked;
+    const data={nome, dove:$('aDove').value.trim(), colore:aColor, obiettivo:goal>0?r2(goal):0, contanti:cash, principale:main};
     const id = AE ? AE.id : uniqueId(nome, CONTI.map(c=>c.id).concat(['aggiornato']));
     let list = AE ? ST.conti.map(c=>c.id===id?{...c,...data}:c) : [...(ST.conti||[]), {id, ...data}];
     if(cash) list = list.map(c=>c.id===id?c:{...c, contanti:false});
+    if(main) list = list.map(c=>c.id===id?c:{...c, principale:false});
     try{
       await saveStructure({...ST, conti:list});
       if(!isNaN(saldo)) await db.doc('impostazioni/saldi').set({...(S.saldi||{}), [id]:r2(saldo), aggiornato:new Date().toISOString()});
