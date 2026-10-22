@@ -124,6 +124,7 @@ button.row:hover{background:var(--fill)}
 .brow .val{font-size:13.5px;text-align:right;min-width:0}
 .brow .val .left{white-space:nowrap}
 .brow .val b{font-weight:600}
+#annList .row .s{white-space:normal;overflow:visible}
 .brow .track{grid-column:1/-1;height:7px;background:var(--fill);border-radius:4px;overflow:hidden}
 .brow .fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
 .brow .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
@@ -217,6 +218,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 .fld > label,.fld > .lb{font-size:12.5px;font-weight:600;color:var(--muted)}
 .fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .fgrid .wide{grid-column:1/-1}
+.fgrid .hint{font-size:13px;color:var(--muted);background:var(--fill);border-radius:12px;padding:10px 12px;line-height:1.4}
 .msg{font-size:13px;min-height:1.2em}
 .ok{color:var(--green)} .ko{color:var(--red)}
 .sw-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--fill);border-radius:var(--r-ctl);padding:10px 12px}
@@ -575,9 +577,10 @@ img{max-width:100%}
       <div class="planbar" id="planBar" aria-hidden="true"></div>
       <div id="planList"></div>
     </div>
-    <div class="card">
-      <div class="head"><h2>Spese non mensili</h2><span class="sub" id="annSub"></span></div>
-      <p class="prose">Le spese fisse che arrivano ogni 2, 3, 6 o 12 mesi, divise per mese: è quanto conviene mettere da parte ogni mese per non avere sorprese.</p>
+    <div class="card" id="annCard" style="scroll-margin-top:90px">
+      <div class="head"><h2>Spese non mensili</h2><button class="btn" id="annAdd">Aggiungi</button></div>
+      <p class="prose">Le spese che arrivano ogni 2, 3, 6 o 12 mesi: bollo, assicurazione, un abbonamento annuale. Le gestisci tutte da qui; nel piano diventano una sola voce, quanto conviene mettere da parte ogni mese per non avere sorprese.</p>
+      <div class="sub" id="annSub" style="margin:-4px 0 8px"></div>
       <div class="list" id="annList"></div>
     </div>
     <div class="card">
@@ -748,14 +751,15 @@ img{max-width:100%}
       <div class="fld wide"><label for="rNome">Nome</label><input id="rNome" type="text" maxlength="60" placeholder="Es. Affitto" autocomplete="off"></div>
       <div class="fld"><label for="rImp">Importo (€)</label><input id="rImp" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
       <div class="fld"><label for="rGiorno">Giorno del mese</label><select id="rGiorno"></select></div>
-      <div class="fld"><label for="rCat">Categoria</label><select id="rCat"></select></div>
+      <div class="fld" id="rCatWrap"><label for="rCat">Categoria</label><select id="rCat"></select></div>
       <div class="fld" id="rVoceWrap"><label for="rVoce">Sottocategoria</label><select id="rVoce"></select></div>
+      <div class="hint wide" id="rNmHint" hidden></div>
       <label class="sw-row wide" for="rPaid" id="rPaidWrap"><span>L'ho già pagata questo mese<small>La segno come pagata senza cambiare il saldo</small></span><input type="checkbox" class="tog" id="rPaid"></label>
     </div>
     <details class="more" id="rMore"><summary><span>Altre opzioni<small id="rSum">Ogni mese · dal mese corrente</small></span></summary><div class="in">
       <div class="fgrid">
-        <div class="fld"><label for="rOgni">Ogni</label><select id="rOgni"><option value="1">mese</option><option value="2">2 mesi</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12">anno</option></select></div>
-        <div class="fld"><label for="rDa">A partire da</label><select id="rDa"></select></div>
+        <div class="fld" id="rOgniWrap"><label for="rOgni">Ogni</label><select id="rOgni"><option value="1">mese</option><option value="2">2 mesi</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12">anno</option></select></div>
+        <div class="fld" id="rDaWrap"><label for="rDa" id="rDaLbl">A partire da</label><select id="rDa"></select></div>
         <div class="fld wide"><label for="rAcc">Pagata da</label><select id="rAcc"></select></div>
       </div>
       <label class="sw-row" for="rAttiva"><span>Attiva<small>Se la spegni, non compare più nella lista</small></span><input type="checkbox" class="tog" id="rAttiva" checked></label>
@@ -878,9 +882,21 @@ img{max-width:100%}
     ALLCATS = (st.categorie||[]).map(c=>({...c, desc:c.desc||'', g:c.g==='risp'?'risp':'spesa'}));
     if(!ALLCATS.some(c=>c.id==='libere')) ALLCATS.push({id:'libere', nome:'Spese libere', desc:'', g:'spesa', colore:'purple'});
     CATS = ALLCATS.filter(c=>!c.archiviata);
-    CONTI = (st.conti||[]).map(c=>({...c, w:c.dove||'', col:colVar(c.colore), goal:Number(c.obiettivo)>0}));
+    refreshNM(true);
+    CONTI =(st.conti||[]).map(c=>({...c, w:c.dove||'', col:colVar(c.colore), goal:Number(c.obiettivo)>0}));
     VOCI = Array.isArray(st.voci) && st.voci.length ? st.voci.slice() : DEFAULT_VOCI.slice();
     ENTRATE = ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e, nome:`Rimborso da ${shareName().toLowerCase()}`}:e).filter(e=>e.id!=='rimborso' || sharing() || S.movs.some(m=>m.categoria==='rimborso'));
+  }
+  // "Spese non mensili": voce di sistema del piano, raccoglie le spese che arrivano ogni 2+ mesi.
+  // Non sta nella struttura: compare da sola quando ce n'è almeno una, il suo budget è la media mensile.
+  const NM = 'nonmensili';
+  function refreshNM(quiet){
+    const on = S.ric.some(r=>r.categoria===NM) || S.movs.some(m=>m.categoria===NM), has = ALLCATS.some(c=>c.id===NM);
+    if(on===has) return;
+    if(on){ const li=ALLCATS.findIndex(c=>c.id==='libere'); ALLCATS.splice(li>-1?li:ALLCATS.length, 0, {id:NM, nome:'Spese non mensili', desc:'', g:'spesa', colore:'teal', sys:true}); }
+    else ALLCATS = ALLCATS.filter(c=>c.id!==NM);
+    CATS = ALLCATS.filter(c=>!c.archiviata);
+    if(!quiet){ buildQCat(); buildSelects(); }
   }
   const catName = id => (ALLCATS.find(c=>c.id===id)||ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e,nome:`Rimborso da ${shareName().toLowerCase()}`}:e).find(c=>c.id===id)||{nome:LEGACY[id]||'Categoria eliminata'}).nome;
   const catColor = (id,tipo) => { if(tipo==='entrata') return 'var(--k-in)'; const c=ALLCATS.find(x=>x.id===id); return c ? colVar(c.colore) : 'var(--k-other)'; };
@@ -924,10 +940,11 @@ img{max-width:100%}
   let db=null;
   const status = (m,err) => { const s=$('status'); s.hidden=!m; s.textContent=m||''; s.classList.toggle('err',!!err); };
   const budgetRaw = id => S.piano&&S.piano.budget ? Number(S.piano.budget[id]||0) : 0;
-  const libereRest = () => Math.max(0, (Number((S.piano||{}).stipendio)||0) - CATS.filter(c=>c.id!=='libere').reduce((a,c)=>a+budgetRaw(c.id),0));
+  const nmBudget = () => Math.ceil(S.ric.filter(r=>r.categoria===NM && r.attiva!==false && Number(r.importo)>0).reduce((a,r)=>a+Number(r.importo)/Math.max(1,Number(r.ogniMesi)||1),0));
+  const libereRest = () => Math.max(0, (Number((S.piano||{}).stipendio)||0) - CATS.filter(c=>c.id!=='libere').reduce((a,c)=>a+(c.id===NM?nmBudget():budgetRaw(c.id)),0));
   // spese libere "quello che resta": attivo se scelto, oppure se il valore salvato coincide già con il resto
   const libereAuto = () => { if(!S.piano) return false; if(S.piano.libereAuto!==undefined) return !!S.piano.libereAuto; return Math.abs(budgetRaw('libere')-libereRest())<1 || !S.piano.budget || S.piano.budget.libere===undefined; };
-  const budget = id => (id==='libere' && libereAuto()) ? libereRest() : budgetRaw(id);
+  const budget = id => id===NM ? nmBudget() : (id==='libere' && libereAuto()) ? libereRest() : budgetRaw(id);
   const live = () => S.movs.filter(m=>!m.escluso);
   const extraLibere = k => sum(live().filter(m=>m.mese===k && m.tipo==='entrata' && m.aBudget));
   const budgetFor = (id,k) => budget(id) + (id==='libere' ? extraLibere(k||S.month) : 0);
@@ -965,6 +982,7 @@ img{max-width:100%}
 
   function render(){
     $('monthLabel').textContent = mLabel(S.month);
+    refreshNM(); migrateNM();
     renderMese(); renderRecap(); renderConfronto(); renderRic(); renderAnn(); renderGoals(); renderStructureLists();
   }
 
@@ -1074,9 +1092,10 @@ img{max-width:100%}
       const b=budgetFor(c.id), s=st.byCat[c.id]||0, p=b>0?s/b:(s>0?1.01:0);
       const hasDue = S.ricReady && dueActive(S.month).some(r=>r.categoria===c.id);
       if(b<=0 && s<=0 && !hasDue) continue;
+      if(c.id===NM){ out.push(nmBudgetRow(c,b,s)); continue; }
       const left=b-s, full = s>0 && Math.abs(left)<0.005;
       const cls = c.g==='risp' || full ? '' : p>1?'over':p>=.85?'warn':'';
-      const val = el('div',{class:'val'}, el('span',{class:'left'}, el('b',{text:fmt(s)}), ` / ${fmt0(b)}`), c.g==='spesa' ? el('span',{class:'left',text: full ? ' · completato' : left>=0?` · restano ${fmt(left)}`:` · oltre di ${fmt(-left)}`}) : null);
+      const val = el('div',{class:'val'}, el('span',{class:'left'}, el('b',{text:fmt(s)}), ` / ${fmt0(b)}`), c.g==='spesa' ? ' ' : null, c.g==='spesa' ? el('span',{class:'left',text: full ? '· completato' : left>=0?`· restano ${fmt(left)}`:`· oltre di ${fmt(-left)}`}) : null);
       const row = el('div',{class:'brow '+cls},
         el('div',{class:'n'}, el('i',{style:`background:${catColor(c.id)}`}), el('span',{text:c.nome})),
         val,
@@ -1096,6 +1115,20 @@ img{max-width:100%}
       out.push(row);
     }
     box.replaceChildren(...(out.some(x=>x.classList&&x.classList.contains('brow')) ? out.filter((x,i,a)=>!(x.classList.contains('cap') && !(a[i+1]&&a[i+1].classList.contains('brow')))) : [el('div',{class:'empty',text:'Dai un budget alle categorie in Impostazioni → Il tuo piano.'})]));
+  }
+  // spese non mensili nel budget del mese: si accantona ogni mese, si paga solo nei mesi in cui arrivano (mai "oltre")
+  function nmBudgetRow(c,b,s){
+    const dues=S.ricReady?dueActive(S.month).filter(r=>r.categoria===NM):[];
+    const val = el('div',{class:'val'}, s>0 ? el('span',{class:'left'}, el('b',{text:fmt(s)}), ' pagati') : dues.length ? el('span',{class:'left'}, el('b',{text:fmt(dues.reduce((a,r)=>a+ricAmount(r,S.month),0))}), ' da pagare') : el('span',{class:'left',text:'Niente da pagare'}));
+    const parts=[`Metti da parte ${fmt0(b)} al mese`];
+    if(dues.length){ const n=dues.filter(r=>fixMov(r,S.month)).length; parts.push(`Questo mese: ${dues.map(r=>r.nome).join(', ')}${n===dues.length?' (pagate)':` · ${n} di ${dues.length} spuntate`}`); }
+    const next=S.ric.filter(r=>r.categoria===NM && validRic(r)).map(r=>({r,k:nextDue(r,shiftM(S.month,1))})).sort((a,z)=>a.k.localeCompare(z.k))[0];
+    if(next) parts.push(`Prossima: ${next.r.nome} ${fmt0(ricAmount(next.r,next.k))} a ${MESI[Number(next.k.slice(5))-1]}`);
+    const row=el('div',{class:'brow'},
+      el('div',{class:'n'}, el('i',{style:`background:${catColor(c.id)}`}), el('span',{text:c.nome})), val,
+      el('div',{class:'track'}, el('div',{class:'fill',style:`width:${b>0?Math.min(100,s/b*100):0}%;background:${catColor(c.id)}`})));
+    if(parts.length) row.append(el('div',{class:'note',text:parts.join(' · ')}));
+    return row;
   }
   function movRow(m){
     const isIn=m.tipo==='entrata';
@@ -1328,6 +1361,11 @@ img{max-width:100%}
     const sal=Number((S.piano||{}).stipendio)||0, tot=CATS.reduce((a,c)=>a+budget(c.id),0), scale=Math.max(sal,tot,1);
     $('planBar').replaceChildren(...CATS.filter(c=>budget(c.id)>0).map(c=>el('i',{style:`width:${budget(c.id)/scale*100}%;background:${colVar(c.colore)}`,title:c.nome})));
     const row = c => {
+      if(c.id===NM){ const n=S.ric.filter(r=>r.categoria===NM && r.attiva!==false).length;
+        return el('button',{class:'pv',onclick:()=>{ const t=$('annCard'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }},
+          el('div',{class:'top'}, el('span',{class:'dot',style:`background:${colVar(c.colore)}`,text:'N'}),
+            el('span',{style:'min-width:0'}, el('div',{class:'nm',text:c.nome}), el('div',{class:'ds',text:`${n} ${n===1?'spesa':'spese'} da accantonare · le gestisci qui sotto`})),
+            el('span',{class:'bud'}, el('b',{class:'num',text:fmt0(budget(NM))}), el('span',{text:'al mese'})))); }
       const b=budget(c.id), fx=S.ric.filter(r=>r.categoria===c.id).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||a.giorno-z.giorno), mf=monthlyFix(c.id);
       const desc = c.id==='libere' ? (libereAuto() ? `Quello che resta dello stipendio · ${VOCI.length} sottocategorie` : `Spese variabili · ${VOCI.length} sottocategorie`) : [c.g==='risp'?'Risparmio':'', c.desc].filter(Boolean).join(' · ') || (c.g==='risp'?'Risparmio':'Spesa');
       const cov = b>0 ? Math.min(1,mf/b) : 0;
@@ -1340,7 +1378,7 @@ img{max-width:100%}
       );
     };
     const grp = (title, list) => list.length ? [el('div',{class:'cap',style:'margin-top:6px',text:title}), el('div',{class:'pgroup'}, ...list.map(row))] : [];
-    box.replaceChildren(...grp('Spese', CATS.filter(c=>c.g!=='risp')), ...grp('Risparmi', CATS.filter(c=>c.g==='risp')), ...grp('Archiviate', ALLCATS.filter(c=>c.archiviata)));
+    box.replaceChildren(...grp('Spese', CATS.filter(c=>c.g!=='risp' && (c.id!==NM || budget(NM)>0))), ...grp('Risparmi', CATS.filter(c=>c.g==='risp')), ...grp('Archiviate', ALLCATS.filter(c=>c.archiviata)));
   }
 
   function renderRic(){ renderPlan(); }
@@ -1396,17 +1434,42 @@ img{max-width:100%}
     }));
   }
   // ---------- spese non mensili ----------
+  // i pagamenti già registrati di una spesa fissa seguono la sua categoria
+  async function moveRicMovs(rid, cat){ for(const mv of S.movs.filter(m=>m.ricorrente===rid && m.categoria!==cat)){ const {id,mese,...rest}=mv; await db.collection('movimenti').doc(id).set({...rest, mese, categoria:cat}); } }
+  // una volta sola: le spese fisse ogni 2+ mesi che stavano in una categoria passano in Spese non mensili;
+  // la categoria rimasta vuota (nessuna spesa fissa né movimento) si toglie, altrimenti le si scala il budget
+  let nmMigrating=false;
+  async function migrateNM(){
+    if(nmMigrating || !db || !S.canWrite || !S.ready || !S.ricReady || !S.movReady || !S.hasStruct) return;
+    const moved=S.ric.filter(r=>Number(r.ogniMesi)>1 && r.categoria!==NM); if(!moved.length) return;
+    nmMigrating=true;
+    try{
+      const olds=[...new Set(moved.map(r=>r.categoria))], perCat={};
+      moved.forEach(r=>{ if(r.attiva!==false) perCat[r.categoria]=(perCat[r.categoria]||0)+Number(r.importo)/Math.max(1,Number(r.ogniMesi)||1); });
+      for(const r of moved){ const {id,...rest}=r; await db.collection('ricorrenti').doc(id).set({...rest, categoria:NM, voce:''}); await moveRicMovs(id, NM); }
+      const bud={...((S.piano&&S.piano.budget)||{})}; let cats=ST.categorie.slice(), touched=false;
+      for(const c of olds){
+        if(!cats.some(x=>x.id===c) || c==='libere') continue;
+        const left = S.ric.some(r=>r.categoria===c) || S.movs.some(m=>m.categoria===c);
+        if(!left){ cats=cats.filter(x=>x.id!==c); delete bud[c]; touched=true; }
+        else if(bud[c]!=null){ bud[c]=Math.max(Math.ceil(monthlyFix(c)), Math.round(Number(bud[c])-Math.ceil(perCat[c]||0))); touched=true; }
+      }
+      if(touched && S.piano) await db.doc('impostazioni/piano').set({...S.piano, budget:bud});
+      if(cats.length!==ST.categorie.length) await saveStructure({...ST, categorie:cats});
+    }catch(e){ /* riprova al prossimo aggiornamento */ }
+    finally{ nmMigrating=false; }
+  }
   function renderAnn(){
     const box=$('annList'), cur=mk(todayISO());
-    const list=S.ric.filter(r=>validRic(r) && Number(r.ogniMesi)>1);
-    if(!list.length){ $('annSub').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'Nessuna. Per aggiungerne una (bollo, assicurazione, un abbonamento annuale) crea una spesa fissa e scegli "ogni anno".'})); return; }
-    let tot=0;
-    box.replaceChildren(...list.map(r=>{ const every=Number(r.ogniMesi), m=Number(r.importo)/every, nx=nextDue(r,cur); tot+=m;
-      return el('button',{class:'row',onclick:()=>openRic(r)},
-        el('span',{class:'dot',style:`background:${catColor(r.categoria)}`,text:catName(r.categoria).charAt(0)}),
-        el('span',{style:'min-width:0'}, el('div',{class:'t',text:r.nome}), el('div',{class:'s',text:`${fmt(r.importo)} ${every===12?'all\'anno':`ogni ${every} mesi`} · prossima a ${mLabel(nx).toLowerCase()}`})),
-        el('span',{class:'amt',text:`${fmt(m)}/mese`})); }));
-    $('annSub').textContent=`Metti da parte circa ${fmt0(Math.ceil(tot))} al mese`;
+    const nxt = r => { const k=nextDue(r,cur); return (k===cur && (fixMov(r,cur) || ricSkipped(r,cur))) ? nextDue(r,shiftM(cur,1)) : k; };
+    const list=S.ric.filter(r=>r.categoria===NM && Number(r.importo)>0 && /^\d{4}-\d{2}$/.test(r.daMese||'')).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||nxt(a).localeCompare(nxt(z)));
+    if(!list.length){ $('annSub').textContent=''; box.replaceChildren(el('div',{class:'empty',text:'Nessuna per ora. Tocca Aggiungi per inserirne una: ti dico quanto mettere da parte ogni mese e te la ricordo nel mese in cui arriva.'})); return; }
+    box.replaceChildren(...list.map(r=>{ const every=Math.max(1,Number(r.ogniMesi)||1), m=Number(r.importo)/every, off=r.attiva===false, nx=nxt(r);
+      return el('button',{class:'row',onclick:()=>openRic(r),style:off?'opacity:.55':''},
+        el('span',{class:'dot',style:`background:${catColor(NM)}`,text:r.nome.charAt(0).toUpperCase()}),
+        el('span',{style:'min-width:0'}, el('div',{class:'t',text:r.nome}), el('div',{class:'s',text:`${fmt(r.importo)} ${every===12?'all\'anno':`ogni ${every} mesi`} · ${off?'in pausa':(nx===cur?'arriva questo mese':`prossima a ${mLabel(nx).toLowerCase()}`)}`})),
+        el('span',{class:'amt',text:off?'—':`${fmt(m)}/mese`})); }));
+    $('annSub').textContent = nmBudget()>0 ? `Metti da parte circa ${fmt0(nmBudget())} al mese` : 'Tutte in pausa';
   }
 
   // ---------- sheets ----------
@@ -1429,7 +1492,7 @@ img{max-width:100%}
   ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ const o=$(id); o.addEventListener('click',e=>{ if(e.target===o || e.target.closest('[data-close]')) requestClose(id); }); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ ['movSheet','ricSheet','fixSheet','goalSheet','balSheet','catSheet','accSheet','voceSheet'].forEach(id=>{ if(!$(id).hidden) requestClose(id); }); } });
 
-  function buildSelects(){ $('mVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rCat').replaceChildren(...CATS.map(c=>new Option(c.nome,c.id))); }
+  function buildSelects(){ $('mVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rVoce').replaceChildren(...VOCI.map(v=>new Option(v,v))); $('rCat').replaceChildren(...CATS.filter(c=>c.id!==NM).map(c=>new Option(c.nome,c.id))); }
   $('rGiorno').replaceChildren(...Array.from({length:28},(_,i)=>new Option(String(i+1),String(i+1))));
   function fillRDa(sel){ const base=mk(todayISO()); const ks=[]; for(let i=-12;i<=24;i++) ks.push(shiftM(base,i)); if(sel && !ks.includes(sel)) ks.unshift(sel); $('rDa').replaceChildren(...ks.map(k=>new Option(mLabel(k),k))); $('rDa').value=sel||base; }
   function fillMCat(){ const sel=$('mCat'), prev=sel.value, list=S.tipo==='uscita'?CATS:ENTRATE; sel.replaceChildren(...list.map(c=>new Option(c.nome,c.id))); if(S.edit && S.edit.categoria==='salute' && S.tipo==='uscita') sel.append(new Option(LEGACY.salute,'salute')); sel.value = [...sel.options].some(o=>o.value===prev) ? prev : (S.tipo==='uscita'?'libere':'stipendio'); syncM(); }
@@ -1463,10 +1526,21 @@ img{max-width:100%}
   $('mUscita').addEventListener('click',()=>setTipo('uscita')); $('mEntrata').addEventListener('click',()=>setTipo('entrata'));
   $('mCat').addEventListener('change',syncM);
   $('mSplit').addEventListener('change',()=>{ if($('mSplit').checked && !$('mQuota').value){ const v=parseAmt($('mImp').value); if(v>0) $('mQuota').value=numIn(r2(v/2)); } syncM(); });
-  function syncR(){ $('rVoceWrap').hidden = $('rCat').value!=='libere';
+  function syncR(){ const nm=Number($('rOgni').value)>1;
+    $('rCatWrap').hidden=nm; $('rVoceWrap').hidden = nm || $('rCat').value!=='libere';
+    const imp=parseAmt($('rImp').value), e0=Number($('rOgni').value);
+    $('rNmHint').hidden = !nm || (RNM && imp>0===false);
+    $('rNmHint').textContent = imp>0 ? `Va in Spese non mensili: nel piano conta ${fmt(imp/e0)} al mese da mettere da parte, e la ritrovi da spuntare nel mese in cui arriva.` : 'Va in Spese non mensili: nel piano conta come quota mensile da mettere da parte.';
     $('rPaidWrap').hidden = !!S.editRic || $('rDa').value!==mk(todayISO());
     const e=Number($('rOgni').value); $('rSum').textContent = `${e===1?'Ogni mese':e===12?'Ogni anno':'Ogni '+e+' mesi'} · da ${mLabel($('rDa').value||mk(todayISO())).toLowerCase()} · ${(CONTI.find(a=>a.id===$('rAcc').value)||{nome:'nessun conto'}).nome}`; }
-  ['rCat','rDa','rOgni','rAcc'].forEach(id=>$(id).addEventListener('change',syncR));
+  ['rCat','rDa','rOgni','rAcc'].forEach(id=>$(id).addEventListener('change',syncR)); $('rImp').addEventListener('input',syncR);
+  // nel modo "non mensile" frequenza e primo pagamento salgono nella parte principale del foglio
+  let RNM=false; const rMain=$('rGiorno').closest('.fgrid'), rMoreGrid=$('rMore').querySelector('.fgrid');
+  function setRicMode(nm){ RNM=nm;
+    if(nm){ $('rGiorno').closest('.fld').after($('rOgniWrap'), $('rDaWrap')); } else { rMoreGrid.prepend($('rOgniWrap'), $('rDaWrap')); }
+    $('rDaLbl').textContent = nm ? 'Primo pagamento' : 'A partire da';
+    $('rNome').placeholder = nm ? 'Es. Bollo auto' : 'Es. Affitto'; }
+  $('annAdd').addEventListener('click',()=>openRic(null,NM));
 
   function openMov(m,preset){
     S.edit = m||null; $('mMsg').textContent=''; const P=preset||{};
@@ -1516,10 +1590,12 @@ img{max-width:100%}
 
   function openRic(r, presetCat){
     S.editRic=r||null; $('rsMsg').textContent='';
-    $('rsTitle').textContent = r ? 'Modifica spesa fissa' : 'Nuova spesa fissa'; $('rsDel').hidden=!r;
-    $('rNome').value=r?r.nome:''; $('rImp').value=r?numIn(r.importo):''; $('rCat').value = r ? (CATS.some(c=>c.id===r.categoria)?r.categoria:(CATS[0]||{}).id) : (presetCat && CATS.some(c=>c.id===presetCat) ? presetCat : (CATS[0]||{}).id);
+    const nm = r ? (r.categoria===NM || Number(r.ogniMesi)>1) : presetCat===NM; setRicMode(nm);
+    $('rsTitle').textContent = nm ? (r ? 'Spesa non mensile' : 'Nuova spesa non mensile') : (r ? 'Modifica spesa fissa' : 'Nuova spesa fissa'); $('rsDel').hidden=!r;
+    const rc=$('rCat'), okCat=id=>[...rc.options].some(o=>o.value===id), fb=okCat('libere')?'libere':(rc.options[0]||{}).value;
+    $('rNome').value=r?r.nome:''; $('rImp').value=r?numIn(r.importo):''; rc.value = r ? (okCat(r.categoria)?r.categoria:fb) : (presetCat && okCat(presetCat) ? presetCat : (presetCat===NM ? fb : (rc.options[0]||{}).value));
     $('rVoce').value=r&&r.voce?r.voce:VOCI[0]; $('rVoceWrap').hidden=$('rCat').value!=='libere';
-    $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r?r.ogniMesi||1:1); fillRDa(r?r.daMese:mk(todayISO())); accOptions($('rAcc'), r && r.conto!==undefined ? r.conto : defaultAcc()); $('rAttiva').checked = r ? r.attiva!==false : true; $('rPaid').checked=false; $('rMore').open=false; syncR();
+    $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r ? r.ogniMesi||1 : (nm?12:1)); fillRDa(r?r.daMese:mk(todayISO())); accOptions($('rAcc'), r && r.conto!==undefined ? r.conto : defaultAcc()); $('rAttiva').checked = r ? r.attiva!==false : true; $('rPaid').checked=false; $('rMore').open=false; syncR();
     openSheet('ricSheet','rNome');
   }
   $('rsSave').addEventListener('click', async ()=>{
@@ -1527,13 +1603,14 @@ img{max-width:100%}
     const nome=$('rNome').value.trim(), imp=parseAmt($('rImp').value);
     if(!nome) return say(msg,'Dai un nome alla spesa, ad esempio Affitto.',false);
     if(!(imp>0)) return say(msg,'Scrivi un importo maggiore di zero.',false);
-    const cat=$('rCat').value;
+    const toNM = Number($('rOgni').value)>1, cat = toNM ? NM : $('rCat').value;
     const body={nome, importo:r2(imp), categoria:cat, voce:cat==='libere'?$('rVoce').value:'', giorno:Number($('rGiorno').value), ogniMesi:Number($('rOgni').value), daMese:$('rDa').value, conto:$('rAcc').value, attiva:$('rAttiva').checked, aggiornato:new Date().toISOString()};
     $('rsSave').disabled=true;
-    try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); } else { const ref=await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()});
+    try{ if(S.editRic){ const {id,...old}=S.editRic; await db.collection('ricorrenti').doc(id).set({...old,...body}); if(old.categoria!==cat) await moveRicMovs(id, cat); } else { const ref=await db.collection('ricorrenti').add({...body, creato:new Date().toISOString()});
         if(!$('rPaidWrap').hidden && $('rPaid').checked){ const k=mk(todayISO()); await db.collection('movimenti').doc(`auto_${ref.id}_${k}`).set({...fixBody({...body,id:ref.id},k,body.importo), conto:'', metodo:'conto'}); } }
       const need=Math.ceil(monthlyFix(cat)), have=budget(cat);
-      if(need>have){ await db.doc('impostazioni/piano').set({...(S.piano||{stipendio:0}), budget:{...((S.piano&&S.piano.budget)||{}), [cat]:need}, inizio:(S.piano&&S.piano.inizio)||S.month}); RIC_NOTE=`Budget portato a ${fmt0(need)} per coprire le spese fisse.`; }
+      if(toNM){ if(RIC_RET) RIC_NOTE=`"${nome}" arriva ogni ${Number($('rOgni').value)===12?'anno':Number($('rOgni').value)+' mesi'}: l'ho messa in Spese non mensili.`; }
+      else if(need>have){ await db.doc('impostazioni/piano').set({...(S.piano||{stipendio:0}), budget:{...((S.piano&&S.piano.budget)||{}), [cat]:need}, inizio:(S.piano&&S.piano.inizio)||S.month}); RIC_NOTE=`Budget portato a ${fmt0(need)} per coprire le spese fisse.`; }
       if(!RIC_RET) RIC_NOTE=''; closeSheet('ricSheet'); }
     catch(e){ say(msg,'Non salvato. Riprova.',false); } finally{ $('rsSave').disabled=false; }
   });
@@ -1681,7 +1758,7 @@ img{max-width:100%}
   async function persistCat(close){
     const m=$('cMsg'); if(!guard(m)) return false; const nome=$('cNome').value.trim(); if(!nome){ say(m,'Dai un nome alla categoria.',false); return false; }
     const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked, contoDest: cG==='risp' ? $('cDest').value : ''};
-    const newId = CE ? null : uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute']));
+    const newId = CE ? null : uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute',NM]));
     let list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : ST.categorie.slice();
     if(!CE){ const li=list.findIndex(c=>c.id==='libere'); const item={id:newId, ...data}; if(li>-1 && cG==='spesa') list.splice(li,0,item); else list.push(item); }
     const cid = CE ? CE.id : newId; const bv=parseAmt($('cBudget').value);
