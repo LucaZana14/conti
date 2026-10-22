@@ -118,10 +118,11 @@ button.row:hover{background:var(--fill)}
 .empty{color:var(--muted);text-align:center;padding:26px 12px;font-size:14px}
 
 /* budget */
-.brow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;padding:4px 0}
-.brow .n{font-weight:600;display:flex;align-items:center;gap:8px;min-width:0}
+.brow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;padding:4px 0}
+.brow .n{font-weight:600;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .brow .n i{width:10px;height:10px;border-radius:50%;flex:none}
-.brow .val{font-size:13.5px;text-align:right;white-space:nowrap}
+.brow .val{font-size:13.5px;text-align:right;min-width:0}
+.brow .val .left{white-space:nowrap}
 .brow .val b{font-weight:600}
 .brow .track{grid-column:1/-1;height:7px;background:var(--fill);border-radius:4px;overflow:hidden}
 .brow .fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
@@ -1041,7 +1042,7 @@ img{max-width:100%}
     });
     box.replaceChildren(...rows);
     { const bd=$('dockBdg'), left=k===mk(todayISO())?nAct-nDone:0; bd.hidden=!(left>0); bd.textContent=left>9?'9+':String(left); }
-    $('fixSub').textContent = `${nDone} di ${nAct} pagate · ${fmt0(aDone)} su ${fmt0(aTot)}`;
+    $('fixSub').textContent = nAct ? `${nDone} di ${nAct} pagate · ${fmt0(aDone)} su ${fmt0(aTot)}` : 'Tutte saltate questo mese';
     $('fixBar').style.width = (aTot>0?aDone/aTot*100:0)+'%';
   }
   // next due month of a fixed expense, from month k on
@@ -1075,7 +1076,7 @@ img{max-width:100%}
       if(b<=0 && s<=0 && !hasDue) continue;
       const left=b-s, full = s>0 && Math.abs(left)<0.005;
       const cls = c.g==='risp' || full ? '' : p>1?'over':p>=.85?'warn':'';
-      const val = el('div',{class:'val'}, el('b',{text:fmt(s)}), ` / ${fmt0(b)}`, c.g==='spesa' ? el('span',{class:'left',text: full ? ' · completato' : left>=0?` · restano ${fmt(left)}`:` · oltre di ${fmt(-left)}`}) : null);
+      const val = el('div',{class:'val'}, el('span',{class:'left'}, el('b',{text:fmt(s)}), ` / ${fmt0(b)}`), c.g==='spesa' ? el('span',{class:'left',text: full ? ' · completato' : left>=0?` · restano ${fmt(left)}`:` · oltre di ${fmt(-left)}`}) : null);
       const row = el('div',{class:'brow '+cls},
         el('div',{class:'n'}, el('i',{style:`background:${catColor(c.id)}`}), el('span',{text:c.nome})),
         val,
