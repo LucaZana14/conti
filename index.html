@@ -351,7 +351,7 @@ details.more > summary::after{content:"";width:8px;height:8px;border-right:2px s
 details.more[open] > summary::after{transform:rotate(-135deg)}
 details.more > .in{padding:0 14px 14px;display:flex;flex-direction:column;gap:12px}
 details.more .sw-row{background:var(--card)}
-details.more input, details.more select{background:var(--card)}
+details.more input, details.more select{background-color:var(--card)}
 .toast{position:fixed;z-index:45;left:50%;transform:translateX(-50%);bottom:calc(max(10px, calc(env(safe-area-inset-bottom,0px) - 12px)) + 86px);width:min(calc(100% - 32px), 460px);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px 12px 18px;border-radius:18px;font-size:14.5px;font-weight:500;box-sizing:border-box}
 .toast button{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;padding:6px 8px;cursor:pointer}
 .unsaved{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;background:var(--orange-bg);color:var(--ink);border-radius:var(--r-ctl);padding:12px 14px;font-size:14px}
@@ -374,6 +374,7 @@ details.more input, details.more select{background:var(--card)}
 .setup .skip{border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;padding:8px 4px}
 .linkbtn{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;padding:6px}
 .morebtn{width:100%;margin-top:4px}
+#rCats.noavg th:nth-child(n+4), #rCats.noavg td:nth-child(n+4), #rVoci.noavg th:nth-child(n+3), #rVoci.noavg td:nth-child(n+3){display:none}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 </style>
 <style>
@@ -490,7 +491,7 @@ img{max-width:100%}
       <div class="donut"><svg id="donut" width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="Spese del mese per categoria"></svg><div class="dleg" id="dLeg"></div></div>
     </div>
     <div class="card">
-      <div class="head"><h2>Categorie</h2><span class="sub">Media = media degli altri mesi registrati</span></div>
+      <div class="head"><h2>Categorie</h2><span class="sub">Speso e budget del mese</span></div>
       <div class="tbox"><table id="rCats"><thead><tr><th>Categoria</th><th class="n">Speso</th><th class="n">Budget</th><th class="n">Media</th><th class="n">Rispetto alla media</th></tr></thead><tbody></tbody></table></div>
     </div>
     <div class="cols">
@@ -626,7 +627,7 @@ img{max-width:100%}
       <label class="sw-row" id="mAutoWrap" for="mAuto"><span>Si ripete ogni mese<small>La aggiungo alle spese fisse da spuntare</small></span><input type="checkbox" class="tog" id="mAuto"></label>
     </div></details>
     <div class="msg" id="mMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="mDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="mSave">Aggiungi</button></div>
+    <div class="sh-foot"><button class="btn dan" id="mDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn pri" id="mSave">Aggiungi</button></div>
   </div>
 </div>
 
@@ -676,7 +677,7 @@ img{max-width:100%}
     </div></div></details>
     <p class="prose" id="cInfo" hidden></p>
     <div class="msg" id="cMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><button class="btn" id="cArch" hidden>Archivia</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="cSave">Salva</button></div>
+    <div class="sh-foot"><button class="btn dan" id="cDel" hidden>Elimina</button><button class="btn" id="cArch" hidden>Archivia</button><span style="flex:1"></span><button class="btn pri" id="cSave">Salva</button></div>
   </div>
 </div>
 
@@ -696,7 +697,7 @@ img{max-width:100%}
       <label class="sw-row" for="aCash"><span>Sono i miei contanti<small>Le spese in contanti si riconoscono nei filtri e nell'export</small></span><input type="checkbox" class="tog" id="aCash"></label>
     </div></details>
     <div class="msg" id="aMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="aDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="aSave">Salva</button></div>
+    <div class="sh-foot"><button class="btn dan" id="aDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn pri" id="aSave">Salva</button></div>
   </div>
 </div>
 
@@ -707,7 +708,7 @@ img{max-width:100%}
     <div class="fld"><label for="vNome">Nome</label><input id="vNome" type="text" maxlength="40" autocomplete="off"></div>
     <p class="prose" id="vInfo"></p>
     <div class="msg" id="vMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="vDel">Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="vSave">Rinomina</button></div>
+    <div class="sh-foot"><button class="btn dan" id="vDel">Elimina</button><span style="flex:1"></span><button class="btn pri" id="vSave">Rinomina</button></div>
   </div>
 </div>
 
@@ -718,7 +719,7 @@ img{max-width:100%}
     <p class="prose" id="bInfo"></p>
     <div class="fld"><label for="bInp">Saldo attuale (€)</label><input id="bInp" type="text" inputmode="decimal" autocomplete="off"></div>
     <div class="msg" id="bMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="bSave">Salva</button></div>
+    <div class="sh-foot"><span style="flex:1"></span><button class="btn pri" id="bSave">Salva</button></div>
   </div>
 </div>
 
@@ -734,7 +735,7 @@ img{max-width:100%}
       <div class="fld"><label for="gPiu">Aggiungi adesso (€)</label><input id="gPiu" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
     </div>
     <div class="msg" id="gMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="gDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="gSave">Salva</button></div>
+    <div class="sh-foot"><button class="btn dan" id="gDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn pri" id="gSave">Salva</button></div>
   </div>
 </div>
 
@@ -759,7 +760,7 @@ img{max-width:100%}
       <label class="sw-row" for="rAttiva"><span>Attiva<small>Se la spegni, non compare più nella lista</small></span><input type="checkbox" class="tog" id="rAttiva" checked></label>
     </div></details>
     <div class="msg" id="rsMsg" role="status" aria-live="polite"></div>
-    <div class="sh-foot"><button class="btn dan" id="rsDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn" data-close>Annulla</button><button class="btn pri" id="rsSave">Salva</button></div>
+    <div class="sh-foot"><button class="btn dan" id="rsDel" hidden>Elimina</button><span style="flex:1"></span><button class="btn pri" id="rsSave">Salva</button></div>
   </div>
 </div>
 
@@ -892,7 +893,13 @@ img{max-width:100%}
   // importi sensibili (saldi, entrate, obiettivi): nascosti quando è attivo l'occhio
   const fmtS = v => PRIV ? '***,** €' : fmt(v), fmtS0 = v => PRIV ? '*** €' : fmt0(v);
   const pctF = new Intl.NumberFormat('it-IT',{style:'percent',maximumFractionDigits:0});
-  const parseAmt = s => { const t=String(s??'').trim().replace(/\s|€/g,''); if(!t) return NaN; return t.includes(',') ? Number(t.replace(/\./g,'').replace(',','.')) : Number(t); };
+  // importi scritti all'italiana o all'inglese: 1.450 · 1.450,50 · 12,5 · 12.50 · € 30
+  const parseAmt = s => { let t=String(s??'').replace(/[^\d,.\-]/g,''); if(!t) return NaN;
+    const lc=t.lastIndexOf(','), ld=t.lastIndexOf('.');
+    if(lc>-1 && ld>-1){ t = lc>ld ? t.replace(/\./g,'').replace(',','.') : t.replace(/,/g,''); }
+    else if(lc>-1){ t = t.replace(/\./g,'').replace(',','.'); }
+    else if(ld>-1 && /^\-?\d{1,3}(\.\d{3})+$/.test(t)){ t = t.replace(/\./g,''); }
+    return Number(t); };
   const r2 = n => Math.round(n*100)/100;
   const pad = n => String(n).padStart(2,'0');
   const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
@@ -1126,6 +1133,7 @@ img{max-width:100%}
   // ---------- RECAP ----------
   function renderRecap(){
     const st=statsOf(S.month);
+    const noAvg = !dataMonths().some(k=>k!==S.month); $('rCats').classList.toggle('noavg',noAvg); $('rVoci').classList.toggle('noavg',noAvg);
     renderDonut(st);
     $('rTitle').textContent = 'Recap di '+mLabel(S.month).toLowerCase();
     $('rIn').textContent=fmtS(st.entrate); $('rOut').textContent=fmt(st.spese); $('rSave').textContent=fmt(st.risp);
@@ -1275,7 +1283,7 @@ img{max-width:100%}
   function buildAccs(){ $('accs').replaceChildren(...(CONTI.length ? CONTI.map(c=>el('div',{class:'acc'}, el('div',{class:'head2'}, el('div',{class:'w',text:c.w||' '}), el('button',{class:'ed',onclick:()=>openAcc(c),text:'Modifica'})), el('div',{style:'font-weight:600',text:c.nome}),
     el('div',{class:'bal num',id:'acc_'+c.id,text:'—'}),
     c.goal ? el('div',{class:'prog'}, el('i',{id:'gb_'+c.id,style:`background:${c.col}`})) : null, c.goal ? el('div',{class:'sub',id:'gt_'+c.id}) : null)) : [el('div',{class:'empty',text:'Nessun conto. Aggiungi il tuo conto corrente, i risparmi o i contanti.'})])); }
-  const numIn = v => (v==null||v==='') ? '' : String(v).replace('.',',');
+  const numIn = v => { if(v==null||v==='') return ''; const n=Number(v); if(isNaN(n)) return String(v); return Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.',','); };
   const accVals = () => Object.fromEntries(CONTI.map(c=>[c.id, r2(Number((S.saldi||{})[c.id])||0)]));
   function accTotals(){
     const v=accVals(); $('accTot').textContent=fmtS(Object.values(v).reduce((s,x)=>s+x,0));
@@ -1649,7 +1657,8 @@ img{max-width:100%}
     $('cDel').hidden = !c || isLib; $('cDel').textContent='Elimina'; cDelArmed=false;
     $('cArch').hidden = !c || isLib || (!c.archiviata && !used.m && !used.r); $('cArch').textContent = c && c.archiviata ? 'Ripristina' : 'Archivia';
     const info=$('cInfo'); info.hidden = !c || isLib || (!used.m && !used.r);
-    if(!info.hidden) info.textContent = `È usata in ${used.m} ${used.m===1?'movimento':'movimenti'}${used.r?` e ${used.r} ${used.r===1?'spesa fissa':'spese fisse'}`:''}. Archivia: la nascondi dalle scelte ma resta nello storico, e puoi ripristinarla. Elimina: sparisce del tutto; i movimenti già registrati restano come "Categoria eliminata"${used.r?' e le spese fisse collegate vengono messe in pausa':''}.`;
+    if(!info.hidden){ const parts=[]; if(used.m) parts.push(`${used.m} ${used.m===1?'movimento':'movimenti'}`); if(used.r) parts.push(`${used.r} ${used.r===1?'spesa fissa':'spese fisse'}`);
+      info.textContent = `Ha ${parts.join(' e ')}. Archivia la nasconde ma tiene lo storico; Elimina la toglie del tutto${used.m?' (i movimenti restano come "Categoria eliminata")':''}${used.r?' e mette in pausa le sue spese fisse':''}.`; }
     openSheet('catSheet', c ? null : 'cNome');
   }
   function syncCAuto(){ const on=!$('cAutoWrap').hidden && $('cAuto').checked; $('cBudget').disabled=on; if(on) $('cBudget').value=numIn(Math.round(libereRest())); }
@@ -1671,8 +1680,10 @@ img{max-width:100%}
   async function persistCat(close){
     const m=$('cMsg'); if(!guard(m)) return false; const nome=$('cNome').value.trim(); if(!nome){ say(m,'Dai un nome alla categoria.',false); return false; }
     const data={nome, desc:$('cDesc').value.trim(), g:cG, colore:cColor, variabile:cG==='spesa'&&$('cVar').checked, contoDest: cG==='risp' ? $('cDest').value : ''};
-    const list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : [...ST.categorie, {id:uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute'])), ...data}];
-    const cid = CE ? CE.id : list[list.length-1].id; const bv=parseAmt($('cBudget').value);
+    const newId = CE ? null : uniqueId(nome, ALLCATS.map(c=>c.id).concat(['stipendio','regalo','rimborso','extra','salute']));
+    let list = CE ? ST.categorie.map(c=>c.id===CE.id?{...c,...data}:c) : ST.categorie.slice();
+    if(!CE){ const li=list.findIndex(c=>c.id==='libere'); const item={id:newId, ...data}; if(li>-1 && cG==='spesa') list.splice(li,0,item); else list.push(item); }
+    const cid = CE ? CE.id : newId; const bv=parseAmt($('cBudget').value);
     const isL = cid==='libere', auto = isL && $('cAuto').checked;
     try{ await saveStructure({...ST, categorie:list});
       const cur=(S.piano&&S.piano.budget)||{}; const nb = isNaN(bv)?0:r2(bv);
