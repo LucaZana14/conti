@@ -1,7 +1,7 @@
 // Conti — service worker: tiene i file dell'app sul telefono, così si apre anche senza rete.
 // I dati non passano di qui: vanno sempre a Supabase.
 // Quando aggiorni i file su GitHub, cambia VERSION per far scaricare la nuova versione.
-const VERSION = 'conti-v19';
+const VERSION = 'conti-v20';
 const SHELL = [
   './', 'index.html', 'store.js', 'config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
@@ -33,7 +33,8 @@ self.addEventListener('fetch', e => {
     return;
   }
   // file dell'app: prima la rete (così vedi subito gli aggiornamenti), poi la cache se sei offline
-  e.respondWith(fetch(req).then(res => {
+  // cache:'no-cache' = chiede sempre al server se il file è cambiato (GitHub Pages altrimenti tiene la vecchia versione fino a 10 minuti)
+  e.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then(res => {
     if (res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); }
     return res;
   }).catch(() => caches.match(req).then(hit => hit || caches.match('index.html'))));
