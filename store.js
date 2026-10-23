@@ -7,7 +7,8 @@
   const TABLE = 'documenti';
   const COLLECTIONS = ['movimenti', 'ricorrenti', 'impostazioni'];
 
-  function createStore(client, userId) {
+  function createStore(client, userId, opts) {
+    const onError = (opts && opts.onError) || function () {};
     const cache = new Map();          // "collezione/id" -> dati
     const colListeners = new Map();   // collezione -> Set(fn)
     const docListeners = new Map();   // "collezione/id" -> Set(fn)
@@ -49,31 +50,56 @@
       cols.forEach(c => notify(c));
     }
 
+    // Le modifiche si vedono subito (cache locale) e vanno al server in sottofondo, in ordine, una alla volta per documento:
+    // la pagina non aspetta la rete per chiudere un foglio. Se il server rifiuta, si torna all'ultimo valore salvato
+    // e la pagina viene avvisata con onError.
+    const chains = new Map();   // "collezione/id" -> promessa dell'ultima scrittura in coda
+    const ver = new Map();      // "collezione/id" -> numero dell'ultima modifica locale
+    const confirmed = new Map(); // "collezione/id" -> ultimo valore confermato dal server (undefined = non esiste)
+    const pending = () => [...chains.values()];
+
     async function refresh() {
+      if (chains.size) await Promise.allSettled(pending());
       const { data, error } = await client.from(TABLE).select('collezione,id,dati');
       if (error) throw error;
-      cache.clear();
-      (data || []).forEach(r => cache.set(r.collezione + '/' + r.id, r.dati));
+      if (chains.size) return; // nel frattempo è arrivata una modifica: la prossima sincronizzazione la ritroverà salvata
+      cache.clear(); confirmed.clear();
+      (data || []).forEach(r => { const k = r.collezione + '/' + r.id; cache.set(k, r.dati); confirmed.set(k, r.dati); });
       loaded = true;
       persist();
       notifyAll();
     }
 
-    async function write(col, id, dati) {
-      const key = col + '/' + id, prev = cache.get(key);
-      cache.set(key, dati); notify(col, key);
-      const { error } = await client.from(TABLE).upsert(
-        { user_id: userId, collezione: col, id, dati, aggiornato: new Date().toISOString() },
-        { onConflict: 'user_id,collezione,id' });
-      if (error) { if (prev === undefined) cache.delete(key); else cache.set(key, prev); notify(col, key); throw error; }
-      persist();
+    function queue(col, id, dati, job) {
+      const key = col + '/' + id;
+      if (!confirmed.has(key)) confirmed.set(key, cache.get(key));
+      const v = (ver.get(key) || 0) + 1; ver.set(key, v);
+      if (dati === undefined) cache.delete(key); else cache.set(key, dati);
+      notify(col, key);
+      const run = (chains.get(key) || Promise.resolve()).catch(() => {}).then(job);
+      chains.set(key, run);
+      run.then(() => { confirmed.set(key, dati); persist(); },
+        err => {
+          if (ver.get(key) === v) { const back = confirmed.get(key); if (back === undefined) cache.delete(key); else cache.set(key, back); notify(col, key); persist(); }
+          onError(err);
+        })
+        .finally(() => { if (chains.get(key) === run) chains.delete(key); });
+      run.catch(() => {});
+      return Promise.resolve();
     }
-    async function remove(col, id) {
-      const key = col + '/' + id, prev = cache.get(key);
-      cache.delete(key); notify(col, key);
-      const { error } = await client.from(TABLE).delete().match({ user_id: userId, collezione: col, id });
-      if (error) { if (prev !== undefined) cache.set(key, prev); notify(col, key); throw error; }
-      persist();
+    function write(col, id, dati) {
+      return queue(col, id, dati, async () => {
+        const { error } = await client.from(TABLE).upsert(
+          { user_id: userId, collezione: col, id, dati, aggiornato: new Date().toISOString() },
+          { onConflict: 'user_id,collezione,id' });
+        if (error) throw error;
+      });
+    }
+    function remove(col, id) {
+      return queue(col, id, undefined, async () => {
+        const { error } = await client.from(TABLE).delete().match({ user_id: userId, collezione: col, id });
+        if (error) throw error;
+      });
     }
 
     const newId = () => {
@@ -145,6 +171,7 @@
       collection: colRef,
       doc: p => { const [c, id] = split(p); return docRef(c, id); },
       refresh, importBackup, clearLocal,
+      saving: () => chains.size > 0,
       hasData: () => loaded,
       COLLECTIONS,
     };

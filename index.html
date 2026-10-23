@@ -218,6 +218,8 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 .fld > label,.fld > .lb{font-size:12.5px;font-weight:600;color:var(--muted)}
 .fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .fgrid .wide{grid-column:1/-1}
+.btn.busy{opacity:.55;pointer-events:none}
+.btn.busy::after{content:'…'}
 .fgrid .hint{font-size:13px;color:var(--muted);background:var(--fill);border-radius:12px;padding:10px 12px;line-height:1.4}
 .msg{font-size:13px;min-height:1.2em}
 .ok{color:var(--green)} .ko{color:var(--red)}
@@ -232,6 +234,7 @@ input.tog:checked::after{transform:translateX(20px)}
 /* sheet */
 .overlay{position:fixed;inset:0;z-index:50;background:var(--overlay);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s}
 .overlay.show{opacity:1}
+.overlay{top:var(--vvt,0px);bottom:auto;height:var(--vvh,100%)}
 .sheet{background:var(--card);border-radius:22px;width:min(100%,520px);max-height:calc(100% - 32px);overflow:auto;box-shadow:var(--shadow-up);padding:20px;display:flex;flex-direction:column;gap:14px;transform:translateY(12px);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .overlay.show .sheet{transform:none}
 .sheet > *{flex-shrink:0}
@@ -931,6 +934,10 @@ img{max-width:100%}
   const dayLabel = iso => { const d=new Date(iso+'T12:00:00'); return d.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}); };
   const $ = id => document.getElementById(id);
   const el = (t,p={},...ch) => { const e=document.createElement(t); for(const [k,v] of Object.entries(p)){ if(v==null||v===false) continue; if(k==='class') e.className=v; else if(k==='text') e.textContent=v; else if(k==='style') e.style.cssText=v; else if(k.startsWith('on')) e.addEventListener(k.slice(2),v); else e.setAttribute(k, v===true?'':v); } e.append(...ch.flat().filter(x=>x!=null&&x!==false)); return e; };
+  // pulsanti che salvano: reagiscono subito al tocco (stato "in corso"), ignorano i tocchi doppi e si riattivano a fine salvataggio
+  const onSave = (id, fn) => { const btn=$(id); btn.addEventListener('click', async e=>{
+    if(btn.dataset.busy) return; btn.dataset.busy='1'; btn.classList.add('busy'); btn.setAttribute('aria-busy','true');
+    try{ await fn(e); } finally{ delete btn.dataset.busy; btn.classList.remove('busy'); btn.removeAttribute('aria-busy'); } }); };
   const NS='http://www.w3.org/2000/svg';
   const sv = (t,a={}) => { const e=document.createElementNS(NS,t); for(const [k,v] of Object.entries(a)) e.setAttribute(k,v); return e; };
   const sum = a => a.reduce((s,m)=>s+(m.importo||0),0);
@@ -1017,8 +1024,8 @@ img{max-width:100%}
     $('stipText').textContent=`Nel piano hai ${fmtS0(prev)}: ${fmtS(Math.abs(d))} ${d>0?'in più':'in meno'}. Se resterà così anche nei prossimi mesi, aggiorna il piano. Ignoralo se dipende da voci una tantum, come tredicesima, conguagli o arretrati.`;
     $('stipUpd').textContent=`Aggiorna il piano a ${fmtS0(real)}`; $('stipUpd').dataset.v=String(Math.round(real));
   }
-  $('stipUpd').addEventListener('click', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, stipendio:Number($('stipUpd').dataset.v)||S.piano.stipendio, ignoraStipendio:S.month}); }catch(e){ status('Non sono riuscito ad aggiornare il piano. Riprova.',true); } });
-  $('stipIgn').addEventListener('click', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, ignoraStipendio:S.month}); }catch(e){ status('Non salvato. Riprova.',true); } });
+  onSave('stipUpd', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, stipendio:Number($('stipUpd').dataset.v)||S.piano.stipendio, ignoraStipendio:S.month}); }catch(e){ status('Non sono riuscito ad aggiornare il piano. Riprova.',true); } });
+  onSave('stipIgn', async ()=>{ if(!db||!S.piano) return; try{ await db.doc('impostazioni/piano').set({...S.piano, ignoraStipendio:S.month}); }catch(e){ status('Non salvato. Riprova.',true); } });
   function renderOwes(){
     const r=roommate(), c=$('owesCard');
     $('coCard').hidden = !sharing() && !r.owed.length && !r.paid.length; $('coName').textContent = shareName();
@@ -1352,7 +1359,7 @@ img{max-width:100%}
   function buildPlan(){}
   function applyPlan(){ const p=S.piano||{}; const i=$('pl_stipendio'); if(i && document.activeElement!==i) i.value=numIn(p.stipendio); renderPlan(); }
   function planCheck(){}
-  $('planSave').addEventListener('click', async ()=>{ const m=$('planMsg'); if(!guard(m)) return;
+  onSave('planSave', async ()=>{ const m=$('planMsg'); if(!guard(m)) return;
     const piano={...(S.piano||{}), stipendio:parseAmt($('pl_stipendio').value)||0, budget:{...((S.piano&&S.piano.budget)||{})}, inizio:(S.piano&&S.piano.inizio)||S.month, libereAuto: S.piano ? libereAuto() : true};
     $('planSave').disabled=true; try{ await db.doc('impostazioni/piano').set(piano); say(m, libereAuto() ? `Salvato. Per le spese libere ti restano ${fmt0(libereRest())} al mese.` : 'Stipendio salvato.', true); }catch(e){ say(m,'Non salvato. Riprova.',false); } finally{ $('planSave').disabled=false; } });
   function fixChip(r){ const e=Math.max(1,Number(r.ogniMesi)||1); const per = e===1?'':e===12?'/anno':`/${e} mesi`; return el('span',{class:r.attiva===false?'off':'',text:`${r.nome} ${fmt0(r.importo)}${per}`}); }
@@ -1410,7 +1417,7 @@ img{max-width:100%}
   $('wGo').addEventListener('click',()=>setTab('conti'));
   let BAL=null;
   function openBal(c){ BAL=c; $('bMsg').textContent=''; $('bTitle').textContent=c.nome; $('bInfo').textContent=c.w; $('bInp').value=numIn((S.saldi||{})[c.id]); openSheet('balSheet','bInp'); }
-  $('bSave').addEventListener('click', async ()=>{
+  onSave('bSave', async ()=>{
     const msg=$('bMsg'); if(!BAL||!guard(msg)) return; const v=parseAmt($('bInp').value);
     if(isNaN(v)) return say(msg,'Scrivi un importo, ad esempio 1.250,00.',false);
     $('bSave').disabled=true;
@@ -1476,9 +1483,19 @@ img{max-width:100%}
   const say = (m,t,ok) => { m.className='msg '+(ok?'ok':'ko'); m.textContent=t; };
   function guard(m){ if(!db){ say(m,'Accedi per poter salvare.',false); return false; } if(!S.canWrite){ say(m,'Non puoi modificare questi dati.',false); return false; } return true; }
   let lastFocus=null;
+  // su telefono niente focus automatico: su iPhone lascerebbe un campo "attivo" senza tastiera e il primo tocco sui pulsanti andrebbe perso
+  const TOUCH = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  // i fogli seguono l'area visibile: con la tastiera aperta restano sopra di lei, e i tocchi arrivano dove vedi i pulsanti
+  (function(){ const vv=window.visualViewport, rs=document.documentElement.style; if(!vv) return;
+    const fit=()=>{ rs.setProperty('--vvh', vv.height+'px'); rs.setProperty('--vvt', vv.offsetTop+'px'); };
+    vv.addEventListener('resize',fit); vv.addEventListener('scroll',fit); fit(); })();
+  document.addEventListener('focusin',e=>{ const f=e.target; if(TOUCH && f.matches && f.matches('.sheet input, .sheet select, .sheet textarea')) setTimeout(()=>{ try{ f.scrollIntoView({block:'nearest'}); }catch(_){} },300); });
+  // Invio dentro un foglio = Salva
+  document.addEventListener('keydown',e=>{ if(e.key!=='Enter' || e.isComposing) return; const f=e.target; if(!f.matches || !f.matches('.overlay:not([hidden]) .sheet input:not([type=checkbox])')) return;
+    const b=f.closest('.sheet').querySelector('.sh-foot .btn.pri:not([hidden]):not(:disabled)'); if(b){ e.preventDefault(); f.blur(); b.click(); } });
   const SNAP={};
   const snapOf = id => JSON.stringify([...$(id).querySelectorAll('input,select,textarea')].map(e=>e.type==='checkbox'?e.checked:e.value).concat([...$(id).querySelectorAll('.seg [aria-pressed],.swatch')].map(e=>e.getAttribute('aria-pressed'))));
-  function openSheet(id, focusId){ lastFocus=document.activeElement; const o=$(id); const ub=o.querySelector('.unsaved'); if(ub) ub.remove(); SNAP[id]=snapOf(id); o.hidden=false; requestAnimationFrame(()=>o.classList.add('show')); setTimeout(()=>{ const f=$(focusId); if(f) f.focus(); },60); }
+  function openSheet(id, focusId){ lastFocus=document.activeElement; const o=$(id); const ub=o.querySelector('.unsaved'); if(ub) ub.remove(); SNAP[id]=snapOf(id); o.hidden=false; requestAnimationFrame(()=>o.classList.add('show')); if(!TOUCH) setTimeout(()=>{ const f=$(focusId); if(f) f.focus(); },60); }
   let RIC_RET=null, RIC_NOTE='';
   function closeSheet(id, keepRet){ const o=$(id); o.classList.remove('show'); setTimeout(()=>{ o.hidden=true; },200); if(lastFocus&&lastFocus.focus) lastFocus.focus();
     if(id==='ricSheet' && RIC_RET && !keepRet){ const back=ALLCATS.find(c=>c.id===RIC_RET), note=RIC_NOTE; RIC_RET=null; RIC_NOTE=''; if(back) setTimeout(()=>openCat(back,note),240); } }
@@ -1556,7 +1573,7 @@ img{max-width:100%}
     openSheet('movSheet','mImp');
   }
   $('fab').addEventListener('click',()=>openMov(null));
-  $('mSave').addEventListener('click', async ()=>{
+  onSave('mSave', async ()=>{
     const msg=$('mMsg'); if(!guard(msg)) return;
     const data=$('mData').value, imp=parseAmt($('mImp').value), cat=$('mCat').value;
     if(!(imp>0)) return say(msg,'Scrivi un importo maggiore di zero, ad esempio 12,50.',false);
@@ -1580,7 +1597,7 @@ img{max-width:100%}
     finally{ $('mSave').disabled=false; }
   });
   let delArmed=false;
-  $('mDel').addEventListener('click', async ()=>{
+  onSave('mDel', async ()=>{
     const msg=$('mMsg'); if(!S.edit||!guard(msg)) return;
     if(!delArmed){ delArmed=true; $('mDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ delArmed=false; $('mDel').textContent='Elimina'; },3000); return; }
     delArmed=false; $('mDel').textContent='Elimina';
@@ -1598,7 +1615,7 @@ img{max-width:100%}
     $('rGiorno').value=String(r?r.giorno:1); $('rOgni').value=String(r ? r.ogniMesi||1 : (nm?12:1)); fillRDa(r?r.daMese:mk(todayISO())); accOptions($('rAcc'), r && r.conto!==undefined ? r.conto : defaultAcc()); $('rAttiva').checked = r ? r.attiva!==false : true; $('rPaid').checked=false; $('rMore').open=false; syncR();
     openSheet('ricSheet','rNome');
   }
-  $('rsSave').addEventListener('click', async ()=>{
+  onSave('rsSave', async ()=>{
     const msg=$('rsMsg'); if(!guard(msg)) return;
     const nome=$('rNome').value.trim(), imp=parseAmt($('rImp').value);
     if(!nome) return say(msg,'Dai un nome alla spesa, ad esempio Affitto.',false);
@@ -1615,7 +1632,7 @@ img{max-width:100%}
     catch(e){ say(msg,'Non salvato. Riprova.',false); } finally{ $('rsSave').disabled=false; }
   });
   let rDelArmed=false;
-  $('rsDel').addEventListener('click', async ()=>{
+  onSave('rsDel', async ()=>{
     const msg=$('rsMsg'); if(!S.editRic||!guard(msg)) return;
     if(!rDelArmed){ rDelArmed=true; $('rsDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ rDelArmed=false; $('rsDel').textContent='Elimina'; },3000); return; }
     rDelArmed=false; $('rsDel').textContent='Elimina';
@@ -1658,9 +1675,9 @@ img{max-width:100%}
       closeSheet('fixSheet');
     }catch(e){ say(msg,'Non salvato. Riprova.',false); }
   }
-  $('fsMonth').addEventListener('click',()=>fixApply('month'));
-  $('fsAll').addEventListener('click',()=>fixApply('all'));
-  $('fsSkip').addEventListener('click',()=>fixApply('skip'));
+  onSave('fsMonth',()=>fixApply('month'));
+  onSave('fsAll',()=>fixApply('all'));
+  onSave('fsSkip',()=>fixApply('skip'));
   $('fsMore').addEventListener('click',()=>{ const r=FX&&FX.r; closeSheet('fixSheet'); if(r) setTimeout(()=>openRic(r),220); });
 
   // ---------- goal sheet ----------
@@ -1671,7 +1688,7 @@ img{max-width:100%}
     openSheet('goalSheet','gNome'); }
   $('goalAdd').addEventListener('click',()=>openGoal(null));
   const saveGoals = lista => db.doc('impostazioni/obiettivi').set({lista});
-  $('gSave').addEventListener('click', async ()=>{
+  onSave('gSave', async ()=>{
     const msg=$('gMsg'); if(!guard(msg)) return;
     const nome=$('gNome').value.trim(), target=parseAmt($('gTarget').value), messi=(parseAmt($('gMessi').value)||0)+(parseAmt($('gPiu').value)||0);
     if(!nome) return say(msg,'Dai un nome all\'obiettivo.',false);
@@ -1681,7 +1698,7 @@ img{max-width:100%}
     try{ await saveGoals(lista); closeSheet('goalSheet'); }catch(e){ say(msg,'Non salvato. Riprova.',false); }
   });
   let gDelArmed=false;
-  $('gDel').addEventListener('click', async ()=>{ const msg=$('gMsg'); if(!GE||!guard(msg)) return;
+  onSave('gDel', async ()=>{ const msg=$('gMsg'); if(!GE||!guard(msg)) return;
     if(!gDelArmed){ gDelArmed=true; $('gDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ gDelArmed=false; $('gDel').textContent='Elimina'; },3000); return; }
     gDelArmed=false; $('gDel').textContent='Elimina';
     try{ await saveGoals(S.goals.filter(x=>x.id!==GE.id)); closeSheet('goalSheet'); }catch(e){ say(msg,'Non eliminato. Riprova.',false); } });
@@ -1712,10 +1729,10 @@ img{max-width:100%}
   }
   // profilo
   $('pfNome').addEventListener('input',()=>{ const n=$('pfNome').value.trim(); $('pfPrev').textContent = n?`Conti di ${n}`:'I miei conti'; });
-  $('pfSave').addEventListener('click', async ()=>{ const m=$('pfMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, nome:$('pfNome').value.trim()}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
+  onSave('pfSave', async ()=>{ const m=$('pfMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, nome:$('pfNome').value.trim()}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
   // spese divise
   $('shOn').addEventListener('change',()=>{ $('shNameWrap').hidden=!$('shOn').checked; if($('shOn').checked && !$('shName').value) $('shName').value='Coinquilino'; });
-  $('shSave').addEventListener('click', async ()=>{ const m=$('shMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, divise:{attiva:$('shOn').checked, nome:$('shName').value.trim()||'Coinquilino'}}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
+  onSave('shSave', async ()=>{ const m=$('shMsg'); if(!guard(m)) return; try{ await saveStructure({...ST, divise:{attiva:$('shOn').checked, nome:$('shName').value.trim()||'Coinquilino'}}); say(m,'Salvato.',true); }catch(e){ say(m,'Non salvato. Riprova.',false); } });
   // voce del piano
   let CE=null, cG='spesa', cColor='blue';
   const setCG = g => { cG=g; $('cSpesa').setAttribute('aria-pressed',g==='spesa'); $('cRisp').setAttribute('aria-pressed',g==='risp'); $('cVarWrap').hidden = g==='risp'; $('cDestWrap').hidden = g!=='risp'; };
@@ -1772,14 +1789,14 @@ img{max-width:100%}
       if(close) closeSheet('catSheet'); return true; }
     catch(e){ say(m,'Non salvato. Riprova.',false); return false; }
   }
-  $('cSave').addEventListener('click', ()=>persistCat(true));
+  onSave('cSave', ()=>persistCat(true));
   let cDelArmed=false;
-  $('cArch').addEventListener('click', async ()=>{
+  onSave('cArch', async ()=>{
     const m=$('cMsg'); if(!CE||!guard(m)) return;
     const list = ST.categorie.map(c=>c.id===CE.id?{...c,archiviata:!CE.archiviata}:c);
     try{ await saveStructure({...ST, categorie:list}); closeSheet('catSheet'); }catch(e){ say(m,'Non salvato. Riprova.',false); }
   });
-  $('cDel').addEventListener('click', async ()=>{
+  onSave('cDel', async ()=>{
     const m=$('cMsg'); if(!CE||!guard(m)) return;
     if(!cDelArmed){ cDelArmed=true; $('cDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ cDelArmed=false; $('cDel').textContent='Elimina'; },3000); return; }
     cDelArmed=false; $('cDel').textContent='Elimina';
@@ -1798,10 +1815,10 @@ img{max-width:100%}
     $('aNome').value=c?c.nome:''; $('aDove').value=c?(c.dove||''):''; $('aSaldo').value=c?numIn((S.saldi||{})[c.id]):''; $('aGoal').value=c&&Number(c.obiettivo)>0?numIn(c.obiettivo):''; $('aCash').checked=!!(c&&c.contanti); $('aMain').checked = c ? (c.principale || (!CONTI.some(a=>a.principale) && defaultAcc()===c.id)) : !CONTI.length;
     aColor = c ? (c.colore||'gray') : Object.keys(COLORS).find(k=>!CONTI.some(x=>x.colore===k)) || 'gray';
     swatches('aCol', aColor, k=>aColor=k); $('aDel').hidden=!c; $('aDel').textContent='Elimina'; $('aMore').open=false;
-    openSheet('accSheet', c ? 'aSaldo' : 'aNome'); if(c) setTimeout(()=>{ try{ $('aSaldo').select(); }catch(e){} },80);
+    openSheet('accSheet', c ? 'aSaldo' : 'aNome'); if(c && !TOUCH) setTimeout(()=>{ try{ $('aSaldo').select(); }catch(e){} },80);
   }
   $('accAdd').addEventListener('click',()=>openAcc(null));
-  $('aSave').addEventListener('click', async ()=>{
+  onSave('aSave', async ()=>{
     const m=$('aMsg'); if(!guard(m)) return; const nome=$('aNome').value.trim(); if(!nome) return say(m,'Dai un nome al conto.',false);
     const saldo=parseAmt($('aSaldo').value), goal=parseAmt($('aGoal').value), cash=$('aCash').checked, main=$('aMain').checked;
     const data={nome, dove:$('aDove').value.trim(), colore:aColor, obiettivo:goal>0?r2(goal):0, contanti:cash, principale:main};
@@ -1816,7 +1833,7 @@ img{max-width:100%}
     }catch(e){ say(m,'Non salvato. Riprova.',false); }
   });
   let aDelArmed=false;
-  $('aDel').addEventListener('click', async ()=>{
+  onSave('aDel', async ()=>{
     const m=$('aMsg'); if(!AE||!guard(m)) return;
     if(!aDelArmed){ aDelArmed=true; $('aDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ aDelArmed=false; $('aDel').textContent='Elimina'; },3000); return; }
     aDelArmed=false;
@@ -1824,7 +1841,7 @@ img{max-width:100%}
     catch(e){ say(m,'Non eliminato. Riprova.',false); }
   });
   // voci libere
-  $('voceAdd').addEventListener('click', async ()=>{
+  onSave('voceAdd', async ()=>{
     const m=$('voceMsg'); if(!guard(m)) return; const v=$('voceNew').value.trim(); if(!v) return;
     if(VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Questa sottocategoria c\'è già.',false);
     try{ await saveStructure({...ST, voci:[...VOCI.filter(x=>x!=='Altro'), v, ...(VOCI.includes('Altro')?['Altro']:[])]}); $('voceNew').value=''; say(m,'Sottocategoria aggiunta.',true); }catch(e){ say(m,'Non salvata. Riprova.',false); }
@@ -1835,7 +1852,7 @@ img{max-width:100%}
     const n=S.movs.filter(m=>m.categoria==='libere'&&m.voce===v).length;
     $('vInfo').textContent = n ? `È usata in ${n} ${n===1?'movimento':'movimenti'}: se la rinomini, vengono aggiornati anche quelli. Se la elimini, restano con il vecchio nome.` : 'Non è usata in nessun movimento.';
     openSheet('voceSheet','vNome'); }
-  $('vSave').addEventListener('click', async ()=>{
+  onSave('vSave', async ()=>{
     const m=$('vMsg'); if(!VE||!guard(m)) return; const v=$('vNome').value.trim(); if(!v) return say(m,'Scrivi un nome.',false);
     if(v!==VE && VOCI.some(x=>x.toLowerCase()===v.toLowerCase())) return say(m,'Esiste già una sottocategoria con questo nome.',false);
     $('vSave').disabled=true;
@@ -1847,7 +1864,7 @@ img{max-width:100%}
     }catch(e){ say(m,'Non salvato del tutto. Riprova.',false); } finally{ $('vSave').disabled=false; }
   });
   let vDelArmed=false;
-  $('vDel').addEventListener('click', async ()=>{
+  onSave('vDel', async ()=>{
     const m=$('vMsg'); if(!VE||!guard(m)) return;
     if(VOCI.length<=1) return say(m,'Serve almeno una sottocategoria.',false);
     if(!vDelArmed){ vDelArmed=true; $('vDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ vDelArmed=false; $('vDel').textContent='Elimina'; },3000); return; }
@@ -1889,14 +1906,14 @@ img{max-width:100%}
       const ref=await db.collection('ricorrenti').add(body);
       if($('w3Paid').checked) await db.collection('movimenti').doc(`auto_${ref.id}_${k}`).set({...fixBody({...body,id:ref.id},k,v), conto:'', metodo:'conto'}); }
   }
-  $('wNext').addEventListener('click', async ()=>{
+  onSave('wNext', async ()=>{
     if(WS===1 && !(wv('w1Stip')>0)) return say($('wMsg'),'Scrivi quanto guadagni al mese, anche più o meno.',false);
     if(WS<3) return wShow(WS+1);
     if(WS===3){ $('wNext').disabled=true; try{ await wFinish(); wShow(4); }catch(e){ say($('wMsg'),'Non sono riuscito a salvare. Controlla la connessione e riprova.',false); } finally{ $('wNext').disabled=false; } return; }
     $('setup').hidden=true; setTab('mese');
   });
   $('wBack').addEventListener('click',()=>{ if(WS>1) wShow(WS-1); });
-  $('wSkip').addEventListener('click', async ()=>{ try{ await saveStructure({...ST, setupDone:true}); }catch(e){} $('setup').hidden=true; setTab('impostazioni'); });
+  onSave('wSkip', async ()=>{ try{ await saveStructure({...ST, setupDone:true}); }catch(e){} $('setup').hidden=true; setTab('impostazioni'); });
   function maybeSetup(){ if(S.ready && S.hasStruct && ST.setupDone===false && $('setup').hidden && !S.setupShown){ S.setupShown=true; $('setup').hidden=false; wShow(1); } }
 
   // ---------- Supabase: accesso e dati ----------
@@ -1927,11 +1944,11 @@ img{max-width:100%}
       catch(err){ say(m, /invalid/i.test(err&&err.message||'') ? 'Email o password non corrette.' : 'Accesso non riuscito. Controlla la connessione e riprova.', false); }
       finally{ $('lBtn').disabled=false; }
     });
-    $('pwSave').addEventListener('click', async ()=>{ const m=$('accountMsg'); const a=$('pw1').value, b=$('pw2').value;
+    onSave('pwSave', async ()=>{ const m=$('accountMsg'); const a=$('pw1').value, b=$('pw2').value;
       if(a.length<8) return say(m,'La password deve avere almeno 8 caratteri.',false); if(a!==b) return say(m,'Le due password non coincidono.',false);
       $('pwSave').disabled=true; try{ const {error}=await client.auth.updateUser({password:a}); if(error) throw error; $('pw1').value=''; $('pw2').value=''; say(m,'Password cambiata.',true); }
       catch(e){ say(m, /same|different/i.test(e&&e.message||'') ? 'Scegli una password diversa da quella attuale.' : 'Non sono riuscito a cambiarla. Riprova.', false); } finally{ $('pwSave').disabled=false; } });
-    $('logoutBtn').addEventListener('click', async ()=>{ try{ if(db) db.clearLocal(); await client.auth.signOut(); }catch(e){} location.reload(); });
+    $('logoutBtn').addEventListener('click', async ()=>{ try{ for(let i=0;i<30 && db && db.saving && db.saving();i++) await new Promise(z=>setTimeout(z,100)); if(db) db.clearLocal(); await client.auth.signOut(); }catch(e){} location.reload(); });
     client.auth.getSession().then(({data})=>{ if(data && data.session) start(data.session.user); else showGate(); }).catch(()=>showGate());
   }
 
@@ -1947,7 +1964,7 @@ img{max-width:100%}
   function start(user){
     if(started) return; started=true;
     $('gate').hidden=true; $('fab').hidden=false; document.querySelector('nav.dock').hidden=false; $('accEmail').textContent=user.email||'';
-    db = window.ContiStore.createStore(client, user.id);
+    db = window.ContiStore.createStore(client, user.id, { onError: ()=>{ status('Una modifica non è stata salvata: controlla la connessione e riprova.', true); setTimeout(()=>{ if($('status').classList.contains('err')) status(''); },8000); } });
     db.collection('movimenti').onSnapshot(snap=>{
       S.movs = snap.docs.map(d=>({id:d.id, ...d.data()})).filter(m=>typeof m.data==='string'&&m.data.length>=10).map(m=>({...m, mese:m.mese||m.data.slice(0,7), importo:Number(m.importo)||0, descrizione:m.descrizione||catName(m.categoria)}));
       S.movReady=true; render();
