@@ -1030,8 +1030,44 @@ img{max-width:100%}
   // ---------- tabs & month ----------
   function setTab(t){ S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ if(!/access_token|type=recovery|error_description/.test(location.hash)) history.replaceState(null,'','#'+t); }catch(e){} document.querySelector('.month').style.visibility = ['conti','impostazioni'].includes(t) ? 'hidden' : ''; S.movAll=false; render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
   document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
-  $('prevM').addEventListener('click',()=>{ S.month=shiftM(S.month,-1); render(); });
-  $('nextM').addEventListener('click',()=>{ S.month=shiftM(S.month,1); render(); });
+  // cambio mese: frecce, scorrimento laterale (dito o trackpad) e tasti ← →
+  const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const monthTab = () => !['conti','impostazioni'].includes(S.tab);
+  const curPage = () => document.querySelector(`[data-page="${S.tab}"]`);
+  function goMonth(d){
+    S.month=shiftM(S.month,d); render();
+    const pg=curPage(); if(!pg || RM) return;
+    pg.style.transition='none'; pg.style.transform=`translateX(${d>0?28:-28}px)`; pg.style.opacity='0';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ pg.style.transition='transform .28s cubic-bezier(.2,.8,.2,1), opacity .2s'; pg.style.transform=''; pg.style.opacity=''; }));
+  }
+  $('prevM').addEventListener('click',()=>goMonth(-1));
+  $('nextM').addEventListener('click',()=>goMonth(1));
+  // zone che scorrono già in orizzontale da sole (saldi, tabelle, grafici, selettori): lì lo scorrimento resta loro
+  const NOSWIPE = '.wallets,.tbox,.seg,.chart,input,select,textarea,.overlay,nav.dock,header.bar,.donut svg';
+  (function(){ let x0=null, y0=0, lock=null, pg=null;
+    const main=document.querySelector('main');
+    main.addEventListener('touchstart',e=>{ if(!monthTab() || e.touches.length!==1 || e.target.closest(NOSWIPE)) { x0=null; return; }
+      const t=e.touches[0]; if(t.clientX<24 || t.clientX>innerWidth-24){ x0=null; return; } // bordi: lasciati al sistema
+      x0=t.clientX; y0=t.clientY; lock=null; pg=curPage(); },{passive:true});
+    main.addEventListener('touchmove',e=>{ if(x0==null) return; const t=e.touches[0], dx=t.clientX-x0, dy=t.clientY-y0;
+      if(lock==null && (Math.abs(dx)>10 || Math.abs(dy)>10)) lock = Math.abs(dx)>Math.abs(dy)*1.4 ? 'x' : 'y';
+      if(lock==='x'){ e.preventDefault(); if(pg && !RM){ pg.style.transition='none'; pg.style.transform=`translateX(${dx*0.35}px)`; pg.style.opacity=String(1-Math.min(.35,Math.abs(dx)/600)); } }
+    },{passive:false});
+    const end=e=>{ if(x0==null) return; const t=(e.changedTouches||[])[0]; const dx=t?t.clientX-x0:0; const was=lock; x0=null; lock=null;
+      if(was!=='x') return;
+      if(Math.abs(dx)>60){ if(pg){ pg.style.transform=''; pg.style.opacity=''; } goMonth(dx<0?1:-1); }
+      else if(pg){ pg.style.transition='transform .2s, opacity .2s'; pg.style.transform=''; pg.style.opacity=''; } };
+    main.addEventListener('touchend',end); main.addEventListener('touchcancel',end);
+    // trackpad del Mac: scorrimento laterale a due dita
+    let acc=0, lastT=0, cool=0;
+    window.addEventListener('wheel',e=>{ if(!monthTab() || e.target.closest(NOSWIPE) || document.querySelector('.overlay.show')) return;
+      if(Math.abs(e.deltaX) <= Math.abs(e.deltaY)*1.2) return;
+      e.preventDefault(); const now=Date.now(); if(now<cool) return; if(now-lastT>250) acc=0; lastT=now; acc+=e.deltaX;
+      if(Math.abs(acc)>90){ goMonth(acc>0?1:-1); acc=0; cool=now+600; } },{passive:false});
+    // tastiera: ← →
+    document.addEventListener('keydown',e=>{ if(!monthTab() || e.altKey || e.ctrlKey || e.metaKey || document.querySelector('.overlay.show') || e.target.closest('input,select,textarea,[contenteditable]')) return;
+      if(e.key==='ArrowLeft'){ e.preventDefault(); goMonth(-1); } else if(e.key==='ArrowRight'){ e.preventDefault(); goMonth(1); } });
+  })();
   document.querySelectorAll('#metricSeg button').forEach(b=>b.addEventListener('click',()=>{ S.metric=b.dataset.m; document.querySelectorAll('#metricSeg button').forEach(x=>x.setAttribute('aria-pressed', x===b)); renderConfronto(); }));
 
   function render(){
