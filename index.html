@@ -107,10 +107,17 @@ section.page{display:flex;flex-direction:column;gap:18px}
 .row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 8px;border-radius:12px;border:0;background:transparent;text-align:left;width:100%}
 button.row:hover{background:var(--fill)}
 .row + .row{box-shadow:0 -1px 0 var(--line)}
+.swipe{position:relative;overflow:hidden;border-radius:12px}
+.swipe + .swipe > .row{box-shadow:inset 0 1px 0 var(--line)}
+.swipe > .row{position:relative;z-index:1;background:var(--card);transition:transform .22s cubic-bezier(.2,.8,.2,1);touch-action:pan-y}
+.swipe > .row:hover{background:var(--fill)}
+.swipe .swdel{position:absolute;top:0;bottom:0;right:0;width:88px;border:0;background:var(--red);color:#fff;font:inherit;font-weight:600;font-size:0.8824rem;display:flex;align-items:center;justify-content:center;visibility:hidden;cursor:pointer}
+.swipe.moving .swdel,.swipe.open .swdel{visibility:visible}
 .row .t{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .row .s{font-size:0.8824rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .row .amt{font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .row .amt.in{color:var(--green)}
+.row .amt.tr{color:var(--muted)}
 .dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--on,#fff);font-weight:700;font-size:0.8235rem;background:var(--k-other)}
 .day{font-size:0.7647rem;font-weight:600;color:var(--muted);padding:14px 8px 4px;text-transform:capitalize}
 .day:first-child{padding-top:0}
@@ -220,6 +227,33 @@ input:focus,select:focus{border-color:var(--accent);outline:none}
 .fld > label,.fld > .lb{font-size:0.7647rem;font-weight:600;color:var(--muted)}
 .fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .fgrid .wide{grid-column:1/-1}
+#setRoot{display:flex;flex-direction:column;gap:18px}
+.setgroup{background:var(--card);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
+.setrow{display:grid;grid-template-columns:30px auto minmax(0,1fr) 10px;align-items:center;gap:12px;width:100%;border:0;background:transparent;padding:11px 16px;min-height:56px;font:inherit;color:inherit;text-align:left;cursor:pointer;position:relative}
+.setrow:hover{background:var(--fill)}
+.setrow + .setrow::before{content:"";position:absolute;top:0;left:58px;right:0;height:1px;background:var(--line)}
+.setrow .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--on,#fff)}
+.setrow .ic svg{width:17px;height:17px}
+.setrow .nm{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.setrow .val{color:var(--muted);font-size:0.8824rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;min-width:0}
+.setrow::after{content:"";width:8px;height:8px;border-right:2px solid var(--ctl-brd);border-top:2px solid var(--ctl-brd);transform:rotate(45deg);justify-self:end}
+.setback{margin-bottom:-8px}
+.backbtn{border:0;background:transparent;color:var(--accent-text);font:inherit;font-size:1rem;padding:10px 8px 10px 0;min-height:44px;display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+.backbtn span{font-size:1.6rem;line-height:1;margin-top:-3px}
+.tipcard{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 12px;align-items:start;background:color-mix(in srgb, var(--accent) 9%, var(--card));border-radius:var(--r-card);padding:14px 16px}
+.tipcard.in{border-radius:14px;padding:12px 14px}
+.tipcard .ti{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff}
+.tipcard b{font-weight:600;font-size:0.8824rem;display:block;margin-top:3px}
+.tipcard p{margin:2px 0 0;font-size:0.8824rem;color:var(--ink);line-height:1.4}
+.tipcard .ok2{grid-column:2;justify-self:start;border:0;background:transparent;color:var(--accent-text);font:inherit;font-size:0.8824rem;font-weight:600;padding:10px 0 2px;min-height:44px;cursor:pointer}
+.vh{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;margin:-1px;padding:0;border:0}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pick button{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:999px;background:var(--fill);color:var(--ink);font:inherit;font-size:0.8824rem;font-weight:500;padding:8px 13px 8px 9px;min-height:40px;cursor:pointer;max-width:100%}
+.pick button .pi{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--on,#fff)}
+.pick button .pi svg{width:15px;height:15px}
+.pick button span.tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pick button[aria-pressed="true"]{background:color-mix(in srgb, var(--accent) 16%, var(--card));box-shadow:inset 0 0 0 2px var(--accent);font-weight:600}
+.pick button.more{color:var(--accent-text);font-weight:600;padding-left:13px}
 .btn.busy{opacity:.55;pointer-events:none}
 .btn.busy::after{content:'…'}
 .fgrid .hint{font-size:0.8824rem;color:var(--muted);background:var(--fill);border-radius:12px;padding:10px 12px;line-height:1.4}
@@ -457,6 +491,7 @@ img{max-width:100%}
       </div>
       <svg class="ring" id="ring" width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"></svg>
     </div>
+    <div class="tipcard" data-tip="libere" hidden></div>
     <div class="card alert" id="stipCard" hidden>
       <div style="min-width:0"><b id="stipTitle"></b><div class="sub" id="stipText"></div></div>
       <div class="btns"><button class="btn pri" id="stipUpd">Aggiorna il piano</button><button class="btn" id="stipIgn">Ignora</button></div>
@@ -472,12 +507,14 @@ img{max-width:100%}
     </div>
     <div class="card" id="fixCard">
       <div class="head"><h2>Spese fisse</h2><span class="sub" id="fixSub">—</span></div>
+      <div class="tipcard in" data-tip="fisse" hidden></div>
       <div class="prog fixprog"><i id="fixBar" style="width:0%"></i></div>
       <div class="list" id="fixList"><div class="empty">Carico le spese fisse…</div></div>
       <div class="fixup" id="fixUp" hidden></div>
     </div>
     <div class="card">
       <div class="head"><h2>Movimenti</h2><span class="sub" id="movCount">—</span></div>
+      <div class="tipcard in" data-tip="gesti" hidden></div>
       <div class="filters" id="movFilters" hidden>
         <input id="qText" type="search" placeholder="Cerca" aria-label="Cerca nei movimenti" autocomplete="off">
         <select id="qCat" aria-label="Filtra per categoria"></select>
@@ -577,17 +614,13 @@ img{max-width:100%}
       <p class="prose" id="coProse">Quando paghi tu una spesa intera, ad esempio una bolletta, attiva "Divisa" e indica la sua parte. Nel budget conta solo la tua quota; il rimborso, quando arriva, azzera il debito.</p>
       <div class="list" id="coList"></div>
     </div>
-    <div class="card">
-      <h2>Dove sono i tuoi dati</h2>
-      <p class="prose">Movimenti, saldi e impostazioni sono salvati nel <b>tuo database Supabase</b>, protetti dal tuo account: li vedi solo tu, da iPhone e da computer. Il telefono ne tiene anche una copia, così l'app si apre subito anche senza rete (in sola lettura).</p>
-      <p class="prose">Il <b>CSV</b> si apre con Excel o Numbers, il <b>backup</b> contiene tutto e si può reimportare qui.</p>
-      <div class="btns"><button class="btn" id="expCsv">Esporta movimenti (CSV)</button><button class="btn" id="expJson">Backup completo (JSON)</button><button class="btn" id="impJson">Importa backup</button><input type="file" id="impFile" accept=".json,application/json" hidden><span class="msg" id="expMsg" role="status" aria-live="polite"></span></div>
-    </div>
   </section>
 
   <!-- IMPOSTAZIONI -->
   <section class="page" id="page-impostazioni" data-page="impostazioni" hidden>
-    <div class="card" id="planCard">
+    <div class="setback" id="setBack" hidden><button class="backbtn" id="setBackBtn" type="button" aria-label="Torna a Impostazioni"><span aria-hidden="true">‹</span> Impostazioni</button></div>
+    <div id="setRoot"><div class="setgroup" id="setG1"></div><div class="setgroup" id="setG2"></div></div>
+    <div class="card" id="planCard" data-set="piano">
       <div class="head"><h2>Il tuo piano</h2><button class="btn" id="catAdd">Nuova categoria</button></div>
       <p class="prose">Come dividi lo stipendio ogni mese. Ogni categoria ha un <b>budget</b> e, se vuoi, delle <b>spese fisse</b> (affitto, abbonamenti, bonifici) che ogni mese ritrovi da spuntare nella sezione Mese. Tocca una categoria per modificarla.</p>
       <div class="salary">
@@ -598,19 +631,20 @@ img{max-width:100%}
       <div class="planbar" id="planBar" aria-hidden="true"></div>
       <div id="planList"></div>
     </div>
-    <div class="card" id="annCard" style="scroll-margin-top:90px">
+    <div class="card" id="annCard" data-set="nm">
       <div class="head"><h2>Spese non mensili</h2><button class="btn" id="annAdd">Aggiungi</button></div>
       <p class="prose">Le spese che arrivano ogni 2, 3, 6 o 12 mesi: bollo, assicurazione, un abbonamento annuale. Le gestisci tutte da qui; nel piano diventano una sola voce, quanto conviene mettere da parte ogni mese per non avere sorprese.</p>
       <div class="sub" id="annSub" style="margin:-4px 0 8px"></div>
+      <div class="tipcard in" data-tip="nm" hidden></div>
       <div class="list" id="annList"></div>
     </div>
-    <div class="card">
+    <div class="card" data-set="divise">
       <div class="head"><h2>Spese divise</h2></div>
       <label class="sw-row" for="shOn"><span>Divido delle spese con qualcuno<small>Coinquilino, partner, amici: tieni il conto di quanto ti devono</small></span><input type="checkbox" class="tog" id="shOn"></label>
       <div class="fld" id="shNameWrap"><label for="shName">Con chi</label><input id="shName" type="text" maxlength="30" placeholder="Es. Coinquilino" autocomplete="off"></div>
       <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="shMsg" role="status" aria-live="polite"></span><button class="btn pri" id="shSave">Salva</button></div></div>
     </div>
-    <div class="card">
+    <div class="card" data-set="profilo">
       <div class="head"><h2>Profilo</h2></div>
       <div class="fgrid">
         <div class="fld"><label for="pfNome">Il tuo nome</label><input id="pfNome" type="text" maxlength="40" autocomplete="given-name" placeholder="Es. Luca"></div>
@@ -618,13 +652,19 @@ img{max-width:100%}
       </div>
       <div class="sh-foot"><span></span><div class="btns"><span class="msg" id="pfMsg" role="status" aria-live="polite"></span><button class="btn pri" id="pfSave">Salva</button></div></div>
     </div>
-    <div class="card">
+    <div class="card" data-set="account">
       <div class="head"><h2>Account</h2><span class="sub" id="accEmail">—</span></div>
       <div class="fgrid">
         <div class="fld"><label for="pw1">Nuova password</label><input id="pw1" type="password" autocomplete="new-password" minlength="8"></div>
         <div class="fld"><label for="pw2">Ripeti la password</label><input id="pw2" type="password" autocomplete="new-password" minlength="8"></div>
       </div>
       <div class="btns"><button class="btn pri" id="pwSave">Cambia password</button><button class="btn" id="refreshBtn">Aggiorna dati</button><button class="btn dan" id="logoutBtn">Esci</button><span class="msg" id="accountMsg" role="status" aria-live="polite"></span></div>
+    </div>
+    <div class="card" data-set="dati">
+      <h2>Dati e backup</h2>
+      <p class="prose">Movimenti, saldi e impostazioni sono salvati nel <b>tuo database Supabase</b>, protetti dal tuo account: li vedi solo tu, da iPhone e da computer. Il telefono ne tiene anche una copia, così l'app si apre subito anche senza rete (in sola lettura).</p>
+      <p class="prose">Il <b>CSV</b> si apre con Excel o Numbers, il <b>backup</b> contiene tutto e si può reimportare qui.</p>
+      <div class="btns"><button class="btn" id="expCsv">Esporta movimenti (CSV)</button><button class="btn" id="expJson">Backup completo (JSON)</button><button class="btn" id="impJson">Importa backup</button><input type="file" id="impFile" accept=".json,application/json" hidden><span class="msg" id="expMsg" role="status" aria-live="polite"></span></div>
     </div>
   </section>
 </main>
@@ -634,18 +674,23 @@ img{max-width:100%}
 <div class="overlay" id="movSheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
     <div class="sh-head"><h3 id="mTitle">Nuovo movimento</h3><button class="close" data-close aria-label="Chiudi">✕</button></div>
-    <div class="seg" role="group" aria-label="Tipo"><button id="mUscita" aria-pressed="true" style="flex:1">Uscita</button><button id="mEntrata" aria-pressed="false" style="flex:1">Entrata</button></div>
+    <div class="seg" role="group" aria-label="Tipo"><button id="mUscita" aria-pressed="true" style="flex:1">Uscita</button><button id="mEntrata" aria-pressed="false" style="flex:1">Entrata</button><button id="mTrasf" aria-pressed="false" style="flex:1">Trasferimento</button></div>
     <div class="fgrid">
       <div class="fld"><label for="mImp">Importo (€)</label><input id="mImp" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
       <div class="fld"><label for="mDesc">Descrizione</label><input id="mDesc" type="text" maxlength="80" placeholder="Es. Cena con amici" autocomplete="off"></div>
-      <div class="fld"><label for="mCat">Categoria</label><select id="mCat"></select></div>
-      <div class="fld" id="mVoceWrap"><label for="mVoce">Sottocategoria</label><select id="mVoce"></select></div>
+      <div class="fld vh" aria-hidden="true"><label for="mCat">Categoria</label><select id="mCat" tabindex="-1"></select></div>
+      <div class="fld vh" aria-hidden="true"><label for="mVoce">Sottocategoria</label><select id="mVoce" tabindex="-1"></select></div>
+      <div class="fld wide" id="mCatGridWrap"><span class="lb" id="mCatLb">Categoria</span><div class="pick" id="mCatGrid" role="group" aria-labelledby="mCatLb"></div></div>
+      <div class="fld wide" id="mVoceWrap"><span class="lb" id="mVoceLb">Sottocategoria</span><div class="pick" id="mVoceGrid" role="group" aria-labelledby="mVoceLb"></div></div>
+      <div class="fld" id="mDaWrap" hidden><label for="mDa">Da</label><select id="mDa"></select></div>
+      <div class="fld" id="mAWrap" hidden><label for="mA">A</label><select id="mA"></select></div>
+      <div class="hint wide" id="mTrHint" hidden>Sposti soldi tra i tuoi conti: i due saldi si aggiornano e non conta né come spesa né come entrata.</div>
       <label class="sw-row wide" id="mBudgetWrap" for="mBudget"><span>Aggiungi alle spese libere<small>Questi soldi alzano il budget delle spese libere del mese</small></span><input type="checkbox" class="tog" id="mBudget"></label>
     </div>
     <details class="more" id="mMore"><summary><span>Data e conto<small id="mSum">Oggi · Conto corrente</small></span></summary><div class="in">
       <div class="fgrid">
         <div class="fld"><label for="mData">Data</label><input id="mData" type="date" min="2020-01-01" max="2099-12-31"></div>
-        <div class="fld"><label for="mAcc" id="mMetLb">Pagato da</label><select id="mAcc"></select></div>
+        <div class="fld" id="mAccWrap"><label for="mAcc" id="mMetLb">Pagato da</label><select id="mAcc"></select></div>
       </div>
       <label class="sw-row" id="mSplitWrap" for="mSplit"><span id="mSplitLb">Divisa<small>Paghi tu tutto, poi ti rimborsano la loro parte</small></span><input type="checkbox" class="tog" id="mSplit"></label>
       <div class="fld" id="mQuotaWrap"><label for="mQuota" id="mQuotaLb">La loro parte (€)</label><input id="mQuota" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
@@ -858,7 +903,7 @@ img{max-width:100%}
   const COLORS = {blue:'--k-casa', orange:'--k-bollette', green:'--k-palestra', teal:'--k-nutrizionista', purple:'--k-libere', indigo:'--k-fondo', pink:'--k-pac', rosa:'--k-rosa', yellow:'--k-yellow', red:'--k-red', gray:'--k-other'};
   const COLOR_NAMES = {blue:'Blu', orange:'Arancione', green:'Verde', teal:'Azzurro', purple:'Viola', indigo:'Indaco', pink:'Fucsia', rosa:'Rosa', yellow:'Giallo', red:'Rosso', gray:'Grigio'};
   // ---------- icone (Lucide, licenza ISC) ----------
-  const ICONS = {"arrow-left-right":"<path d=\"M8 3 4 7l4 4\"/> <path d=\"M4 7h16\"/> <path d=\"m16 21 4-4-4-4\"/> <path d=\"M20 17H4\"/>","baby":"<path d=\"M9 12h.01\"/> <path d=\"M15 12h.01\"/> <path d=\"M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5\"/> <path d=\"M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1\"/>","badge-alert":"<path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\"/> <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"/> <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"/>","bed":"<path d=\"M2 4v16\"/> <path d=\"M2 8h18a2 2 0 0 1 2 2v10\"/> <path d=\"M2 17h20\"/> <path d=\"M6 8v9\"/>","bike":"<circle cx=\"18.5\" cy=\"17.5\" r=\"3.5\"/> <circle cx=\"5.5\" cy=\"17.5\" r=\"3.5\"/> <circle cx=\"15\" cy=\"5\" r=\"1\"/> <path d=\"M12 17.5V14l-3-3 4-3 2 3h2\"/>","book-open":"<path d=\"M12 7v14\"/> <path d=\"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/>","briefcase":"<path d=\"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\"/>","bus-front":"<path d=\"M4 6 2 7\"/> <path d=\"M10 6h4\"/> <path d=\"m22 7-2-1\"/> <rect width=\"16\" height=\"16\" x=\"4\" y=\"3\" rx=\"2\"/> <path d=\"M4 11h16\"/> <path d=\"M8 15h.01\"/> <path d=\"M16 15h.01\"/> <path d=\"M6 19v2\"/> <path d=\"M18 21v-2\"/>","cake-slice":"<circle cx=\"9\" cy=\"7\" r=\"2\"/> <path d=\"M7.2 7.9 3 11v9c0 .6.4 1 1 1h16c.6 0 1-.4 1-1v-9c0-2-3-6-7-8l-3.6 2.6\"/> <path d=\"M16 13H3\"/> <path d=\"M16 17H3\"/>","calendar-clock":"<path d=\"M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5\"/> <path d=\"M16 2v4\"/> <path d=\"M8 2v4\"/> <path d=\"M3 10h5\"/> <path d=\"M17.5 17.5 16 16.3V14\"/> <circle cx=\"16\" cy=\"16\" r=\"6\"/>","camera":"<path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z\"/> <circle cx=\"12\" cy=\"13\" r=\"3\"/>","car":"<path d=\"M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2\"/> <circle cx=\"7\" cy=\"17\" r=\"2\"/> <path d=\"M9 17h6\"/> <circle cx=\"17\" cy=\"17\" r=\"2\"/>","car-taxi-front":"<path d=\"M10 2h4\"/> <path d=\"m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8\"/> <path d=\"M7 14h.01\"/> <path d=\"M17 14h.01\"/> <rect width=\"18\" height=\"8\" x=\"3\" y=\"10\" rx=\"2\"/> <path d=\"M5 18v2\"/> <path d=\"M19 18v2\"/>","cigarette":"<path d=\"M17 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h14\"/> <path d=\"M18 8c0-2.5-2-2.5-2-5\"/> <path d=\"M21 16a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/> <path d=\"M22 8c0-2.5-2-2.5-2-5\"/> <path d=\"M7 12v4\"/>","circle-ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"10\"/> <path d=\"M17 12h.01\"/> <path d=\"M12 12h.01\"/> <path d=\"M7 12h.01\"/>","circle-plus":"<circle cx=\"12\" cy=\"12\" r=\"10\"/> <path d=\"M8 12h8\"/> <path d=\"M12 8v8\"/>","clapperboard":"<path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z\"/> <path d=\"m6.2 5.3 3.1 3.9\"/> <path d=\"m12.4 3.4 3.1 4\"/> <path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z\"/>","coffee":"<path d=\"M10 2v2\"/> <path d=\"M14 2v2\"/> <path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\"/> <path d=\"M6 2v2\"/>","coins":"<circle cx=\"8\" cy=\"8\" r=\"6\"/> <path d=\"M18.09 10.37A6 6 0 1 1 10.34 18\"/> <path d=\"M7 6h1v4\"/> <path d=\"m16.71 13.88.7.71-2.82 2.82\"/>","credit-card":"<rect width=\"20\" height=\"14\" x=\"2\" y=\"5\" rx=\"2\"/> <line x1=\"2\" x2=\"22\" y1=\"10\" y2=\"10\"/>","dumbbell":"<path d=\"M14.4 14.4 9.6 9.6\"/> <path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\"/> <path d=\"m21.5 21.5-1.4-1.4\"/> <path d=\"M3.9 3.9 2.5 2.5\"/> <path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\"/>","fuel":"<line x1=\"3\" x2=\"15\" y1=\"22\" y2=\"22\"/> <line x1=\"4\" x2=\"14\" y1=\"9\" y2=\"9\"/> <path d=\"M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18\"/> <path d=\"M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5\"/>","gamepad-2":"<line x1=\"6\" x2=\"10\" y1=\"11\" y2=\"11\"/> <line x1=\"8\" x2=\"8\" y1=\"9\" y2=\"13\"/> <line x1=\"15\" x2=\"15.01\" y1=\"12\" y2=\"12\"/> <line x1=\"18\" x2=\"18.01\" y1=\"10\" y2=\"10\"/> <path d=\"M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z\"/>","gift":"<rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/> <path d=\"M12 8v13\"/> <path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/> <path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/>","glasses":"<circle cx=\"6\" cy=\"15\" r=\"4\"/> <circle cx=\"18\" cy=\"15\" r=\"4\"/> <path d=\"M14 15a2 2 0 0 0-2-2 2 2 0 0 0-2 2\"/> <path d=\"M2.5 13 5 7c.7-1.3 1.4-2 3-2\"/> <path d=\"M21.5 13 19 7c-.7-1.3-1.5-2-3-2\"/>","graduation-cap":"<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/> <path d=\"M22 10v6\"/> <path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/>","hammer":"<path d=\"m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9\"/> <path d=\"m18 15 4-4\"/> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\"/>","hand-coins":"<path d=\"M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17\"/> <path d=\"m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9\"/> <path d=\"m2 16 6 6\"/> <circle cx=\"16\" cy=\"9\" r=\"2.9\"/> <circle cx=\"6\" cy=\"5\" r=\"3\"/>","hand-heart":"<path d=\"M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16\"/> <path d=\"m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9\"/> <path d=\"m2 15 6 6\"/> <path d=\"M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z\"/>","heart-pulse":"<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\"/> <path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\"/>","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>","landmark":"<line x1=\"3\" x2=\"21\" y1=\"22\" y2=\"22\"/> <line x1=\"6\" x2=\"6\" y1=\"18\" y2=\"11\"/> <line x1=\"10\" x2=\"10\" y1=\"18\" y2=\"11\"/> <line x1=\"14\" x2=\"14\" y1=\"18\" y2=\"11\"/> <line x1=\"18\" x2=\"18\" y1=\"18\" y2=\"11\"/> <polygon points=\"12 2 20 7 4 7\"/>","laptop":"<path d=\"M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16\"/>","music":"<path d=\"M9 18V5l12-2v13\"/> <circle cx=\"6\" cy=\"18\" r=\"3\"/> <circle cx=\"18\" cy=\"16\" r=\"3\"/>","package":"<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/> <path d=\"M12 22V12\"/> <path d=\"m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7\"/> <path d=\"m7.5 4.27 9 5.15\"/>","palette":"<circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\"/> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\"/> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\"/> <path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z\"/>","party-popper":"<path d=\"M5.8 11.3 2 22l10.7-3.79\"/> <path d=\"M4 3h.01\"/> <path d=\"M22 8h.01\"/> <path d=\"M15 2h.01\"/> <path d=\"M22 20h.01\"/> <path d=\"m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10\"/> <path d=\"m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17\"/> <path d=\"m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7\"/> <path d=\"M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z\"/>","paw-print":"<circle cx=\"11\" cy=\"4\" r=\"2\"/> <circle cx=\"18\" cy=\"8\" r=\"2\"/> <circle cx=\"20\" cy=\"16\" r=\"2\"/> <path d=\"M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z\"/>","piggy-bank":"<path d=\"M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z\"/> <path d=\"M2 9v1c0 1.1.9 2 2 2h1\"/> <path d=\"M16 11h.01\"/>","pill":"<path d=\"m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z\"/> <path d=\"m8.5 8.5 7 7\"/>","pizza":"<path d=\"m12 14-1 1\"/> <path d=\"m13.75 18.25-1.25 1.42\"/> <path d=\"M17.775 5.654a15.68 15.68 0 0 0-12.121 12.12\"/> <path d=\"M18.8 9.3a1 1 0 0 0 2.1 7.7\"/> <path d=\"M21.964 20.732a1 1 0 0 1-1.232 1.232l-18-5a1 1 0 0 1-.695-1.232A19.68 19.68 0 0 1 15.732 2.037a1 1 0 0 1 1.232.695z\"/>","plane":"<path d=\"M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z\"/>","receipt-text":"<path d=\"M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z\"/> <path d=\"M14 8H8\"/> <path d=\"M16 12H8\"/> <path d=\"M13 16H8\"/>","repeat":"<path d=\"m17 2 4 4-4 4\"/> <path d=\"M3 11v-1a4 4 0 0 1 4-4h14\"/> <path d=\"m7 22-4-4 4-4\"/> <path d=\"M21 13v1a4 4 0 0 1-4 4H3\"/>","salad":"<path d=\"M7 21h10\"/> <path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\"/> <path d=\"M11.38 12a2.4 2.4 0 0 1-.4-4.77 2.4 2.4 0 0 1 3.2-2.77 2.4 2.4 0 0 1 3.47-.63 2.4 2.4 0 0 1 3.37 3.37 2.4 2.4 0 0 1-1.1 3.7 2.51 2.51 0 0 1 .03 1.1\"/> <path d=\"m13 12 4-4\"/> <path d=\"M10.9 7.25A3.99 3.99 0 0 0 4 10c0 .73.2 1.41.54 2\"/>","scissors":"<circle cx=\"6\" cy=\"6\" r=\"3\"/> <path d=\"M8.12 8.12 12 12\"/> <path d=\"M20 4 8.12 15.88\"/> <circle cx=\"6\" cy=\"18\" r=\"3\"/> <path d=\"M14.8 14.8 20 20\"/>","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/> <path d=\"m9 12 2 2 4-4\"/>","shirt":"<path d=\"M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z\"/>","shopping-bag":"<path d=\"M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z\"/> <path d=\"M3 6h18\"/> <path d=\"M16 10a4 4 0 0 1-8 0\"/>","shopping-basket":"<path d=\"m15 11-1 9\"/> <path d=\"m19 11-4-7\"/> <path d=\"M2 11h20\"/> <path d=\"m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4\"/> <path d=\"M4.5 15.5h15\"/> <path d=\"m5 11 4-7\"/> <path d=\"m9 11 1 9\"/>","shopping-cart":"<circle cx=\"8\" cy=\"21\" r=\"1\"/> <circle cx=\"19\" cy=\"21\" r=\"1\"/> <path d=\"M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12\"/>","smartphone":"<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"/> <path d=\"M12 18h.01\"/>","smile":"<circle cx=\"12\" cy=\"12\" r=\"10\"/> <path d=\"M8 14s1.5 2 4 2 4-2 4-2\"/> <line x1=\"9\" x2=\"9.01\" y1=\"9\" y2=\"9\"/> <line x1=\"15\" x2=\"15.01\" y1=\"9\" y2=\"9\"/>","sofa":"<path d=\"M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3\"/> <path d=\"M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z\"/> <path d=\"M4 18v2\"/> <path d=\"M20 18v2\"/> <path d=\"M12 4v9\"/>","sparkles":"<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\"/> <path d=\"M20 3v4\"/> <path d=\"M22 5h-4\"/> <path d=\"M4 17v2\"/> <path d=\"M5 18H3\"/>","sprout":"<path d=\"M7 20h10\"/> <path d=\"M10 20c5.5-2.5.8-6.4 3-10\"/> <path d=\"M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z\"/> <path d=\"M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z\"/>","square-parking":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/> <path d=\"M9 17V7h4a3 3 0 0 1 0 6H9\"/>","stethoscope":"<path d=\"M11 2v2\"/> <path d=\"M5 2v2\"/> <path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/> <path d=\"M8 15a6 6 0 0 0 12 0v-3\"/> <circle cx=\"20\" cy=\"10\" r=\"2\"/>","tag":"<path d=\"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z\"/> <circle cx=\"7.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/>","ticket":"<path d=\"M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z\"/> <path d=\"M13 5v2\"/> <path d=\"M13 17v2\"/> <path d=\"M13 11v2\"/>","train-front":"<path d=\"M8 3.1V7a4 4 0 0 0 8 0V3.1\"/> <path d=\"m9 15-1-1\"/> <path d=\"m15 15 1-1\"/> <path d=\"M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z\"/> <path d=\"m8 19-2 3\"/> <path d=\"m16 19 2 3\"/>","tree-palm":"<path d=\"M13 8c0-2.76-2.46-5-5.5-5S2 5.24 2 8h2l1-1 1 1h4\"/> <path d=\"M13 7.14A5.82 5.82 0 0 1 16.5 6c3.04 0 5.5 2.24 5.5 5h-3l-1-1-1 1h-3\"/> <path d=\"M5.89 9.71c-2.15 2.15-2.3 5.47-.35 7.43l4.24-4.25.7-.7.71-.71 2.12-2.12c-1.95-1.96-5.27-1.8-7.42.35\"/> <path d=\"M11 15.5c.5 2.5-.17 4.5-1 6.5h4c2-5.5-.5-12-1-14\"/>","trending-up":"<polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\"/> <polyline points=\"16 7 22 7 22 13\"/>","tv":"<rect width=\"20\" height=\"15\" x=\"2\" y=\"7\" rx=\"2\" ry=\"2\"/> <polyline points=\"17 2 12 7 7 2\"/>","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/> <circle cx=\"9\" cy=\"7\" r=\"4\"/> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/> <path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/>","utensils":"<path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\"/> <path d=\"M7 2v20\"/> <path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\"/>","washing-machine":"<path d=\"M3 6h3\"/> <path d=\"M17 6h.01\"/> <rect width=\"18\" height=\"20\" x=\"3\" y=\"2\" rx=\"2\"/> <circle cx=\"12\" cy=\"13\" r=\"5\"/> <path d=\"M12 18a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5\"/>","watch":"<circle cx=\"12\" cy=\"12\" r=\"6\"/> <polyline points=\"12 10 12 12 13 13\"/> <path d=\"m16.13 7.66-.81-4.05a2 2 0 0 0-2-1.61h-2.68a2 2 0 0 0-2 1.61l-.78 4.05\"/> <path d=\"m7.88 16.36.8 4a2 2 0 0 0 2 1.61h2.72a2 2 0 0 0 2-1.61l.81-4.05\"/>","wine":"<path d=\"M8 22h8\"/> <path d=\"M7 10h10\"/> <path d=\"M12 15v7\"/> <path d=\"M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z\"/>","wrench":"<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>","zap":"<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\"/>"};
+  const ICONS = {"lightbulb":"<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"/> <path d=\"M9 18h6\"/> <path d=\"M10 22h4\"/>","arrow-left-right":"<path d=\"M8 3 4 7l4 4\"/> <path d=\"M4 7h16\"/> <path d=\"m16 21 4-4-4-4\"/> <path d=\"M20 17H4\"/>","baby":"<path d=\"M9 12h.01\"/> <path d=\"M15 12h.01\"/> <path d=\"M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5\"/> <path d=\"M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1\"/>","badge-alert":"<path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\"/> <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"/> <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"/>","bed":"<path d=\"M2 4v16\"/> <path d=\"M2 8h18a2 2 0 0 1 2 2v10\"/> <path d=\"M2 17h20\"/> <path d=\"M6 8v9\"/>","bike":"<circle cx=\"18.5\" cy=\"17.5\" r=\"3.5\"/> <circle cx=\"5.5\" cy=\"17.5\" r=\"3.5\"/> <circle cx=\"15\" cy=\"5\" r=\"1\"/> <path d=\"M12 17.5V14l-3-3 4-3 2 3h2\"/>","book-open":"<path d=\"M12 7v14\"/> <path d=\"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/>","briefcase":"<path d=\"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/> <rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\"/>","bus-front":"<path d=\"M4 6 2 7\"/> <path d=\"M10 6h4\"/> <path d=\"m22 7-2-1\"/> <rect width=\"16\" height=\"16\" x=\"4\" y=\"3\" rx=\"2\"/> <path d=\"M4 11h16\"/> <path d=\"M8 15h.01\"/> <path d=\"M16 15h.01\"/> <path d=\"M6 19v2\"/> <path d=\"M18 21v-2\"/>","cake-slice":"<circle cx=\"9\" cy=\"7\" r=\"2\"/> <path d=\"M7.2 7.9 3 11v9c0 .6.4 1 1 1h16c.6 0 1-.4 1-1v-9c0-2-3-6-7-8l-3.6 2.6\"/> <path d=\"M16 13H3\"/> <path d=\"M16 17H3\"/>","calendar-clock":"<path d=\"M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5\"/> <path d=\"M16 2v4\"/> <path d=\"M8 2v4\"/> <path d=\"M3 10h5\"/> <path d=\"M17.5 17.5 16 16.3V14\"/> <circle cx=\"16\" cy=\"16\" r=\"6\"/>","camera":"<path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z\"/> <circle cx=\"12\" cy=\"13\" r=\"3\"/>","car":"<path d=\"M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2\"/> <circle cx=\"7\" cy=\"17\" r=\"2\"/> <path d=\"M9 17h6\"/> <circle cx=\"17\" cy=\"17\" r=\"2\"/>","car-taxi-front":"<path d=\"M10 2h4\"/> <path d=\"m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8\"/> <path d=\"M7 14h.01\"/> <path d=\"M17 14h.01\"/> <rect width=\"18\" height=\"8\" x=\"3\" y=\"10\" rx=\"2\"/> <path d=\"M5 18v2\"/> <path d=\"M19 18v2\"/>","cigarette":"<path d=\"M17 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h14\"/> <path d=\"M18 8c0-2.5-2-2.5-2-5\"/> <path d=\"M21 16a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/> <path d=\"M22 8c0-2.5-2-2.5-2-5\"/> <path d=\"M7 12v4\"/>","circle-ellipsis":"<circle cx=\"12\" cy=\"12\" r=\"10\"/> <path d=\"M17 12h.01\"/> <path d=\"M12 12h.01\"/> <path d=\"M7 12h.01\"/>","circle-plus":"<circle cx=\"12\" cy=\"12\" r=\"10\"/> <path d=\"M8 12h8\"/> <path d=\"M12 8v8\"/>","clapperboard":"<path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z\"/> <path d=\"m6.2 5.3 3.1 3.9\"/> <path d=\"m12.4 3.4 3.1 4\"/> <path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z\"/>","coffee":"<path d=\"M10 2v2\"/> <path d=\"M14 2v2\"/> <path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\"/> <path d=\"M6 2v2\"/>","coins":"<circle cx=\"8\" cy=\"8\" r=\"6\"/> <path d=\"M18.09 10.37A6 6 0 1 1 10.34 18\"/> <path d=\"M7 6h1v4\"/> <path d=\"m16.71 13.88.7.71-2.82 2.82\"/>","credit-card":"<rect width=\"20\" height=\"14\" x=\"2\" y=\"5\" rx=\"2\"/> <line x1=\"2\" x2=\"22\" y1=\"10\" y2=\"10\"/>","dumbbell":"<path d=\"M14.4 14.4 9.6 9.6\"/> <path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\"/> <path d=\"m21.5 21.5-1.4-1.4\"/> <path d=\"M3.9 3.9 2.5 2.5\"/> <path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\"/>","fuel":"<line x1=\"3\" x2=\"15\" y1=\"22\" y2=\"22\"/> <line x1=\"4\" x2=\"14\" y1=\"9\" y2=\"9\"/> <path d=\"M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18\"/> <path d=\"M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5\"/>","gamepad-2":"<line x1=\"6\" x2=\"10\" y1=\"11\" y2=\"11\"/> <line x1=\"8\" x2=\"8\" y1=\"9\" y2=\"13\"/> <line x1=\"15\" x2=\"15.01\" y1=\"12\" y2=\"12\"/> <line x1=\"18\" x2=\"18.01\" y1=\"10\" y2=\"10\"/> <path d=\"M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z\"/>","gift":"<rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/> <path d=\"M12 8v13\"/> <path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/> <path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/>","glasses":"<circle cx=\"6\" cy=\"15\" r=\"4\"/> <circle cx=\"18\" cy=\"15\" r=\"4\"/> <path d=\"M14 15a2 2 0 0 0-2-2 2 2 0 0 0-2 2\"/> <path d=\"M2.5 13 5 7c.7-1.3 1.4-2 3-2\"/> <path d=\"M21.5 13 19 7c-.7-1.3-1.5-2-3-2\"/>","graduation-cap":"<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/> <path d=\"M22 10v6\"/> <path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/>","hammer":"<path d=\"m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9\"/> <path d=\"m18 15 4-4\"/> <path d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\"/>","hand-coins":"<path d=\"M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17\"/> <path d=\"m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9\"/> <path d=\"m2 16 6 6\"/> <circle cx=\"16\" cy=\"9\" r=\"2.9\"/> <circle cx=\"6\" cy=\"5\" r=\"3\"/>","hand-heart":"<path d=\"M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16\"/> <path d=\"m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9\"/> <path d=\"m2 15 6 6\"/> <path d=\"M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z\"/>","heart-pulse":"<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\"/> <path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\"/>","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>","landmark":"<line x1=\"3\" x2=\"21\" y1=\"22\" y2=\"22\"/> <line x1=\"6\" x2=\"6\" y1=\"18\" y2=\"11\"/> <line x1=\"10\" x2=\"10\" y1=\"18\" y2=\"11\"/> <line x1=\"14\" x2=\"14\" y1=\"18\" y2=\"11\"/> <line x1=\"18\" x2=\"18\" y1=\"18\" y2=\"11\"/> <polygon points=\"12 2 20 7 4 7\"/>","laptop":"<path d=\"M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16\"/>","music":"<path d=\"M9 18V5l12-2v13\"/> <circle cx=\"6\" cy=\"18\" r=\"3\"/> <circle cx=\"18\" cy=\"16\" r=\"3\"/>","package":"<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/> <path d=\"M12 22V12\"/> <path d=\"m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7\"/> <path d=\"m7.5 4.27 9 5.15\"/>","palette":"<circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\"/> <circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\"/> <circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/> <circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\"/> <path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z\"/>","party-popper":"<path d=\"M5.8 11.3 2 22l10.7-3.79\"/> <path d=\"M4 3h.01\"/> <path d=\"M22 8h.01\"/> <path d=\"M15 2h.01\"/> <path d=\"M22 20h.01\"/> <path d=\"m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10\"/> <path d=\"m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17\"/> <path d=\"m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7\"/> <path d=\"M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z\"/>","paw-print":"<circle cx=\"11\" cy=\"4\" r=\"2\"/> <circle cx=\"18\" cy=\"8\" r=\"2\"/> <circle cx=\"20\" cy=\"16\" r=\"2\"/> <path d=\"M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z\"/>","piggy-bank":"<path d=\"M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z\"/> <path d=\"M2 9v1c0 1.1.9 2 2 2h1\"/> <path d=\"M16 11h.01\"/>","pill":"<path d=\"m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z\"/> <path d=\"m8.5 8.5 7 7\"/>","pizza":"<path d=\"m12 14-1 1\"/> <path d=\"m13.75 18.25-1.25 1.42\"/> <path d=\"M17.775 5.654a15.68 15.68 0 0 0-12.121 12.12\"/> <path d=\"M18.8 9.3a1 1 0 0 0 2.1 7.7\"/> <path d=\"M21.964 20.732a1 1 0 0 1-1.232 1.232l-18-5a1 1 0 0 1-.695-1.232A19.68 19.68 0 0 1 15.732 2.037a1 1 0 0 1 1.232.695z\"/>","plane":"<path d=\"M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z\"/>","receipt-text":"<path d=\"M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z\"/> <path d=\"M14 8H8\"/> <path d=\"M16 12H8\"/> <path d=\"M13 16H8\"/>","repeat":"<path d=\"m17 2 4 4-4 4\"/> <path d=\"M3 11v-1a4 4 0 0 1 4-4h14\"/> <path d=\"m7 22-4-4 4-4\"/> <path d=\"M21 13v1a4 4 0 0 1-4 4H3\"/>","salad":"<path d=\"M7 21h10\"/> <path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\"/> <path d=\"M11.38 12a2.4 2.4 0 0 1-.4-4.77 2.4 2.4 0 0 1 3.2-2.77 2.4 2.4 0 0 1 3.47-.63 2.4 2.4 0 0 1 3.37 3.37 2.4 2.4 0 0 1-1.1 3.7 2.51 2.51 0 0 1 .03 1.1\"/> <path d=\"m13 12 4-4\"/> <path d=\"M10.9 7.25A3.99 3.99 0 0 0 4 10c0 .73.2 1.41.54 2\"/>","scissors":"<circle cx=\"6\" cy=\"6\" r=\"3\"/> <path d=\"M8.12 8.12 12 12\"/> <path d=\"M20 4 8.12 15.88\"/> <circle cx=\"6\" cy=\"18\" r=\"3\"/> <path d=\"M14.8 14.8 20 20\"/>","shield-check":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/> <path d=\"m9 12 2 2 4-4\"/>","shirt":"<path d=\"M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z\"/>","shopping-bag":"<path d=\"M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z\"/> <path d=\"M3 6h18\"/> <path d=\"M16 10a4 4 0 0 1-8 0\"/>","shopping-basket":"<path d=\"m15 11-1 9\"/> <path d=\"m19 11-4-7\"/> <path d=\"M2 11h20\"/> <path d=\"m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4\"/> <path d=\"M4.5 15.5h15\"/> <path d=\"m5 11 4-7\"/> <path d=\"m9 11 1 9\"/>","shopping-cart":"<circle cx=\"8\" cy=\"21\" r=\"1\"/> <circle cx=\"19\" cy=\"21\" r=\"1\"/> <path d=\"M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12\"/>","smartphone":"<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"/> <path d=\"M12 18h.01\"/>","smile":"<circle cx=\"12\" cy=\"12\" r=\"10\"/> <path d=\"M8 14s1.5 2 4 2 4-2 4-2\"/> <line x1=\"9\" x2=\"9.01\" y1=\"9\" y2=\"9\"/> <line x1=\"15\" x2=\"15.01\" y1=\"9\" y2=\"9\"/>","sofa":"<path d=\"M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3\"/> <path d=\"M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z\"/> <path d=\"M4 18v2\"/> <path d=\"M20 18v2\"/> <path d=\"M12 4v9\"/>","sparkles":"<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\"/> <path d=\"M20 3v4\"/> <path d=\"M22 5h-4\"/> <path d=\"M4 17v2\"/> <path d=\"M5 18H3\"/>","sprout":"<path d=\"M7 20h10\"/> <path d=\"M10 20c5.5-2.5.8-6.4 3-10\"/> <path d=\"M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z\"/> <path d=\"M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z\"/>","square-parking":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/> <path d=\"M9 17V7h4a3 3 0 0 1 0 6H9\"/>","stethoscope":"<path d=\"M11 2v2\"/> <path d=\"M5 2v2\"/> <path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/> <path d=\"M8 15a6 6 0 0 0 12 0v-3\"/> <circle cx=\"20\" cy=\"10\" r=\"2\"/>","tag":"<path d=\"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z\"/> <circle cx=\"7.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/>","ticket":"<path d=\"M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z\"/> <path d=\"M13 5v2\"/> <path d=\"M13 17v2\"/> <path d=\"M13 11v2\"/>","train-front":"<path d=\"M8 3.1V7a4 4 0 0 0 8 0V3.1\"/> <path d=\"m9 15-1-1\"/> <path d=\"m15 15 1-1\"/> <path d=\"M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z\"/> <path d=\"m8 19-2 3\"/> <path d=\"m16 19 2 3\"/>","tree-palm":"<path d=\"M13 8c0-2.76-2.46-5-5.5-5S2 5.24 2 8h2l1-1 1 1h4\"/> <path d=\"M13 7.14A5.82 5.82 0 0 1 16.5 6c3.04 0 5.5 2.24 5.5 5h-3l-1-1-1 1h-3\"/> <path d=\"M5.89 9.71c-2.15 2.15-2.3 5.47-.35 7.43l4.24-4.25.7-.7.71-.71 2.12-2.12c-1.95-1.96-5.27-1.8-7.42.35\"/> <path d=\"M11 15.5c.5 2.5-.17 4.5-1 6.5h4c2-5.5-.5-12-1-14\"/>","trending-up":"<polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\"/> <polyline points=\"16 7 22 7 22 13\"/>","tv":"<rect width=\"20\" height=\"15\" x=\"2\" y=\"7\" rx=\"2\" ry=\"2\"/> <polyline points=\"17 2 12 7 7 2\"/>","users":"<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/> <circle cx=\"9\" cy=\"7\" r=\"4\"/> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/> <path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/>","utensils":"<path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\"/> <path d=\"M7 2v20\"/> <path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\"/>","washing-machine":"<path d=\"M3 6h3\"/> <path d=\"M17 6h.01\"/> <rect width=\"18\" height=\"20\" x=\"3\" y=\"2\" rx=\"2\"/> <circle cx=\"12\" cy=\"13\" r=\"5\"/> <path d=\"M12 18a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5\"/>","watch":"<circle cx=\"12\" cy=\"12\" r=\"6\"/> <polyline points=\"12 10 12 12 13 13\"/> <path d=\"m16.13 7.66-.81-4.05a2 2 0 0 0-2-1.61h-2.68a2 2 0 0 0-2 1.61l-.78 4.05\"/> <path d=\"m7.88 16.36.8 4a2 2 0 0 0 2 1.61h2.72a2 2 0 0 0 2-1.61l.81-4.05\"/>","wine":"<path d=\"M8 22h8\"/> <path d=\"M7 10h10\"/> <path d=\"M12 15v7\"/> <path d=\"M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z\"/>","wrench":"<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>","zap":"<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\"/>"};
   const VOCI_CAT = [["Spesa alimentare","shopping-cart",["spesa","supermerc","esselunga","coop","conad","lidl","eurospin","alimentar","iper"]],["Ristoranti e cene","utensils",["ristor","cena","cene","pranzo","pizzer","sushi","trattor","osteria"]],["Bar e caffè","coffee",["bar","caff","colazion","cornett","brioche"]],["Aperitivi e serate","wine",["aperitiv","serat","drink","cocktail","discotec","pub","birra"]],["Cibo a domicilio","pizza",["domicil","delivery","glovo","deliveroo","just eat","asporto"]],["Spesa extra","shopping-basket",["extra"]],["Svago e hobby","palette",["svago","hobby","tempo libero"]],["Concerti e eventi","ticket",["concert","event","teatro","bigliett","spettacol"]],["Viaggi e weekend","plane",["viagg","weekend","vacanz","volo","voli","gita"]],["Carburante","fuel",["carbur","benzin","diesel","gasolio","metano","rifornim"]],["Treni e mezzi","train-front",["treno","treni","mezzi","autobus","metro","trenitalia","italo","tram"]],["Parcheggi e pedaggi","square-parking",["parchegg","pedagg","autostrad","telepass"]],["Abbigliamento","shirt",["abbigl","vestit","scarpe","felpa","giacca"]],["Tecnologia","laptop",["tecnolog","elettronic","computer","mouse","tastiera","cuffie","pc"]],["Abbonamenti digitali","tv",["abbonament","netflix","spotify","streaming","disney","prime","icloud","youtube","dazn"]],["Cura personale","sparkles",["cura","estetist","cosmet","profum","skincare"]],["Farmacia","pill",["farmac","medicin","integrator"]],["Libri e università","book-open",["libr","univers","esam","studio","appunti"]],["Casa e arredamento","sofa",["arred","ikea","mobil","casa"]],["Regali","gift",["regal","compleann"]],["Visite mediche","stethoscope",["visit","medic","dottor","specialist","analisi","esami del sangue","ticket sanit"]],["Dentista","smile",["dentist","odontoiatr","igiene dentale"]],["Sport","dumbbell",["sport","palestr","calcetto","piscina","padel","tennis","corsa"]],["Videogiochi","gamepad-2",["videogioc","playstation","xbox","steam","nintendo","gaming"]],["Cinema","clapperboard",["cinema","film"]],["Musica","music",["music","strument","vinil"]],["Animali","paw-print",["animal","cane","gatto","veterinar","croccant"]],["Taxi e Uber","car-taxi-front",["taxi","uber","ncc"]],["Bici e monopattino","bike",["bici","monopatt","sharing"]],["Auto e manutenzione","wrench",["meccanic","tagliand","gomme","manutenz","revision","autolavagg","carrozz"]],["Lavanderia","washing-machine",["lavander","tintor","lavatric"]],["Parrucchiere e barbiere","scissors",["parrucch","barbier","capell"]],["Corsi e formazione","graduation-cap",["corso","corsi","formaz","certificaz","udemy"]],["Telefono","smartphone",["telefon","ricaric","sim","iliad","vodafone","windtre","fastweb"]],["Uscite con amici","users",["amici","uscit","compagnia"]],["Feste","party-popper",["festa","feste","addio al celibato"]],["Hotel e alloggi","bed",["hotel","airbnb","b&b","alloggi","ostell"]],["Dolci e gelati","cake-slice",["gelat","dolc","pasticc","torta"]],["Ottico","glasses",["ottic","occhial","lenti"]],["Gioielli e accessori","watch",["gioiell","orolog","accessor"]],["Bricolage","hammer",["ferrament","bricol","attrezz","fai da te"]],["Piante e giardino","sprout",["piant","giardin","fiori"]],["Fotografia","camera",["fotograf","macchina foto"]],["Spedizioni","package",["spediz","pacco","pacchi","poste","corriere"]],["Tasse e bolli","receipt-text",["tassa","tasse","bollo","f24","imposta","marca da bollo"]],["Multe","badge-alert",["multa","multe","sanzion"]],["Commissioni bancarie","landmark",["commission","canone","bancari"]],["Donazioni","hand-heart",["donaz","benefic","offerta"]],["Tabacchi","cigarette",["tabacc","sigarett","svapo"]],["Bambini","baby",["bambin","bimb","neonat","pannolin"]],["Altro","circle-ellipsis",["altro","varie"]]];
   const CAT_KW = [["house",["casa","affitto","mutuo","condomin"]],["zap",["bollett","luce","gas","utenz","energia"]],["dumbbell",["palestr","sport"]],["salad",["nutrizion","dieta","alimentaz"]],["shopping-bag",["libere","spese varie","svago"]],["calendar-clock",["non mensil","annual"]],["shield-check",["fondo","emergenz","imprevist","cuscinett"]],["trending-up",["pac","etf","invest","borsa"]],["piggy-bank",["risparm","salvadanai","accantonam"]],["car",["auto","macchina","moto","automobil","bollo auto","assicurazione auto","rca"]],["heart-pulse",["salute","medic","sanit"]],["repeat",["abbonam"]],["bus-front",["trasport","mezzi","treno"]],["paw-print",["animal","cane","gatto"]],["graduation-cap",["studio","univers","scuola","formaz"]],["plane",["viagg","vacanz"]],["gift",["regal"]],["smartphone",["telefon","internet"]],["baby",["bambin","figli"]],["utensils",["cibo","ristor","spesa"]],["receipt-text",["tasse","imposte"]]];
   const ICON_PICK = ["house", "zap", "shopping-bag", "shopping-cart", "utensils", "car", "bus-front", "plane", "dumbbell", "heart-pulse", "salad", "pill", "graduation-cap", "book-open", "laptop", "smartphone", "tv", "repeat", "gift", "paw-print", "baby", "shirt", "sparkles", "wrench", "receipt-text", "landmark", "calendar-clock", "piggy-bank", "shield-check", "trending-up", "coins", "credit-card", "briefcase", "music", "gamepad-2", "tree-palm", "tag"];
@@ -877,6 +922,7 @@ img{max-width:100%}
   function voceIcon(v){ const n=normT(v); const hit=VOCI_CAT.find(x=>normT(x[0])===n); return hit ? hit[1] : (kwIcon(v, VOCI_KW) || 'tag'); }
   function catIcon(c){ if(!c) return 'tag'; if(c.icona && ICONS[c.icona]) return c.icona; return kwIcon(c.id+' '+c.nome, CAT_KW) || (c.g==='risp'?'piggy-bank':'tag'); }
   function movIcon(m){
+    if(m.tipo==='trasferimento') return 'arrow-left-right';
     if(m.tipo==='entrata') return ENTRATE_ICO[m.categoria] || 'circle-plus';
     if(m.categoria==='libere') return voceIcon(m.voce||'Altro');
     if(m.categoria===NM) return kwIcon(m.descrizione, CAT_KW.concat(VOCI_KW)) || 'calendar-clock';
@@ -948,8 +994,8 @@ img{max-width:100%}
     CATS = ALLCATS.filter(c=>!c.archiviata);
     if(!quiet){ buildQCat(); buildSelects(); }
   }
-  const catName = id => (ALLCATS.find(c=>c.id===id)||ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e,nome:`Rimborso da ${shareName().toLowerCase()}`}:e).find(c=>c.id===id)||{nome:LEGACY[id]||'Categoria eliminata'}).nome;
-  const catColor = (id,tipo) => { if(tipo==='entrata') return 'var(--k-in)'; const c=ALLCATS.find(x=>x.id===id); return c ? colVar(c.colore) : 'var(--k-other)'; };
+  const catName = id => id==='trasferimento' ? 'Trasferimento' : (ALLCATS.find(c=>c.id===id)||ENTRATE_BASE.map(e=>e.id==='rimborso'?{...e,nome:`Rimborso da ${shareName().toLowerCase()}`}:e).find(c=>c.id===id)||{nome:LEGACY[id]||'Categoria eliminata'}).nome;
+  const catColor = (id,tipo) => { if(tipo==='entrata') return 'var(--k-in)'; if(tipo==='trasferimento') return 'var(--k-other)'; const c=ALLCATS.find(x=>x.id===id); return c ? colVar(c.colore) : 'var(--k-other)'; };
   const rispIds = () => ALLCATS.filter(c=>c.g==='risp').map(c=>c.id);
 
   // ---------- helpers ----------
@@ -1028,7 +1074,7 @@ img{max-width:100%}
   }
 
   // ---------- tabs & month ----------
-  function setTab(t){ S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ if(!/access_token|type=recovery|error_description/.test(location.hash)) history.replaceState(null,'','#'+t); }catch(e){} document.querySelector('.month').style.visibility = ['conti','impostazioni'].includes(t) ? 'hidden' : ''; S.movAll=false; render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
+  function setTab(t){ if(t==='impostazioni' && S.tab==='impostazioni' && S.set) { showSet(null); return; } S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ if(!/access_token|type=recovery|error_description/.test(location.hash)) history.replaceState(null,'','#'+t); }catch(e){} document.querySelector('.month').style.visibility = ['conti','impostazioni'].includes(t) ? 'hidden' : ''; S.movAll=false; render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
   document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
   // cambio mese: frecce, scorrimento laterale (dito o trackpad) e tasti ← →
   const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1046,15 +1092,16 @@ img{max-width:100%}
   const NOSWIPE = '.wallets,.tbox,.seg,.chart,input,select,textarea,.overlay,nav.dock,header.bar,.donut svg';
   (function(){ let x0=null, y0=0, lock=null, pg=null;
     const main=document.querySelector('main');
-    main.addEventListener('touchstart',e=>{ if(!monthTab() || e.touches.length!==1 || e.target.closest(NOSWIPE)) { x0=null; return; }
+    main.addEventListener('touchstart',e=>{ if(!(monthTab() || (S.tab==='impostazioni' && S.set)) || e.touches.length!==1 || e.target.closest(NOSWIPE)) { x0=null; return; }
       const t=e.touches[0]; if(t.clientX<24 || t.clientX>innerWidth-24){ x0=null; return; } // bordi: lasciati al sistema
       x0=t.clientX; y0=t.clientY; lock=null; pg=curPage(); },{passive:true});
-    main.addEventListener('touchmove',e=>{ if(x0==null) return; const t=e.touches[0], dx=t.clientX-x0, dy=t.clientY-y0;
+    main.addEventListener('touchmove',e=>{ if(x0==null) return; if(e._rowSwipe){ x0=null; lock=null; if(pg){ pg.style.transform=''; pg.style.opacity=''; } return; } const t=e.touches[0], dx=t.clientX-x0, dy=t.clientY-y0;
       if(lock==null && (Math.abs(dx)>10 || Math.abs(dy)>10)) lock = Math.abs(dx)>Math.abs(dy)*1.4 ? 'x' : 'y';
       if(lock==='x'){ e.preventDefault(); if(pg && !RM){ pg.style.transition='none'; pg.style.transform=`translateX(${dx*0.35}px)`; pg.style.opacity=String(1-Math.min(.35,Math.abs(dx)/600)); } }
     },{passive:false});
     const end=e=>{ if(x0==null) return; const t=(e.changedTouches||[])[0]; const dx=t?t.clientX-x0:0; const was=lock; x0=null; lock=null;
       if(was!=='x') return;
+      if(!monthTab()){ if(pg){ pg.style.transform=''; pg.style.opacity=''; } if(dx>80) showSet(null); return; }
       if(Math.abs(dx)>60){ if(pg){ pg.style.transform=''; pg.style.opacity=''; } goMonth(dx<0?1:-1); }
       else if(pg){ pg.style.transition='transform .2s, opacity .2s'; pg.style.transform=''; pg.style.opacity=''; } };
     main.addEventListener('touchend',end); main.addEventListener('touchcancel',end);
@@ -1070,10 +1117,43 @@ img{max-width:100%}
   })();
   document.querySelectorAll('#metricSeg button').forEach(b=>b.addEventListener('click',()=>{ S.metric=b.dataset.m; document.querySelectorAll('#metricSeg button').forEach(x=>x.setAttribute('aria-pressed', x===b)); renderConfronto(); }));
 
+  // ---- suggerimenti la prima volta: si chiudono con "Ho capito" e non tornano (anche sugli altri dispositivi) ----
+  const TIPS = {
+    libere: ['Cosa sono le spese libere', 'È quanto puoi ancora spendere questo mese per tutto il resto: uscite, spesa, svago. Lo stipendio meno affitto, bollette, spese fisse e risparmi. Se diventa rosso, hai speso più del previsto.'],
+    fisse: ['Come funzionano le spese fisse', 'Spuntane una quando la paghi: finisce tra i movimenti e il saldo del conto scende da solo. Toccane il nome per cambiare l\'importo solo per questo mese, o per saltarla.'],
+    gesti: ['Scorciatoie', ()=> TOUCH ? 'Scorri una riga a sinistra per eliminarla. Scorri di lato sulla pagina per cambiare mese. Per spostare soldi tra i tuoi conti usa + e poi Trasferimento: non conta come spesa.' : 'Cambia mese con i tasti ← → o scorrendo di lato sul trackpad. Per spostare soldi tra i tuoi conti usa + e poi Trasferimento: non conta come spesa.'],
+    nm: ['Cosa vuol dire accantonare', 'Mettere da parte ogni mese una piccola quota: quando arriva la spesa, ad esempio il bollo a marzo, i soldi ci sono già e quel mese non va in rosso.'],
+  };
+  let TIPS_LOCAL={}; try{ TIPS_LOCAL=JSON.parse(localStorage.getItem('conti-tips')||'{}'); }catch(e){}
+  const tipSeen = id => !!((ST.tips||{})[id] || TIPS_LOCAL[id]);
+  async function tipDone(id){ TIPS_LOCAL[id]=1; try{ localStorage.setItem('conti-tips', JSON.stringify(TIPS_LOCAL)); }catch(e){} renderTips();
+    if(db && S.canWrite){ try{ await saveStructure({...ST, tips:{...(ST.tips||{}), [id]:true}}); }catch(e){} } }
+  function renderTips(){ document.querySelectorAll('[data-tip]').forEach(box=>{ const id=box.dataset.tip, tp=TIPS[id];
+    const show = !!tp && S.ready && S.hasStruct && !tipSeen(id) && (id!=='nm' || S.ric.some(r=>r.categoria===NM)) && (id!=='fisse' || dueIn(S.month).length>0) && (id!=='libere' || !!S.piano);
+    box.hidden=!show; if(!show || box.childElementCount) return;
+    box.append(el('span',{class:'ti'}, ico('lightbulb',16)), el('div',{}, el('b',{text:tp[0]}), el('p',{text: typeof tp[1]==='function'?tp[1]():tp[1]})), el('button',{class:'ok2',type:'button',onclick:()=>tipDone(id)},'Ho capito')); }); }
+  // ---- Impostazioni come su iPhone: lista di voci, ognuna apre la sua pagina ----
+  S.set=null;
+  const SETS = [
+    [ {id:'piano', t:'Il tuo piano', ic:'coins', col:'var(--k-palestra)', v:()=>S.piano ? `${fmt0(S.piano.stipendio)} · ${CATS.length} categorie` : 'Da impostare'},
+      {id:'nm', t:'Spese non mensili', ic:'calendar-clock', col:'var(--k-nutrizionista)', v:()=>{ const n=S.ric.filter(r=>r.categoria===NM && r.attiva!==false).length; return n ? `${n} ${n===1?'spesa':'spese'} · ${fmt0(nmBudget())} al mese` : 'Nessuna'; }},
+      {id:'divise', t:'Spese divise', ic:'users', col:'var(--k-bollette)', v:()=>sharing() ? `Con ${shareName()}` : 'Disattivate'} ],
+    [ {id:'profilo', t:'Profilo', ic:'smile', col:'var(--k-casa)', v:()=>ST.nome||'—'},
+      {id:'account', t:'Account', ic:'shield-check', col:'var(--k-other)', v:()=>$('accEmail').textContent||''},
+      {id:'dati', t:'Dati e backup', ic:'package', col:'var(--k-fondo)', v:()=>'Esporta, importa'} ] ];
+  function renderSetList(){ [['setG1',SETS[0]],['setG2',SETS[1]]].forEach(([gid,list])=>{ $(gid).replaceChildren(...list.map(x=>el('button',{class:'setrow',type:'button','data-open':x.id,onclick:()=>showSet(x.id)},
+    el('span',{class:'ic',style:`background:${x.col};--on:${onOf(x.col)}`}, ico(x.ic,17)), el('span',{class:'nm',text:x.t}), el('span',{class:'val',text:x.v()})))); }); }
+  function showSet(id){ S.set=id||null; $('setRoot').hidden=!!S.set; $('setBack').hidden=!S.set;
+    document.querySelectorAll('[data-set]').forEach(c=>c.hidden = c.dataset.set!==S.set);
+    if(!S.set) renderSetList(); window.scrollTo(0,0); }
+  $('setBackBtn').addEventListener('click',()=>showSet(null));
+  const goSet = id => { setTab('impostazioni'); showSet(id); };
+  const emptyGo = (text, label, id) => el('div',{class:'empty'}, el('div',{text}), el('button',{class:'btn',type:'button',style:'margin-top:12px',onclick:()=>goSet(id)}, label));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && S.tab==='impostazioni' && S.set && !document.querySelector('.overlay.show')) showSet(null); });
   function render(){
     $('monthLabel').textContent = mLabel(S.month);
     refreshNM(); migrateNM();
-    renderMese(); renderRecap(); renderConfronto(); renderRic(); renderAnn(); renderGoals(); renderStructureLists();
+    renderMese(); renderRecap(); renderConfronto(); renderRic(); renderAnn(); renderGoals(); renderStructureLists(); renderTips(); if(S.tab==='impostazioni' && !S.set) renderSetList();
   }
 
   // ---------- MESE ----------
@@ -1135,7 +1215,7 @@ img{max-width:100%}
     if(!S.ricReady){ return; }
     const due=dueIn(k);
     renderFixUp();
-    if(!due.length){ box.replaceChildren(el('div',{class:'empty',text:'Nessuna spesa fissa in questo mese. Aggiungile in Impostazioni → Il tuo piano, toccando una categoria.'})); $('fixSub').textContent=''; $('fixBar').style.width='0%'; return; }
+    if(!due.length){ box.replaceChildren(emptyGo('Nessuna spesa fissa in questo mese.','Aggiungi spese fisse','piano')); $('fixSub').textContent=''; $('fixBar').style.width='0%'; return; }
     let nDone=0, aDone=0, aTot=0, nAct=0;
     const isCur = k===mk(todayISO()), today=new Date().getDate();
     const rows=due.map(r=>{
@@ -1174,7 +1254,7 @@ img{max-width:100%}
   }
   function renderBudget(st){
     const box=$('budget');
-    if(!S.piano){ box.replaceChildren(el('div',{class:'empty',text:'Nessun piano salvato. Inseriscilo in Impostazioni.'})); return; }
+    if(!S.piano){ box.replaceChildren(emptyGo('Nessun piano salvato.','Imposta il piano','piano')); return; }
     const out=[]; let g=null;
     const cats=[...CATS]; if(st.byCat.salute) cats.splice(2,0,{id:'salute',nome:LEGACY.salute,desc:'',g:'spesa'});
     for(const c of cats){
@@ -1204,7 +1284,7 @@ img{max-width:100%}
       }
       out.push(row);
     }
-    box.replaceChildren(...(out.some(x=>x.classList&&x.classList.contains('brow')) ? out.filter((x,i,a)=>!(x.classList.contains('cap') && !(a[i+1]&&a[i+1].classList.contains('brow')))) : [el('div',{class:'empty',text:'Dai un budget alle categorie in Impostazioni → Il tuo piano.'})]));
+    box.replaceChildren(...(out.some(x=>x.classList&&x.classList.contains('brow')) ? out.filter((x,i,a)=>!(x.classList.contains('cap') && !(a[i+1]&&a[i+1].classList.contains('brow')))) : [emptyGo('Nessuna categoria ha ancora un budget.','Imposta il piano','piano')]));
   }
   // spese non mensili nel budget del mese: si accantona ogni mese, si paga solo nei mesi in cui arrivano (mai "oltre")
   function nmBudgetRow(c,b,s){
@@ -1222,6 +1302,11 @@ img{max-width:100%}
   }
   function movRow(m){
     const isIn=m.tipo==='entrata';
+    if(m.tipo==='trasferimento'){ const an=id=>(CONTI.find(a=>a.id===id)||{nome:'conto eliminato'}).nome;
+      return el('button',{class:'row',onclick:()=>openMov(m),'aria-label':`Modifica ${m.descrizione}`},
+        dotIco('arrow-left-right','var(--k-other)'),
+        el('span',{style:'min-width:0'}, el('div',{class:'t',text:m.descrizione}), el('div',{class:'s',text:`Trasferimento · ${an(m.conto)} → ${an(m.contoA)}`})),
+        el('span',{class:'amt tr',text:fmtS(m.importo)})); }
     const sub=[catName(m.categoria), m.voce, m.metodo==='contanti'?'Contanti':'', m.aBudget?'Nel budget spese libere':'', Number(m.quota)>0?`Divisa · ${shareName().toLowerCase()} ${fmt(Number(m.quota))}`:''].filter(Boolean).join(' · ');
     return el('button',{class:'row',onclick:()=>openMov(m),'aria-label':`Modifica ${m.descrizione}`},
       dotIco(movIcon(m), catColor(m.categoria,m.tipo)),
@@ -1229,7 +1314,7 @@ img{max-width:100%}
       el('span',{class:'amt'+(isIn?' in':''),text:(isIn?'+':'−')+(isIn?fmtS(m.importo):fmt(m.importo)).replace('-','')}));
   }
   const qCat=$('qCat');
-  function buildQCat(){ const prev=qCat.value; qCat.replaceChildren(new Option('Tutte le categorie',''), ...CATS.map(c=>new Option(c.nome,c.id)), new Option('Entrate','entrate'), new Option('Pagate in contanti','contanti'), ...(sharing()?[new Option('Spese divise','divise')]:[]));
+  function buildQCat(){ const prev=qCat.value; qCat.replaceChildren(new Option('Tutte le categorie',''), ...CATS.map(c=>new Option(c.nome,c.id)), new Option('Entrate','entrate'), new Option('Trasferimenti','trasf'), new Option('Pagate in contanti','contanti'), ...(sharing()?[new Option('Spese divise','divise')]:[]));
     const og=document.createElement('optgroup'); og.label='Sottocategorie delle spese libere'; VOCI.forEach(v=>og.append(new Option(v,'v:'+v))); qCat.append(og); if([...qCat.options].some(o=>o.value===prev)) qCat.value=prev; }
   let qT=null;
   $('qText').addEventListener('input',()=>{ clearTimeout(qT); qT=setTimeout(()=>renderMovs(statsOf(S.month)),150); });
@@ -1240,7 +1325,7 @@ img{max-width:100%}
     const box=$('movList');
     const q=$('qText').value.trim().toLowerCase(), fc=qCat.value, all=$('qAll').checked, filtering=!!(q||fc||all);
     let base = all ? live() : st.list;
-    if(fc) base=base.filter(m=> fc==='entrate'?m.tipo==='entrata' : fc==='contanti'?m.metodo==='contanti' : fc==='divise'?Number(m.quota)>0 : fc.startsWith('v:')?(m.categoria==='libere'&&(m.voce||'Altro')===fc.slice(2)) : (m.tipo==='uscita'&&m.categoria===fc));
+    if(fc) base=base.filter(m=> fc==='entrate'?m.tipo==='entrata' : fc==='trasf'?m.tipo==='trasferimento' : fc==='contanti'?m.metodo==='contanti' : fc==='divise'?Number(m.quota)>0 : fc.startsWith('v:')?(m.categoria==='libere'&&(m.voce||'Altro')===fc.slice(2)) : (m.tipo==='uscita'&&m.categoria===fc));
     if(q) base=base.filter(m=>[m.descrizione,m.voce,catName(m.categoria)].join(' ').toLowerCase().includes(q));
     const full=[...base].sort((a,b)=>b.data.localeCompare(a.data)||String(b.creato||'').localeCompare(String(a.creato||'')));
     const list = (S.movAll||filtering) ? full : full.slice(0,5);
@@ -1250,7 +1335,7 @@ img{max-width:100%}
     if(filtering){ const o=sumCost(list.filter(m=>m.tipo==='uscita')), i=sum(list.filter(m=>m.tipo==='entrata')); qt.textContent=`${all?'In tutti i mesi':'In '+mLabel(S.month).toLowerCase()}: uscite ${fmt(o)}${i?` · entrate ${fmt(i)}`:''}`; }
     if(!list.length){ box.replaceChildren(el('div',{class:'empty',text: !S.movReady ? 'Carico i movimenti…' : filtering ? 'Nessun movimento trovato.' : 'Nessun movimento in questo mese. Tocca + in alto per aggiungere il primo.'})); return; }
     const out=[]; let day=null;
-    for(const m of list){ if(m.data!==day){ day=m.data; out.push(el('div',{class:'day',text: all ? new Date(day+'T12:00:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : dayLabel(day)})); } out.push(movRow(m)); }
+    for(const m of list){ if(m.data!==day){ day=m.data; out.push(el('div',{class:'day',text: all ? new Date(day+'T12:00:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : dayLabel(day)})); } out.push(swipeRow(movRow(m), m)); }
     box.replaceChildren(...out);
   }
 
@@ -1432,7 +1517,7 @@ img{max-width:100%}
   }
   const csvCell = v => { const s=String(v??''); return /[;"\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
   $('expCsv').addEventListener('click',()=>{ const rows=live().slice().sort((a,b)=>a.data.localeCompare(b.data));
-    const lines=['Data;Tipo;Categoria;Sottocategoria;Descrizione;Importo;Pagamento;Fissa;Parte divisa', ...rows.map(m=>[m.data, m.tipo==='entrata'?'Entrata':'Uscita', catName(m.categoria), m.voce||'', m.descrizione, (m.tipo==='entrata'?1:-1)*m.importo, m.metodo==='contanti'?'Contanti':'Carta o conto', m.auto?'sì':'', Number(m.quota)>0?String(m.quota).replace('.',','):''].map((v,i)=>i===5?String(v).replace('.',','):csvCell(v)).join(';'))];
+    const lines=['Data;Tipo;Categoria;Sottocategoria;Descrizione;Importo;Pagamento;Fissa;Parte divisa', ...rows.map(m=>[m.data, m.tipo==='entrata'?'Entrata':m.tipo==='trasferimento'?'Trasferimento':'Uscita', catName(m.categoria), m.voce||'', m.descrizione, (m.tipo==='entrata'?1:m.tipo==='trasferimento'?0:-1)*m.importo, m.metodo==='contanti'?'Contanti':'Carta o conto', m.auto?'sì':'', Number(m.quota)>0?String(m.quota).replace('.',','):''].map((v,i)=>i===5?String(v).replace('.',','):csvCell(v)).join(';'))];
     save(`movimenti-${todayISO()}.csv`, '﻿'+lines.join('\n')); });
   $('expJson').addEventListener('click',()=>{ save(`backup-conti-${todayISO()}.json`, JSON.stringify({esportato:new Date().toISOString(), struttura:ST, piano:S.piano, saldi:S.saldi, obiettivi:S.goals, speseAutomatiche:S.ric, movimenti:S.movs}, null, 2)); });
 
@@ -1452,9 +1537,9 @@ img{max-width:100%}
     $('planBar').replaceChildren(...CATS.filter(c=>budget(c.id)>0).map(c=>el('i',{style:`width:${budget(c.id)/scale*100}%;background:${colVar(c.colore)}`,title:c.nome})));
     const row = c => {
       if(c.id===NM){ const n=S.ric.filter(r=>r.categoria===NM && r.attiva!==false).length;
-        return el('button',{class:'pv',onclick:()=>{ const t=$('annCard'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }},
+        return el('button',{class:'pv',onclick:()=>showSet('nm')},
           el('div',{class:'top'}, dotIco('calendar-clock', colVar(c.colore)),
-            el('span',{style:'min-width:0'}, el('div',{class:'nm',text:c.nome}), el('div',{class:'ds',text:`${n} ${n===1?'spesa':'spese'} da accantonare · le gestisci qui sotto`})),
+            el('span',{style:'min-width:0'}, el('div',{class:'nm',text:c.nome}), el('div',{class:'ds',text:`${n} ${n===1?'spesa':'spese'} da accantonare · tocca per gestirle`})),
             el('span',{class:'bud'}, el('b',{class:'num',text:fmt0(budget(NM))}), el('span',{text:'al mese'})))); }
       const b=budget(c.id), fx=S.ric.filter(r=>r.categoria===c.id).sort((a,z)=>(a.attiva===false)-(z.attiva===false)||a.giorno-z.giorno), mf=monthlyFix(c.id);
       const desc = c.id==='libere' ? (libereAuto() ? `Quello che resta dello stipendio · ${VOCI.length} sottocategorie` : `Spese variabili · ${VOCI.length} sottocategorie`) : [c.g==='risp'?'Risparmio':'', c.desc].filter(Boolean).join(' · ') || (c.g==='risp'?'Risparmio':'Spesa');
@@ -1606,6 +1691,7 @@ img{max-width:100%}
     const add=(id,d)=>{ if(id && CONTI.some(a=>a.id===id)) out[id]=(out[id]||0)+d; };
     const amt=Number(m.importo)||0, explicit = m.conto!==undefined;
     const src = explicit ? m.conto : (m.metodo==='contanti' ? cashId() : '');
+    if(m.tipo==='trasferimento'){ add(m.conto, -amt); add(m.contoA, amt); return out; }
     if(m.tipo==='entrata') add(src, amt);
     else { add(src, -amt); if(explicit){ const c=ALLCATS.find(x=>x.id===m.categoria); if(c && c.g==='risp') add(destOf(c), amt); } }
     return out;
@@ -1616,15 +1702,40 @@ img{max-width:100%}
     if(changed) await db.doc('impostazioni/saldi').set(sd);
   }
   function setMetodo(){}
+  // ---- scelta rapida di categoria e sottocategoria (icone) ----
+  let VOCE_ALL=false;
+  function voceOrder(){ const since=shiftM(mk(todayISO()),-4), cnt={}; live().forEach(m=>{ if(m.categoria==='libere' && m.voce && m.mese>=since) cnt[m.voce]=(cnt[m.voce]||0)+1; });
+    return VOCI.map((v,i)=>({v,i,n:cnt[v]||0})).sort((a,b)=>(b.n-a.n)||(a.i-b.i)).map(x=>x.v); }
+  function pickBtn(label, icon, color, on, onClick){ return el('button',{type:'button','aria-pressed':on?'true':'false',onclick:onClick}, el('span',{class:'pi',style:`background:${color};--on:${onOf(color)}`}, ico(icon,15)), el('span',{class:'tx',text:label})); }
+  function renderMGrids(){
+    const cat=$('mCat').value;
+    if(S.tipo!=='trasferimento'){
+      const opts=[...$('mCat').options].map(o=>o.value);
+      $('mCatGrid').replaceChildren(...opts.map(id=>{ const isE=S.tipo==='entrata'; const c=ALLCATS.find(x=>x.id===id);
+        return pickBtn(catName(id), isE ? (ENTRATE_ICO[id]||'circle-plus') : catIcon(c||{id,nome:catName(id)}), isE ? 'var(--k-in)' : catColor(id), id===cat, ()=>{ $('mCat').value=id; syncM(); }); }));
+    }
+    if(!$('mVoceWrap').hidden){ const cur=$('mVoce').value, ord=voceOrder(); const top=ord.slice(0,8); if(cur && !top.includes(cur)) top.push(cur);
+      const list = VOCE_ALL ? ord : top;
+      $('mVoceGrid').replaceChildren(...list.map(v=>pickBtn(v, voceIcon(v), catColor('libere'), v===cur, ()=>{ $('mVoce').value=v; renderMGrids(); })),
+        ...(ord.length>top.length ? [el('button',{type:'button',class:'more','aria-expanded':VOCE_ALL?'true':'false',onclick:()=>{ VOCE_ALL=!VOCE_ALL; renderMGrids(); }}, VOCE_ALL ? 'Mostra meno' : `Altre ${ord.length-top.length}`)] : [])); }
+  }
   function syncM(){ $('mSplitLb').firstChild.textContent = `Divisa con ${shareName().toLowerCase()}`; $('mQuotaLb').textContent = `Parte di ${shareName().toLowerCase()} (€)`; $('mVoceWrap').hidden = !(S.tipo==='uscita' && $('mCat').value==='libere'); $('mAutoWrap').hidden = !!S.edit || S.tipo!=='uscita'; updMSum && $('mSum') && updMSum();
     $('mBudgetWrap').hidden = S.tipo!=='entrata' || ['stipendio','rimborso'].includes($('mCat').value);
-    $('mSplitWrap').hidden = !sharing() || S.tipo!=='uscita' || rispIds().includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto su' : 'Pagato da';}
+    $('mSplitWrap').hidden = !sharing() || S.tipo!=='uscita' || rispIds().includes($('mCat').value); $('mQuotaWrap').hidden = $('mSplitWrap').hidden || !$('mSplit').checked; $('mMetLb').textContent = S.tipo==='entrata' ? 'Ricevuto su' : 'Pagato da';
+    const tr=S.tipo==='trasferimento';
+    ['mCatGridWrap','mAccWrap'].forEach(id=>$(id).hidden=tr); if(tr){ ['mVoceWrap','mBudgetWrap','mSplitWrap','mQuotaWrap','mAutoWrap'].forEach(id=>$(id).hidden=true); }
+    ['mDaWrap','mAWrap','mTrHint'].forEach(id=>$(id).hidden=!tr); $('mMore').querySelector('summary span').firstChild.textContent = tr ? 'Data' : 'Data e conto';
+    $('mDesc').placeholder = tr ? 'Es. Al fondo emergenze' : (S.tipo==='entrata' ? 'Es. Stipendio di ottobre' : 'Es. Cena con amici');
+    renderMGrids(); }
   // cash wallet: every cash movement moves the Contanti balance
-  function updMSum(){ const d=$('mData').value, today=todayISO(); const dl = d===today ? 'Oggi' : (d ? new Date(d+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long'}) : '—'); const a=(CONTI.find(x=>x.id===$('mAcc').value)||{nome:'nessun conto'}).nome; $('mSum').textContent = `${dl} · ${S.tipo==='entrata'?'su':'da'} ${a}${$('mSplit').checked?' · divisa':''}`; }
+  function updMSum(){ const d=$('mData').value, today=todayISO(); const dl = d===today ? 'Oggi' : (d ? new Date(d+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long'}) : '—'); const a=(CONTI.find(x=>x.id===$('mAcc').value)||{nome:'nessun conto'}).nome; $('mSum').textContent = S.tipo==='trasferimento' ? dl : `${dl} · ${S.tipo==='entrata'?'su':'da'} ${a}${$('mSplit').checked?' · divisa':''}`; }
   ['mData','mAcc','mSplit'].forEach(id=>$(id).addEventListener('change',updMSum));
-  function setTipo(t){ S.tipo=t; $('mUscita').setAttribute('aria-pressed',t==='uscita'); $('mEntrata').setAttribute('aria-pressed',t==='entrata'); fillMCat(); }
-  $('mUscita').addEventListener('click',()=>setTipo('uscita')); $('mEntrata').addEventListener('click',()=>setTipo('entrata'));
-  $('mCat').addEventListener('change',syncM);
+  const segTipo = t => { $('mUscita').setAttribute('aria-pressed',t==='uscita'); $('mEntrata').setAttribute('aria-pressed',t==='entrata'); $('mTrasf').setAttribute('aria-pressed',t==='trasferimento'); };
+  function fillTr(from, to){ accOptions($('mDa'), from); accOptions($('mA'), to);
+    if(!$('mDa').value) $('mDa').value=defaultAcc(); if(!$('mA').value || $('mA').value===$('mDa').value){ const o=CONTI.find(a=>a.id!==$('mDa').value && !a.contanti) || CONTI.find(a=>a.id!==$('mDa').value); $('mA').value = o ? o.id : ''; } }
+  function setTipo(t){ S.tipo=t; segTipo(t); VOCE_ALL=false; if(t==='trasferimento'){ if(!$('mDa').options.length) fillTr($('mAcc').value||defaultAcc(),''); syncM(); updMSum(); } else fillMCat(); }
+  $('mUscita').addEventListener('click',()=>setTipo('uscita')); $('mEntrata').addEventListener('click',()=>setTipo('entrata')); $('mTrasf').addEventListener('click',()=>setTipo('trasferimento'));
+  $('mCat').addEventListener('change',syncM); $('mVoce').addEventListener('change',renderMGrids);
   $('mSplit').addEventListener('change',()=>{ if($('mSplit').checked && !$('mQuota').value){ const v=parseAmt($('mImp').value); if(v>0) $('mQuota').value=numIn(r2(v/2)); } syncM(); });
   function syncR(){ const nm=Number($('rOgni').value)>1;
     $('rCatWrap').hidden=nm; $('rVoceWrap').hidden = nm || $('rCat').value!=='libere';
@@ -1646,11 +1757,11 @@ img{max-width:100%}
     S.edit = m||null; $('mMsg').textContent=''; const P=preset||{};
     $('mTitle').textContent = m ? 'Modifica movimento' : 'Nuovo movimento';
     $('mSave').textContent = m ? 'Salva' : 'Aggiungi'; $('mDel').hidden = !m; $('mAuto').checked=false;
-    const t = m ? m.tipo : (P.tipo||'uscita'); S.tipo=t; $('mUscita').setAttribute('aria-pressed',t==='uscita'); $('mEntrata').setAttribute('aria-pressed',t==='entrata');
+    const t = m ? m.tipo : (P.tipo||'uscita'); S.tipo=t; segTipo(t); VOCE_ALL=false;
     const defDate = m ? m.data : (S.month===mk(todayISO()) ? todayISO() : `${S.month}-01`);
     $('mImp').value = m ? numIn(m.importo) : numIn(P.importo); $('mData').value = defDate; $('mDesc').value = m ? m.descrizione : (P.descrizione||'');
     $('mSplit').checked = !!(m && Number(m.quota)>0); $('mQuota').value = m && Number(m.quota)>0 ? numIn(m.quota) : '';
-    $('mCat').value=''; fillMCat(); if(P.categoria) $('mCat').value=P.categoria; if(m){ $('mCat').value=m.categoria; if(m.voce) $('mVoce').value=m.voce; } accOptions($('mAcc'), m ? (m.conto!==undefined ? m.conto : (m.metodo==='contanti' ? cashId() : '')) : (P.metodo==='contanti' ? cashId() : defaultAcc())); $('mBudget').checked=!!(m&&m.aBudget);
+    $('mCat').value=''; if(t==='trasferimento'){ S.tipo='uscita'; fillMCat(); S.tipo=t; } else fillMCat(); fillTr(m&&t==='trasferimento'?m.conto:defaultAcc(), m&&t==='trasferimento'?m.contoA:''); if(P.categoria) $('mCat').value=P.categoria; if(m && t!=='trasferimento'){ $('mCat').value=m.categoria; if(m.voce) $('mVoce').value=m.voce; } accOptions($('mAcc'), m ? (m.conto!==undefined ? m.conto : (m.metodo==='contanti' ? cashId() : '')) : (P.metodo==='contanti' ? cashId() : defaultAcc())); $('mBudget').checked=!!(m&&m.aBudget);
     if(!m && !P.voce){ const last=live().filter(x=>x.categoria==='libere'&&x.voce&&VOCI.includes(x.voce)).sort((a,b)=>String(b.creato||b.data).localeCompare(String(a.creato||a.data)))[0]; $('mVoce').value = last ? last.voce : VOCI[0]; }
     $('mMore').open = !!(m && (Number(m.quota)>0)); syncM(); updMSum();
     openSheet('movSheet','mImp');
@@ -1661,9 +1772,13 @@ img{max-width:100%}
     const data=$('mData').value, imp=parseAmt($('mImp').value), cat=$('mCat').value;
     if(!(imp>0)) return say(msg,'Scrivi un importo maggiore di zero, ad esempio 12,50.',false);
     if(!data || !$('mData').validity.valid) return say(msg,'Scegli una data valida.',false);
+    const tr=S.tipo==='trasferimento', da=$('mDa').value, aa=$('mA').value;
+    if(tr && (!da || !aa)) return say(msg,'Scegli da quale conto e verso quale conto spostare i soldi.',false);
+    if(tr && da===aa) return say(msg,'Scegli due conti diversi.',false);
     const split = S.tipo==='uscita' && !$('mSplitWrap').hidden && $('mSplit').checked; const quota = split ? parseAmt($('mQuota').value) : 0;
     if(split && !(quota>0 && quota<=imp)) return say(msg,'Scrivi la loro parte: più di zero e non oltre l\'importo.',false);
-    const body={ data, mese:mk(data), importo:r2(imp), tipo:S.tipo, categoria:cat, descrizione:$('mDesc').value.trim()||catName(cat), voce:(S.tipo==='uscita'&&cat==='libere')?$('mVoce').value:'', conto:$('mAcc').value, metodo:((CONTI.find(a=>a.id===$('mAcc').value)||{}).contanti?'contanti':'conto'), aBudget:(S.tipo==='entrata'&&!['stipendio','rimborso'].includes(cat))?$('mBudget').checked:false, quota: split ? r2(quota) : 0, aggiornato:new Date().toISOString() };
+    const an=id=>(CONTI.find(a=>a.id===id)||{}).nome||'';
+    const body = tr ? { data, mese:mk(data), importo:r2(imp), tipo:'trasferimento', categoria:'trasferimento', descrizione:$('mDesc').value.trim()||`${an(da)} → ${an(aa)}`, voce:'', conto:da, contoA:aa, metodo:'conto', aBudget:false, quota:0, aggiornato:new Date().toISOString() } : { data, mese:mk(data), importo:r2(imp), tipo:S.tipo, categoria:cat, descrizione:$('mDesc').value.trim()||catName(cat), voce:(S.tipo==='uscita'&&cat==='libere')?$('mVoce').value:'', conto:$('mAcc').value, metodo:((CONTI.find(a=>a.id===$('mAcc').value)||{}).contanti?'contanti':'conto'), aBudget:(S.tipo==='entrata'&&!['stipendio','rimborso'].includes(cat))?$('mBudget').checked:false, quota: split ? r2(quota) : 0, aggiornato:new Date().toISOString() };
     $('mSave').disabled=true;
     try{
       if(S.edit){ const {id,...old}=S.edit; await db.collection('movimenti').doc(id).set({...old, ...body}); }
@@ -1673,18 +1788,48 @@ img{max-width:100%}
         await db.collection('movimenti').doc(`auto_${rref.id}_${body.mese}`).set({...body, creato:new Date().toISOString(), auto:true, ricorrente:rref.id});
       } else { var newRef = await db.collection('movimenti').add({...body, creato:new Date().toISOString()}); }
       try{ await applyEffects(S.edit, body); }catch(e){ status('Movimento salvato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); }
-      if(S.edit) toast('Modifiche salvate'); else if(newRef){ const ref=newRef, b=body; toast(`Aggiunta: ${b.descrizione} · ${b.tipo==='entrata'?fmtS(b.importo):fmt(b.importo)}`, async ()=>{ await ref.delete(); await applyEffects(b,null); }); } else toast('Spesa fissa aggiunta e segnata come pagata');
+      if(S.edit) toast('Modifiche salvate'); else if(newRef){ const ref=newRef, b=body; toast(`Aggiunta: ${b.descrizione} · ${b.tipo!=='uscita'?fmtS(b.importo):fmt(b.importo)}`, async ()=>{ await ref.delete(); await applyEffects(b,null); }); } else toast('Spesa fissa aggiunta e segnata come pagata');
       if(body.mese!==S.month){ S.month=body.mese; render(); }
       closeSheet('movSheet');
     }catch(e){ say(msg, e&&e.code==='quota_exceeded'?'Spazio esaurito: esporta un backup ed elimina qualche movimento vecchio.':'Non salvato. Controlla la connessione e riprova.', false); }
     finally{ $('mSave').disabled=false; }
   });
+  // eliminazione di un movimento, con Annulla
+  async function delMov(old){
+    await db.collection('movimenti').doc(old.id).delete();
+    try{ await applyEffects(old, null); }catch(e){ status('Movimento eliminato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); }
+    toast('Movimento eliminato', async ()=>{ const {id,...rest}=old; await db.collection('movimenti').doc(id).set(rest); await applyEffects(null, old); });
+  }
+  // righe dei movimenti: scorri a sinistra per Elimina (come in Mail), scorri tutto per eliminare subito
+  function swipeRow(btn, m){ return el('div',{class:'swipe'}, el('button',{class:'swdel',type:'button',tabindex:'-1','aria-hidden':'true',onclick:async e=>{ e.stopPropagation(); if(!db||!S.canWrite) return; try{ await delMov(m); }catch(_){ status('Non eliminato. Riprova.',true); } }},'Elimina'), btn); }
+  (function(){ const box=$('movList'); let cur=null, x0=0, y0=0, start=0, off=0, lock=null, w=0;
+    const closeAll = except => box.querySelectorAll('.swipe.open').forEach(sw=>{ if(sw!==except){ sw.classList.remove('open'); sw.querySelector('.row').style.transform=''; } });
+    const setOff = v => { off=v; const r=cur.querySelector('.row'); r.style.transform = v ? `translateX(${v}px)` : ''; cur.querySelector('.swdel').style.width = Math.max(88,-v)+'px'; };
+    box.addEventListener('touchstart',e=>{ const sw=e.target.closest('.swipe'); if(!sw || e.touches.length!==1 || !S.canWrite || !db){ cur=null; return; }
+      if(e.target.closest('.swdel')) { cur=null; return; }
+      closeAll(sw); cur=sw; w=sw.clientWidth; x0=e.touches[0].clientX; y0=e.touches[0].clientY; start = sw.classList.contains('open') ? -88 : 0; off=start; lock=null; },{passive:true});
+    box.addEventListener('touchmove',e=>{ if(!cur) return; const dx=e.touches[0].clientX-x0, dy=e.touches[0].clientY-y0;
+      if(lock==null && (Math.abs(dx)>8 || Math.abs(dy)>8)) lock = (Math.abs(dx)>Math.abs(dy)*1.3 && (dx<0 || start<0)) ? 'x' : 'n';
+      if(lock!=='x') { if(lock==='n') cur=null; return; }
+      e.preventDefault(); e._rowSwipe=true; cur.classList.add('moving'); cur.querySelector('.row').style.transition='none';
+      setOff(Math.max(-w, Math.min(0, start+dx))); },{passive:false});
+    const end=()=>{ if(!cur) return; const sw=cur, r=sw.querySelector('.row'); r.style.transition=''; sw.classList.remove('moving');
+      if(lock==='x'){ if(off < -w*0.6){ setOff(-w); const m=S.movs.find(x=>x.id===sw.dataset.id); sw.querySelector('.swdel').click(); }
+        else if(off < -44){ setOff(-88); sw.classList.add('open'); } else { setOff(0); sw.classList.remove('open'); }
+        sw.dataset.justSwiped='1'; setTimeout(()=>{ delete sw.dataset.justSwiped; },350); }
+      cur=null; lock=null; };
+    box.addEventListener('touchend',end); box.addEventListener('touchcancel',end);
+    // tocco su una riga aperta (o appena trascinata): la richiude invece di aprire il movimento
+    box.addEventListener('click',e=>{ const sw=e.target.closest('.swipe'); if(!sw || e.target.closest('.swdel')) return;
+      if(sw.dataset.justSwiped || sw.classList.contains('open')){ e.preventDefault(); e.stopPropagation(); if(!sw.dataset.justSwiped){ sw.classList.remove('open'); sw.querySelector('.row').style.transform=''; } } },true);
+    document.addEventListener('touchstart',e=>{ if(!e.target.closest('#movList')) closeAll(null); },{passive:true});
+  })();
   let delArmed=false;
   onSave('mDel', async ()=>{
     const msg=$('mMsg'); if(!S.edit||!guard(msg)) return;
     if(!delArmed){ delArmed=true; $('mDel').textContent='Tocca di nuovo per eliminare'; setTimeout(()=>{ delArmed=false; $('mDel').textContent='Elimina'; },3000); return; }
     delArmed=false; $('mDel').textContent='Elimina';
-    try{ const old=S.edit; await db.collection('movimenti').doc(old.id).delete(); try{ await applyEffects(old, null); }catch(e){ status('Movimento eliminato, ma non ho aggiornato il saldo del conto: correggilo in Conti.',true); } closeSheet('movSheet'); toast('Movimento eliminato', async ()=>{ const {id,...rest}=old; await db.collection('movimenti').doc(id).set(rest); await applyEffects(null, old); }); }
+    try{ const old=S.edit; await delMov(old); closeSheet('movSheet'); }
     catch(e){ say(msg,'Non eliminato. Riprova.',false); }
   });
 
@@ -1723,7 +1868,7 @@ img{max-width:100%}
   });
 
   // ---------- boot ----------
-  setStructure(ST); buildQCat(); buildAccs(); buildPlan(); buildSelects();
+  setStructure(ST); buildQCat(); buildAccs(); buildPlan(); buildSelects(); showSet(null);
   applySaldi(); applyPlan();
   const hashTab=(location.hash||'').slice(1); setTab(['mese','recap','confronto','conti','impostazioni'].includes(hashTab)?hashTab:'mese');
   let rz=null; try{ new ResizeObserver(()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if(S.tab==='confronto') renderConfronto(); },120); }).observe($('chart')); }catch(e){}
@@ -2010,7 +2155,7 @@ img{max-width:100%}
     $('setup').hidden=true; setTab('mese');
   });
   $('wBack').addEventListener('click',()=>{ if(WS>1) wShow(WS-1); });
-  onSave('wSkip', async ()=>{ try{ await saveStructure({...ST, setupDone:true}); }catch(e){} $('setup').hidden=true; setTab('impostazioni'); });
+  onSave('wSkip', async ()=>{ try{ await saveStructure({...ST, setupDone:true}); }catch(e){} $('setup').hidden=true; goSet('piano'); });
   function maybeSetup(){ if(S.ready && S.hasStruct && ST.setupDone===false && $('setup').hidden && !S.setupShown){ S.setupShown=true; $('setup').hidden=false; wShow(1); } }
 
   // ---------- Supabase: accesso e dati ----------
@@ -2030,7 +2175,7 @@ img{max-width:100%}
     $('loginForm').hidden = !configured;
   } else {
     client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
-    if(client.auth.onAuthStateChange) client.auth.onAuthStateChange((ev, session)=>{ if(ev==='PASSWORD_RECOVERY' && session){ if(!started) start(session.user); setTimeout(()=>{ setTab('impostazioni'); const p=$('pw1'); p.scrollIntoView({block:'center'}); p.focus(); say($('accountMsg'),'Scegli una nuova password qui sopra e tocca Cambia password.',true); },400); } });
+    if(client.auth.onAuthStateChange) client.auth.onAuthStateChange((ev, session)=>{ if(ev==='PASSWORD_RECOVERY' && session){ if(!started) start(session.user); setTimeout(()=>{ goSet('account'); const p=$('pw1'); p.scrollIntoView({block:'center'}); p.focus(); say($('accountMsg'),'Scegli una nuova password qui sopra e tocca Cambia password.',true); },400); } });
     $('lForgot').addEventListener('click', async ()=>{ const m=$('lMsg'), email=$('lEmail').value.trim(); if(!email) return say(m,'Scrivi prima la tua email qui sopra.',false);
       try{ const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo: location.origin+location.pathname}); if(error) throw error; say(m,'Ti ho mandato un\'email con il link per scegliere una nuova password.',true); }catch(e){ say(m,'Non sono riuscito a mandare l\'email. Riprova tra qualche minuto.',false); } });
     $('loginForm').addEventListener('submit', async e=>{
