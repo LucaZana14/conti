@@ -81,22 +81,23 @@ nav.dock button svg{width:25px;height:25px}
 nav.dock button span.l{font-size:11px;font-weight:600;letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 nav.dock{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 nav.dock button{z-index:3;-webkit-tap-highlight-color:transparent}
-nav.dock button > svg, nav.dock button > span.l{transform:scale(var(--mag,1));transition:transform .18s cubic-bezier(.2,.8,.2,1);transform-origin:50% 60%}
-nav.dock.drag button > svg, nav.dock.drag button > span.l{transition:transform .06s linear}
+nav.dock button > svg, nav.dock button > span.l{transform:scale(var(--mag,1));transition:transform .14s ease-out;transform-origin:50% 60%}
+nav.dock.drag button > svg, nav.dock.drag button > span.l{transition:none}
 nav.dock button[aria-selected="true"]{color:var(--accent)}
 /* pillola della sezione attiva: scivola con un piccolo rimbalzo */
 nav.dock .ind{position:absolute;z-index:1;top:5px;bottom:5px;left:0;border-radius:26px;background:var(--lg-sel);pointer-events:none;
-  transition:transform .5s cubic-bezier(.34,1.45,.5,1), width .5s cubic-bezier(.34,1.45,.5,1), opacity .2s}
-nav.dock.drag .ind{opacity:0}
+  transition:transform .26s cubic-bezier(.25,.9,.3,1.05), width .26s cubic-bezier(.25,.9,.3,1.05), opacity .12s;will-change:transform}
+nav.dock.drag .ind{opacity:0;transition:none}
+nav.dock .ind.jump{transition:opacity .12s}
 /* lente di vetro che segue il dito e ingrandisce le icone */
 nav.dock .lens{position:absolute;z-index:4;top:-5px;bottom:-5px;left:0;border-radius:999px;pointer-events:none;opacity:0;transform:translateX(var(--lx,0px)) scale(.7);
-  background:var(--lens-tint);-webkit-backdrop-filter:blur(1.5px) saturate(160%) brightness(1.08);backdrop-filter:blur(1.5px) saturate(160%) brightness(1.08);
+  background:var(--lens-tint);will-change:transform,opacity;
   box-shadow:0 10px 28px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.12), inset 0 0 0 1px rgba(255,255,255,.55), inset 0 2px 8px rgba(255,255,255,.55), inset 0 -6px 14px rgba(0,0,0,.10), inset 0 0 18px rgba(255,255,255,.18);
-  transition:opacity .22s, transform .45s cubic-bezier(.34,1.35,.5,1)}
+  transition:opacity .14s ease-out, transform .14s ease-out}
 nav.dock .lens::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;opacity:.55;
   background:conic-gradient(from 200deg, rgba(255,80,80,.0), rgba(255,120,80,.55), rgba(255,230,90,.45), rgba(90,220,140,.35), rgba(80,170,255,.55), rgba(190,110,255,.45), rgba(255,80,80,.0));
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-nav.dock.drag .lens{opacity:1;transform:translateX(var(--lx,0px)) scale(1);transition:opacity .15s, transform .08s linear}
+nav.dock.drag .lens{opacity:1;transform:translateX(var(--lx,0px)) scale(1);transition:opacity .1s, transform 0s}
 @media (prefers-reduced-motion: reduce){ nav.dock .ind{transition:none} nav.dock .lens{display:none} nav.dock button > svg, nav.dock button > span.l{transform:none} }
 nav.dock .bdg{position:absolute;top:1px;left:calc(50% + 6px);min-width:19px;height:19px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--card)}
 @media (max-width:380px){ nav.dock button span.l{font-size:11px;letter-spacing:-.03em} .month span{min-width:112px;font-size:14px} }
@@ -523,7 +524,7 @@ img{max-width:100%}
       <div class="btns"><button class="btn pri" id="owesBtn">Registra rimborso</button></div>
     </div>
     <div class="card money" id="moneyCard">
-      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button><button class="eye" data-eye aria-pressed="false" aria-label="Nascondi saldi ed entrate" title="Nascondi saldi ed entrate"><svg class="i-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/> <circle cx="12" cy="12" r="3"/></svg><svg class="i-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/> <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/> <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/> <path d="m2 2 20 20"/></svg></button></div></div>
+      <div class="head"><div><div class="cap">I tuoi soldi</div><div class="tot num" id="wTot">—</div></div><div class="hr"><button class="link" id="wGo">Tutti i saldi</button></div></div>
       <div class="wallets" id="wallets"><div class="empty">I saldi compaiono qui. Inseriscili in Conti.</div></div>
       <div class="sub" id="wUpd"></div>
     </div>
@@ -1096,7 +1097,7 @@ img{max-width:100%}
   }
 
   // ---------- tabs & month ----------
-  function setTab(t){ if(t==='impostazioni' && S.tab==='impostazioni' && S.set) { showSet(null); return; } S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); dockSync(); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ if(!/access_token|type=recovery|error_description/.test(location.hash)) history.replaceState(null,'','#'+t); }catch(e){} document.querySelector('.month').style.visibility = ['conti','impostazioni'].includes(t) ? 'hidden' : ''; S.movAll=false; render(); window.scrollTo(0,0); requestAnimationFrame(()=>window.scrollTo(0,0)); }
+  function setTab(t){ if(t==='impostazioni' && S.tab==='impostazioni' && S.set) { showSet(null); return; } S.tab=t; document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===t)); dockSync(); document.querySelectorAll('[data-page]').forEach(p=>p.hidden = p.dataset.page!==t); try{ if(!/access_token|type=recovery|error_description/.test(location.hash)) history.replaceState(null,'','#'+t); }catch(e){} document.querySelector('.month').style.visibility = ['conti','impostazioni'].includes(t) ? 'hidden' : ''; S.movAll=false; window.scrollTo(0,0); requestAnimationFrame(()=>{ window.scrollTo(0,0); setTimeout(render,0); }); }
   document.querySelectorAll('nav.dock [data-tab]').forEach(b=>b.addEventListener('click',e=>{ if(DOCK.skipClick){ DOCK.skipClick=false; return; } setTab(b.dataset.tab); }));
   // ---- barra in basso stile Liquid Glass: pillola che scivola, lente che segue il dito e ingrandisce le icone ----
   const DOCK = { skipClick:false };
@@ -1109,14 +1110,17 @@ img{max-width:100%}
     const place=clientX=>{ const {r,w}=geo(); const x=Math.max(w/2-8, Math.min(r.width-w/2+8, clientX-r.left)); lens.style.width=w+'px'; nav.style.setProperty('--lx',(x-w/2)+'px');
       btns.forEach(b=>{ const c=b.offsetLeft+b.offsetWidth/2, d=Math.abs(c-x); const m=1+0.34*Math.max(0,1-d/(b.offsetWidth*0.95)); b.style.setProperty('--mag',m.toFixed(3)); }); return x; };
     const nearest=clientX=>{ const r=nav.getBoundingClientRect(), x=clientX-r.left; let best=btns[0], bd=1e9; btns.forEach(b=>{ const d=Math.abs(b.offsetLeft+b.offsetWidth/2-x); if(d<bd){bd=d;best=b;} }); return best; };
-    nav.addEventListener('pointerdown',e=>{ if(e.button>0 || RM) return; active=true; moved=false; x0=e.clientX; pid=e.pointerId; try{ nav.setPointerCapture(pid); }catch(_){}
-      nav.classList.add('drag'); place(e.clientX); });
-    nav.addEventListener('pointermove',e=>{ if(!active) return; if(Math.abs(e.clientX-x0)>6) moved=true; place(e.clientX); });
+    nav.addEventListener('pointerdown',e=>{ if(e.button>0) return; active=true; moved=false; x0=e.clientX; pid=e.pointerId; try{ nav.setPointerCapture(pid); }catch(_){} });
+    nav.addEventListener('pointermove',e=>{ if(!active || RM) return;
+      if(!moved && Math.abs(e.clientX-x0)>8){ moved=true; nav.classList.add('drag'); }
+      if(moved) place(e.clientX); });
     const end=e=>{ if(!active) return; active=false; try{ nav.releasePointerCapture(pid); }catch(_){}
-      const b=nearest(e.clientX); const {w}=geo(); nav.style.setProperty('--lx',(b.offsetLeft+b.offsetWidth/2-w/2)+'px');
-      btns.forEach(x=>x.style.removeProperty('--mag'));
-      setTimeout(()=>nav.classList.remove('drag'),120);
-      if(e.type==='pointerup'){ DOCK.skipClick=true; setTimeout(()=>{ DOCK.skipClick=false; },400); if(b.dataset.tab!==S.tab || !moved) setTab(b.dataset.tab); else dockSync(); } };
+      const b=nearest(e.clientX); btns.forEach(x=>x.style.removeProperty('--mag'));
+      if(moved){ // la pillola compare direttamente sotto la lente, la lente sparisce: nessun doppione
+        const ind=nav.querySelector('.ind'); ind.classList.add('jump'); }
+      nav.classList.remove('drag');
+      if(e.type==='pointerup'){ DOCK.skipClick=true; setTimeout(()=>{ DOCK.skipClick=false; },400); setTab(b.dataset.tab); }
+      requestAnimationFrame(()=>requestAnimationFrame(()=>nav.querySelector('.ind').classList.remove('jump'))); };
     nav.addEventListener('pointerup',end); nav.addEventListener('pointercancel',end);
     addEventListener('resize',dockSync); requestAnimationFrame(dockSync);
   })();
